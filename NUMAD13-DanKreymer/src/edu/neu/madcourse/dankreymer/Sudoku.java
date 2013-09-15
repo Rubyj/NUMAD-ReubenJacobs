@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import edu.neu.mobileClass.*;
 
 public class Sudoku extends Activity implements OnClickListener {
    private static final String TAG = "Sudoku";
@@ -30,6 +31,9 @@ public class Sudoku extends Activity implements OnClickListener {
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.main);
+      
+      //Check that this phone is authorized
+      //PhoneCheckAPI.doAuthorization(this);
 
       // Set up click listeners for all the buttons
       View continueButton = findViewById(R.id.continue_button);
