@@ -33,7 +33,7 @@ public class Main extends Activity implements OnClickListener {
       setContentView(R.layout.main);
       
       //Check that this phone is authorized
-      //PhoneCheckAPI.doAuthorization(this);
+      PhoneCheckAPI.doAuthorization(this);
 
       // Set up click listeners for all the buttons
       View errorButton = findViewById(R.id.error_button);
