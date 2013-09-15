@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import edu.neu.mobileClass.*;
 
-public class Sudoku extends Activity implements OnClickListener {
+public class Main extends Activity implements OnClickListener {
    private static final String TAG = "Sudoku";
    
    /** Called when the activity is first created. */
@@ -36,8 +36,8 @@ public class Sudoku extends Activity implements OnClickListener {
       //PhoneCheckAPI.doAuthorization(this);
 
       // Set up click listeners for all the buttons
-      View continueButton = findViewById(R.id.continue_button);
-      continueButton.setOnClickListener(this);
+      View errorButton = findViewById(R.id.error_button);
+      errorButton.setOnClickListener(this);
       View newButton = findViewById(R.id.new_button);
       newButton.setOnClickListener(this);
       View aboutButton = findViewById(R.id.about_button);
@@ -60,8 +60,10 @@ public class Sudoku extends Activity implements OnClickListener {
 
    public void onClick(View v) {
       switch (v.getId()) {
-      case R.id.continue_button:
-         startGame(Game.DIFFICULTY_CONTINUE);
+      case R.id.error_button:
+    	 //Force an error!
+         int[] stupidArray = null;
+         stupidArray[6]++;
          break;
          // ...
       case R.id.about_button:

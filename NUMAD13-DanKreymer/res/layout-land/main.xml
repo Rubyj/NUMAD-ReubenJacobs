@@ -30,7 +30,7 @@
       <TableRow>
          <Button
             android:id="@+id/continue_button"
-            android:text="@string/continue_label" />
+            android:text="@string/error_label" />
          <Button
             android:id="@+id/new_button"
             android:text="@string/new_game_label" />
