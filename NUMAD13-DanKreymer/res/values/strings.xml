@@ -32,13 +32,9 @@
    <string name="no_moves_label">No moves</string>
    <string name="keypad_title">Keypad</string>
    
-   <string name="about_title">About Android Sudoku</string>
-   <string name="about_text">\
-Sudoku is a logic-based number placement puzzle.
-Starting with a partially completed 9x9 grid, the
-objective is to fill the grid so that each
-row, each column, and each of the 3x3 boxes
-(also called <i>blocks</i>) contains the digits
-1 to 9 exactly once.
-</string>
+   <string name="about_title">About </string>
+   <string name="about_text"> Dan Kreymer\n
+      						  Email: dkreymer@gmail.com\n
+                              IMEI: 359437042330580   
+   </string>
 </resources>
