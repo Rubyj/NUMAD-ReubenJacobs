@@ -27,18 +27,18 @@
       android:layout_height="wrap_content"
       android:text="@string/error_label" />
    <Button
-      android:id="@+id/new_button"
+      android:id="@+id/sudoku_button"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:text="@string/new_game_label" />
+      android:text="@string/sudoku_label" />
    <Button
-      android:id="@+id/about_button"
+      android:id="@+id/sudoku_button"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:text="@string/about_label" />
    <Button
-      android:id="@+id/exit_button"
+      android:id="@+id/quit_button"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:text="@string/exit_label" />
+      android:text="@string/quit_label" />
 </LinearLayout>

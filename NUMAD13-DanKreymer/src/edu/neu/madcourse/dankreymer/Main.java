@@ -38,11 +38,11 @@ public class Main extends Activity implements OnClickListener {
       // Set up click listeners for all the buttons
       View errorButton = findViewById(R.id.error_button);
       errorButton.setOnClickListener(this);
-      View newButton = findViewById(R.id.new_button);
+      View newButton = findViewById(R.id.sudoku_button);
       newButton.setOnClickListener(this);
       View aboutButton = findViewById(R.id.about_button);
       aboutButton.setOnClickListener(this);
-      View exitButton = findViewById(R.id.exit_button);
+      View exitButton = findViewById(R.id.quit_button);
       exitButton.setOnClickListener(this);
    }
 
@@ -71,10 +71,10 @@ public class Main extends Activity implements OnClickListener {
          startActivity(i);
          break;
       // More buttons go here (if any) ...
-      case R.id.new_button:
+      case R.id.sudoku_button:
          openNewGameDialog();
          break;
-      case R.id.exit_button:
+      case R.id.quit_button:
          finish();
          break;
       }
