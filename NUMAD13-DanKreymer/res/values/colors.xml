@@ -8,7 +8,8 @@
  ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 -->
 <resources>
-   <color name="background">#3500ffff</color>
+   <color name="background">#010129</color>
+   <color name="sudoku_background">#3500ffff</color>
    <color name="puzzle_background">#ffe6f0ff</color>
    <color name="puzzle_hilite">#ffffffff</color>
    <color name="puzzle_light">#64c6d4ef</color>
