@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Reuben Jacobs</string>
+    <string name="app_name">NUMAD13-ReubenJacobs</string>
+    <string name="main_name">Reuben Jacobs</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="action_settings">Settings</string>
