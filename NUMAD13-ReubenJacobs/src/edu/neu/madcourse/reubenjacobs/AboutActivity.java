@@ -19,8 +19,6 @@ public class AboutActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_message);
 		
-		PhoneCheckAPI.doAuthorization(this);
-		
 		TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
 		String deviceId = tManager.getDeviceId();

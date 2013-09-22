@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="edu.neu.madcourse.reubenjacobs.MainActivity"
-            android:label="@string/main_name" >
+            android:label="@string/main_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.neu.madcourse.reubenjacobs.DisplayMessageActivity"
+            android:name="edu.neu.madcourse.reubenjacobs.AboutActivity"
             android:label="@string/title_activity_display_message"
             android:parentActivityName="edu.neu.madcourse.reubenjacobs.MainActivity" >
             <meta-data
