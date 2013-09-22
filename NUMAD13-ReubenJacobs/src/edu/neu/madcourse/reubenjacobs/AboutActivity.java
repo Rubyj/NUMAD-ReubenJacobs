@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import edu.neu.mobileClass.*;
 
-public class DisplayMessageActivity extends Activity {
+public class AboutActivity extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

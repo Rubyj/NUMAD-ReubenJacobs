@@ -19,7 +19,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		PhoneCheckAPI.doAuthorization(this);
+		//Uncomment for authorization
+		//PhoneCheckAPI.doAuthorization(this); 
 	}
 
 	@Override
@@ -30,7 +31,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void about(View view) {
-		Intent intent = new Intent(this, DisplayMessageActivity.class);
+		Intent intent = new Intent(this, AboutActivity.class);
 		startActivity(intent);
 	}
 	
