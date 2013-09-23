@@ -12,8 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:ems="8"
-        android:inputType="text"
-        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ" >
+        android:inputType="text">
         <requestFocus />
     </EditText>
     
@@ -24,13 +23,15 @@
         android:layout_height="wrap_content"
         android:text="@string/clear_label" />
 
-    <FrameLayout
+    <TextView
         android:id="@+id/word_list"
         android:layout_below="@id/clear_button" 
         android:layout_width="fill_parent"
         android:layout_height="220dp"
-        android:background="@color/sudoku_background" >
-    </FrameLayout>
+        android:background="@color/sudoku_background"
+        android:gravity="center_horizontal"
+        android:textSize="18sp">
+    </TextView>
 
     <Button
         android:id="@+id/acknowledgements_button"
