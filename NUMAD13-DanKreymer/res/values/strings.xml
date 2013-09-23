@@ -57,5 +57,6 @@ row, each column, and each of the 3x3 boxes
    <string name="return_to_menu_label">Return to Menu</string>
    <string name="clear_label">Clear</string>
    <string name="acknowledgements_label">Acknowledgements</string>
+   <string name="word_box_text">Enter word here!</string>
 
 </resources>
