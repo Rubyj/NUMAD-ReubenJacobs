@@ -24,33 +24,37 @@ public class MainActivity extends Activity {
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		display.getMetrics(outMetrics);
 		
-		/*
-		float density = getResources().getDisplayMetrics().density;
-		float dpHeight = outMetrics.heightPixels / density;
-		float dpWidth = outMetrics.widthPixels / density;
-		*/
+		int sideMargin = (int)outMetrics.widthPixels/3;
+		int topMargin = (int)outMetrics.heightPixels/25;
+		
 		setContentView(R.layout.activity_main);
 		
 		Button aboutButton = (Button) this.findViewById(R.id.aboutButton);
 		Button sudokuButton = (Button) this.findViewById(R.id.sudokuButton);
 		Button errorButton = (Button) this.findViewById(R.id.errorButton);
 		Button quitButton = (Button) this.findViewById(R.id.quitButton);
+		Button dictButton = (Button) this.findViewById(R.id.dictionaryButton);
+		
 		
 		LayoutParams aboutParams = (RelativeLayout.LayoutParams) aboutButton.getLayoutParams();
-		aboutParams.setMargins((int)outMetrics.widthPixels/3, (int)outMetrics.heightPixels/15, (int)outMetrics.widthPixels/3, (int)outMetrics.heightPixels/15);
+		aboutParams.setMargins(sideMargin, topMargin*2, sideMargin, topMargin);
 		aboutButton.setLayoutParams(aboutParams);
 		
 		LayoutParams sudokuParams = (RelativeLayout.LayoutParams) sudokuButton.getLayoutParams();
-		sudokuParams.setMargins(0, 0, (int)outMetrics.widthPixels/3, 0);
+		sudokuParams.setMargins(0, topMargin, sideMargin, topMargin);
 		sudokuButton.setLayoutParams(sudokuParams);
 		
 		LayoutParams errorParams = (RelativeLayout.LayoutParams) errorButton.getLayoutParams();
-		errorParams.setMargins(0, (int)outMetrics.heightPixels/15, (int)outMetrics.widthPixels/3, 0);
+		errorParams.setMargins(0, topMargin, sideMargin, topMargin);
 		errorButton.setLayoutParams(errorParams);
 		
 		LayoutParams quitParams = (RelativeLayout.LayoutParams) quitButton.getLayoutParams();
-		quitParams.setMargins(0, (int)outMetrics.heightPixels/15, (int)outMetrics.widthPixels/3, 0);
+		quitParams.setMargins(0, topMargin, sideMargin, topMargin);
 		quitButton.setLayoutParams(quitParams);
+		
+		LayoutParams dictParams = (RelativeLayout.LayoutParams) dictButton.getLayoutParams();
+		dictParams.setMargins(0, topMargin, sideMargin, topMargin);
+		dictButton.setLayoutParams(dictParams);
 		
 		
 		//Uncomment for authorization

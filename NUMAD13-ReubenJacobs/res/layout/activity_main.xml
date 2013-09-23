@@ -39,5 +39,13 @@
         android:layout_below="@+id/errorButton"
         android:onClick="exit"
         android:text="@string/quit" />
+    
+    <Button
+        android:id="@+id/dictionaryButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/quitButton"
+        android:layout_below="@+id/quitButton"
+        android:text="@string/dictionary" />
 
 </RelativeLayout>

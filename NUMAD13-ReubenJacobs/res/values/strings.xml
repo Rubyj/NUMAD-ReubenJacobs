@@ -13,6 +13,7 @@
     <string name="about">About</string>
     <string name="hello_world">Hello world!</string>
     <string name="quit">Quit</string>
+    <string name="dictionary">Dictionary</string>
     
 
 	<string name="main_title">Android Sudoku</string>
