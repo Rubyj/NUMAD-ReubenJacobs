@@ -11,6 +11,7 @@
    <string name="app_name">NUMAD13-DanKreymer</string>
    <string name="main_title">Dan Kreymer</string>
    <string name="sudoku_title">Android Sudoku</string>
+   <string name="dictionary_title">Test Dictionary</string>
    <string name="error_label">Generate Error</string>
    <string name="sudoku_label">Sudoku</string>
    <string name="continue_label">Continue</string>
@@ -42,7 +43,7 @@
                               IMEI: 359437042330580   
    </string>
    
-      <string name="about_sudoku_title">About Android Sudoku</string>
+   <string name="about_sudoku_title">About Android Sudoku</string>
    <string name="about_sudoku_text">\
 Sudoku is a logic-based number placement puzzle.
 Starting with a partially completed 9x9 grid, the
@@ -51,5 +52,7 @@ row, each column, and each of the 3x3 boxes
 (also called <i>blocks</i>) contains the digits
 1 to 9 exactly once.
 </string>
+
+   <string name="dictionary_label">Dictionary</string>
 
 </resources>

@@ -36,18 +36,10 @@ public class Main extends Activity implements OnClickListener {
       newButton.setOnClickListener(this);
       View aboutButton = findViewById(R.id.about_button);
       aboutButton.setOnClickListener(this);
+      View dictionaryButton = findViewById(R.id.dictionary_button);
+      dictionaryButton.setOnClickListener(this);
       View exitButton = findViewById(R.id.quit_button);
       exitButton.setOnClickListener(this);
-   }
-
-   @Override
-   protected void onResume() {
-      super.onResume();
-   }
-
-   @Override
-   protected void onPause() {
-      super.onPause();
    }
 
    public void onClick(View v) {
@@ -57,14 +49,14 @@ public class Main extends Activity implements OnClickListener {
          int[] stupidArray = null;
          stupidArray[6]++;
          break;
-         // ...
+      case R.id.dictionary_button:
+          startActivity(new Intent(this, Dictionary.class));
+          break;
       case R.id.about_button:
-         Intent i = new Intent(this, About.class);
-         startActivity(i);
+         startActivity(new Intent(this, About.class));
          break;
-      // More buttons go here (if any) ...
       case R.id.sudoku_button:
-         openSudokuGame();
+    	  startActivity(new Intent(this, Sudoku.class));
          break;
       case R.id.quit_button:
          finish();
@@ -89,11 +81,5 @@ public class Main extends Activity implements OnClickListener {
       // More items go here (if any) ...
       }
       return false;
-   }
-   
-   private void openSudokuGame()
-   {
-	   Intent intent = new Intent(this, Sudoku.class);
-	   startActivity(intent);
    }
 }
