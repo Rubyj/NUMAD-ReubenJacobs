@@ -7,7 +7,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -86,6 +85,11 @@ public class MainActivity extends Activity {
 	
 	public void startSudoku(View view) {
 		Intent intent = new Intent(this, Sudoku.class);
+		startActivity(intent);
+	}
+	
+	public void startDictionary(View view) {
+		Intent intent = new Intent(this, DictionaryActivity.class);
 		startActivity(intent);
 	}
 

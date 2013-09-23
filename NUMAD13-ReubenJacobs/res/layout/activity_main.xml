@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/quitButton"
         android:layout_below="@+id/quitButton"
+        android:onClick="startDictionary"
         android:text="@string/dictionary" />
 
 </RelativeLayout>

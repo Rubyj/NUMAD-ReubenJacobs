@@ -7,13 +7,13 @@
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="7" />
-	
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_PHONE_DATA" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_DATA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -21,8 +21,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="edu.neu.madcourse.reubenjacobs.MainActivity"
-            android:label="@string/main_name" 
-            android:screenOrientation="portrait">
+            android:label="@string/main_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,23 +37,33 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />
         </activity>
-        <activity android:name="edu.neu.madcourse.reubenjacobs.Sudoku"
-              android:label="@string/app_name">
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.Sudoku"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name="edu.neu.madcourse.reubenjacobs.About"
-              android:label="@string/about_title"
-              android:theme="@android:style/Theme.Dialog">
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.About"
+            android:label="@string/about_title"
+            android:theme="@android:style/Theme.Dialog" >
         </activity>
-        <activity android:name="edu.neu.madcourse.reubenjacobs.Prefs"
-              android:label="@string/settings_title">
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.Prefs"
+            android:label="@string/settings_title" >
         </activity>
-        <activity android:name="edu.neu.madcourse.reubenjacobs.Game"
-              android:label="@string/game_title"/>        
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.Game"
+            android:label="@string/game_title" />
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.DictionaryActivity"
+            android:label="@string/title_activity_dictionary"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
-
-
