@@ -12,6 +12,7 @@
     <string name="sudoku">Sudoku</string>
     <string name="about">About</string>
     <string name="hello_world">Hello world!</string>
+    <string name="quit">Quit</string>
     
 
 	<string name="main_title">Android Sudoku</string>
@@ -20,7 +21,7 @@
 	<string name="about_label">About</string>
 	<string name="exit_label">Exit</string>
 
-	<string name="settings_label">Settings...</string>
+	<string name="settings_label">Settings&#8230;</string>
 	<string name="settings_title">Sudoku settings</string>
 	<string name="settings_shortcut">s</string>
 	<string name="music_title">Music</string>
