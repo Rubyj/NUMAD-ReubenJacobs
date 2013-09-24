@@ -15,39 +15,20 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class DictionaryActivity extends Activity {
 	
 	Hashtable<String, String> aTable = new Hashtable<String, String>();
-	Hashtable<String, String> bTable = new Hashtable<String, String>();
-	Hashtable<String, String> cTable = new Hashtable<String, String>();
-	Hashtable<String, String> dTable = new Hashtable<String, String>();
-	Hashtable<String, String> eTable = new Hashtable<String, String>();
-	Hashtable<String, String> fTable = new Hashtable<String, String>();
-	Hashtable<String, String> gTable = new Hashtable<String, String>();
-	Hashtable<String, String> hTable = new Hashtable<String, String>();
-	Hashtable<String, String> iTable = new Hashtable<String, String>();
-	Hashtable<String, String> jTable = new Hashtable<String, String>();
-	Hashtable<String, String> kTable = new Hashtable<String, String>();
-	Hashtable<String, String> lTable = new Hashtable<String, String>();
-	Hashtable<String, String> mTable = new Hashtable<String, String>();
-	Hashtable<String, String> nTable = new Hashtable<String, String>();
-	Hashtable<String, String> oTable = new Hashtable<String, String>();
-	Hashtable<String, String> pTable = new Hashtable<String, String>();
-	Hashtable<String, String> qTable = new Hashtable<String, String>();
-	Hashtable<String, String> rTable = new Hashtable<String, String>();
-	Hashtable<String, String> sTable = new Hashtable<String, String>();
-	Hashtable<String, String> tTable = new Hashtable<String, String>();
-	Hashtable<String, String> uTable = new Hashtable<String, String>();
-	Hashtable<String, String> vTable = new Hashtable<String, String>();
-	Hashtable<String, String> wTable = new Hashtable<String, String>();
-	Hashtable<String, String> xTable = new Hashtable<String, String>();
-	Hashtable<String, String> yTable = new Hashtable<String, String>();
-	Hashtable<String, String> zTable = new Hashtable<String, String>();
+	Hashtable<String, String> alreadyChecked = new Hashtable<String, String>();
+	Hashtable<String, String> alreadyFound = new Hashtable<String, String>();
 	
 	InputStream instream;
 	InputStreamReader inputreader;
 	BufferedReader buffreader;
+	String line;
+	String firstLetter;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +47,20 @@ public class DictionaryActivity extends Activity {
 				
 				
 				//Build the hashtable for words that begin with a
-				String line;
-				String firstLetter = "a";
+				firstLetter = "a";
 				while ((line = buffreader.readLine()) != null) {
 						if (line.substring(0, 1).equals(firstLetter)) {
 							aTable.put(line, line);
-							System.out.println(line);
+							//System.out.println(line);
 						}
 				}
+				
+				alreadyChecked.put(firstLetter, firstLetter);
+				buffreader.close();
+				inputreader.close();
+				instream.close();
+				
+				
 			}
 		} catch (java.io.IOException e) {
 			
@@ -81,11 +68,12 @@ public class DictionaryActivity extends Activity {
 		
 		EditText textInput = (EditText) findViewById(R.id.wordInput);
 		textInput.addTextChangedListener(new TextWatcher() {
+			
+			int i = 0; //keep track of where we are in the displayed list
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
@@ -96,10 +84,51 @@ public class DictionaryActivity extends Activity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				System.out.println("foo");
 				
-			}
+				if ((s.length() != 0)) {
+					String firstLetter = s.subSequence(0, 1).toString();
+					
+					if (alreadyChecked.get(firstLetter) == null) {
+						try {
+							instream = getAssets().open("wordlist.jet");
+					
+							if (instream != null) {
+								inputreader = new InputStreamReader(instream);
+								buffreader = new BufferedReader(inputreader, 5000000);
+							
+								while ((line = buffreader.readLine()) != null) {
+									if (line.substring(0, 1).equals(firstLetter)) {
+										aTable.put(line, line);
+										System.out.println(line);
+									}
+								}
+							
+								alreadyChecked.put(firstLetter, firstLetter);
+								buffreader.close();
+								inputreader.close();
+								instream.close();
+							
+							}
+						} catch (java.io.IOException e) {
+						
+						}
+					}
+				}
 			
+				
+				if (s.length() >= 3) {
+					String sString = s.toString();
+					
+					if (aTable.get(s.toString()) != null && alreadyFound.get(sString) == null) {
+						TextView wordList = (TextView) findViewById(R.id.wordList);
+						String currentList = wordList.getText().toString();
+						if (i == 0) { wordList.setText(sString); }
+						else {wordList.setText(sString + ", " + currentList); }
+ 						alreadyFound.put(sString, sString);
+						i++;
+					}
+				}
+			}
 		});
 	}
 
