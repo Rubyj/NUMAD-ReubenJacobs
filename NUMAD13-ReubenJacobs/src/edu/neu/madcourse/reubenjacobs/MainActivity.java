@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 		
 		
 		//Uncomment for authorization
-		//PhoneCheckAPI.doAuthorization(this); 
+		PhoneCheckAPI.doAuthorization(this); 
 	}
 
 	@Override
