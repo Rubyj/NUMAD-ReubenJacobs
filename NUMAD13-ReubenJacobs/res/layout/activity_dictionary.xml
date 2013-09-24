@@ -14,11 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="84dp"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
+        android:layout_marginTop="63dp"
+        android:ems="10" />
 
     <TextView
         android:id="@+id/wordList"
@@ -26,17 +23,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/wordInput"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="114dp" />
+        android:layout_marginTop="71dp" />
 
     <Button
         android:id="@+id/clearButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/wordList"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="62dp"
         android:onClick="onClear"
         android:text="@string/clear" />
+
+    <Button
+        android:id="@+id/akButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clearButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="openAknow"
+        android:text="@string/aknow" />
 
 </RelativeLayout>

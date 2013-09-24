@@ -64,6 +64,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />
         </activity>
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.Aknowledgements"
+            android:label="@string/title_activity_aknowledgements"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.DictionaryActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.DictionaryActivity" />
+        </activity>
     </application>
 
 </manifest>

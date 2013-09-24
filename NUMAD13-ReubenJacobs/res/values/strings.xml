@@ -42,7 +42,10 @@ objective is to fill the grid so that each
 row, each column, and each of the 3x3 boxes
 (also called <i>blocks</i>) contains the digits
 1 to 9 exactly once.</string>
-    <string name="title_activity_dictionary_actvity">DictionaryActvity</string>
-    <string name="title_activity_dictionary">DictionaryActivity</string>
-
+    <string name="title_activity_dictionary_actvity">Test Dictionary</string>
+    <string name="title_activity_dictionary">Test Dictionary</string>
+    <string name="aknow">Acknowledgements</string>
+    <string name="title_activity_aknowledgements">Acknowledgements</string>
+    <string name="aknowledge">All images/icons/graphics belong to me or were provided in this course. I did not refer to anyone personally when creating this assignment however, I referred to StackOverflow a large amount (including learning about making .txt a .jet). Links are below.</string>
+	<string name="akLinks">http://stackoverflow.com/questions/12728255/android-set-margin-programmatically-in-dp-on-button, http://stackoverflow.com/questions/6465680/how-to-determine-the-screen-width-in-terms-of-dp-or-dip-at-runtime-in-android, http://stackoverflow.com/questions/14684318/setmargin-does-not-works-in-relative-layout-in-android, http://stackoverflow.com/questions/8026204/how-to-write-to-and-read-from-a-text-file-in-android, http://stackoverflow.com/questions/9120003/where-to-put-text-files-in-directory-in-android, http://stackoverflow.com/questions/15260156/how-to-read-a-text-file-txt-and-set-the-words-inside-in-string-variables-on-a, http://stackoverflow.com/questions/6242661/enter-data-in-edittext-and-respond-without-pressing-enter/6242778#6242778</string>
 </resources>

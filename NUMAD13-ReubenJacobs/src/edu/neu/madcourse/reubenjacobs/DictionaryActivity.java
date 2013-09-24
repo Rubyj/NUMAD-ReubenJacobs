@@ -177,5 +177,10 @@ public class DictionaryActivity extends Activity {
 		alreadyFound.clear();
 		i = 0;
 	}
+	
+	public void openAknow(View view) {
+		Intent intent = new Intent(this, Aknowledgements.class);
+		startActivity(intent);
+	}
 
 }
