@@ -178,9 +178,13 @@ public class DictionaryActivity extends Activity {
 		i = 0;
 	}
 	
-	public void openAknow(View view) {
-		Intent intent = new Intent(this, Aknowledgements.class);
+	public void openAck(View view) {
+		Intent intent = new Intent(this, Acknowledgements.class);
 		startActivity(intent);
+	}
+	
+	public void returnToMenu(View view) {
+		finish();
 	}
 
 }

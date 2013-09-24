@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import edu.neu.mobileClass.PhoneCheckAPI;
 
 public class MainActivity extends Activity {
 	

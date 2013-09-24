@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.reubenjacobs"
-    android:versionCode="3"
-    android:versionName="1.0" >
+    android:versionCode="4"
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -65,8 +65,8 @@
                 android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />
         </activity>
         <activity
-            android:name="edu.neu.madcourse.reubenjacobs.Aknowledgements"
-            android:label="@string/title_activity_aknowledgements"
+            android:name="edu.neu.madcourse.reubenjacobs.Acknowledgements"
+            android:label="@string/title_activity_acknowledgements"
             android:parentActivityName="edu.neu.madcourse.reubenjacobs.DictionaryActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
