@@ -59,7 +59,8 @@
         <activity
             android:name="edu.neu.madcourse.reubenjacobs.DictionaryActivity"
             android:label="@string/title_activity_dictionary"
-            android:parentActivityName="edu.neu.madcourse.reubenjacobs.MainActivity" >
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />

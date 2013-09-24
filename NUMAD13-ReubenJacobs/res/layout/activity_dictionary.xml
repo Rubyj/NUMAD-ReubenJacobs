@@ -10,7 +10,7 @@
 
     <EditText
         android:id="@+id/wordInput"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/wordList"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wordInput"
         android:layout_centerHorizontal="true"
@@ -27,7 +27,7 @@
     <Button
         android:id="@+id/menuButton"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/akButton"
         android:layout_centerHorizontal="true"
@@ -37,7 +37,7 @@
     <Button
         android:id="@+id/akButton"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/clearButton"
         android:layout_centerHorizontal="true"
@@ -47,7 +47,7 @@
     <Button
         android:id="@+id/clearButton"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wordList"
         android:layout_centerHorizontal="true"

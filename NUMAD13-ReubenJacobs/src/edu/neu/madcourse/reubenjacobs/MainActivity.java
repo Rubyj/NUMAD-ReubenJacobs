@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		display.getMetrics(outMetrics);
 		
-		int sideMargin = (int)outMetrics.widthPixels/3;
+		int sideMargin = (int)outMetrics.widthPixels/4;
 		int topMargin = (int)outMetrics.heightPixels/25;
 		
 		setContentView(R.layout.activity_main);
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 		
 		
 		//Uncomment for authorization
-		//PhoneCheckAPI.doAuthorization(this); 
+		PhoneCheckAPI.doAuthorization(this); 
 	}
 
 	@Override

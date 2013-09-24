@@ -151,7 +151,7 @@ public class DictionaryActivity extends Activity {
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		display.getMetrics(outMetrics);
 		
-		int sideMargin = (int)outMetrics.widthPixels/3;
+		int sideMargin = (int)outMetrics.widthPixels/4;
 		int topMargin = (int)outMetrics.heightPixels/25;
 		
 		EditText inputText = (EditText) this.findViewById(R.id.wordInput);
@@ -159,7 +159,6 @@ public class DictionaryActivity extends Activity {
 		Button menuButton = (Button) this.findViewById(R.id.menuButton);
 		Button akButton = (Button) this.findViewById(R.id.akButton);
 		Button clearButton = (Button) this.findViewById(R.id.clearButton);
-		
 		
 		LayoutParams inputParams = (RelativeLayout.LayoutParams) inputText.getLayoutParams();
 		inputParams.setMargins(sideMargin, topMargin*2, sideMargin, topMargin);
