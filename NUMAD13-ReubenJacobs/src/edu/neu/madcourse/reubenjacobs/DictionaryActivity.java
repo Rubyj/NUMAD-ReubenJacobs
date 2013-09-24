@@ -9,15 +9,22 @@ import java.util.Locale;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class DictionaryActivity extends Activity {
@@ -130,10 +137,49 @@ public class DictionaryActivity extends Activity {
 						else {wordList.setText(sString + ", " + currentList); }
  						alreadyFound.put(sString, sString);
 						i++;
+					    
+						
+					    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+					    toneG.startTone(ToneGenerator.TONE_PROP_BEEP); 
 					}
 				}
 			}
 		});
+		
+		//Scale the button margins to screen size
+		Display display = getWindowManager().getDefaultDisplay();
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		display.getMetrics(outMetrics);
+		
+		int sideMargin = (int)outMetrics.widthPixels/3;
+		int topMargin = (int)outMetrics.heightPixels/25;
+		
+		EditText inputText = (EditText) this.findViewById(R.id.wordInput);
+		TextView textView = (TextView) this.findViewById(R.id.wordList);
+		Button menuButton = (Button) this.findViewById(R.id.menuButton);
+		Button akButton = (Button) this.findViewById(R.id.akButton);
+		Button clearButton = (Button) this.findViewById(R.id.clearButton);
+		
+		
+		LayoutParams inputParams = (RelativeLayout.LayoutParams) inputText.getLayoutParams();
+		inputParams.setMargins(sideMargin, topMargin*2, sideMargin, topMargin);
+		inputText.setLayoutParams(inputParams);
+		
+		LayoutParams textParams = (RelativeLayout.LayoutParams) textView.getLayoutParams();
+		textParams.setMargins(sideMargin, topMargin, sideMargin, topMargin);
+		textView.setLayoutParams(textParams);
+		
+		LayoutParams menuParams = (RelativeLayout.LayoutParams) menuButton.getLayoutParams();
+		menuParams.setMargins(sideMargin, topMargin, sideMargin, topMargin);
+		menuButton.setLayoutParams(menuParams);
+		
+		LayoutParams akParams = (RelativeLayout.LayoutParams) akButton.getLayoutParams();
+		akParams.setMargins(sideMargin, topMargin, sideMargin, topMargin);
+		akButton.setLayoutParams(akParams);
+
+		LayoutParams clearParams = (RelativeLayout.LayoutParams) clearButton.getLayoutParams();
+		clearParams.setMargins(sideMargin, topMargin, sideMargin, topMargin);
+		clearButton.setLayoutParams(clearParams);
 	}
 
 	/**

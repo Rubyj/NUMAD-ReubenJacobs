@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
 		int topMargin = (int)outMetrics.heightPixels/25;
 		
 		setContentView(R.layout.activity_main);
+		setTitle("Reuben Jacobs");
 		
 		Button aboutButton = (Button) this.findViewById(R.id.aboutButton);
 		Button sudokuButton = (Button) this.findViewById(R.id.sudokuButton);
@@ -58,7 +59,7 @@ public class MainActivity extends Activity {
 		
 		
 		//Uncomment for authorization
-		PhoneCheckAPI.doAuthorization(this); 
+		//PhoneCheckAPI.doAuthorization(this); 
 	}
 
 	@Override

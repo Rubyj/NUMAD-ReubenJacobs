@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="41dp"
         android:ems="10" />
 
     <TextView
@@ -23,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/wordInput"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp" />
+         />
 
     <Button
         android:id="@+id/menuButton"
@@ -32,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/akButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
         android:text="@string/rMenu" 
         android:onClick="returnToMenu" />
 
@@ -43,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/clearButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"
         android:onClick="openAck"
         android:text="@string/aknow" />
 
@@ -54,7 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/wordList"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
         android:onClick="onClear"
         android:text="@string/clear" />
 
