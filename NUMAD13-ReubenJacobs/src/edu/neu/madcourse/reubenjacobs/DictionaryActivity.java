@@ -90,7 +90,7 @@ public class DictionaryActivity extends Activity {
 				
 				if ((s.length() != 0)) {
 					String firstLetter = s.subSequence(0, 1).toString().toLowerCase(Locale.US);
-					System.out.println(firstLetter);
+					//System.out.println(firstLetter);
 					
 					if (alreadyChecked.get(firstLetter) == null) {
 						try {
@@ -123,7 +123,7 @@ public class DictionaryActivity extends Activity {
 				if (s.length() >= 3) {
 					String sString = s.toString().toLowerCase(Locale.US);
 					
-					if (aTable.get(s.toString()) != null && alreadyFound.get(sString) == null) {
+					if (aTable.get(sString) != null && alreadyFound.get(sString) == null) {
 						TextView wordList = (TextView) findViewById(R.id.wordList);
 						String currentList = wordList.getText().toString();
 						if (i == 0) { wordList.setText(sString); }
