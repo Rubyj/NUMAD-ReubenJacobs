@@ -7,6 +7,7 @@ import java.util.Hashtable;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -14,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -28,6 +30,8 @@ public class DictionaryActivity extends Activity {
 	BufferedReader buffreader;
 	String line;
 	String firstLetter;
+	
+	int i = 0; //keep track of where we are in the displayed list
 	
 	
 	@Override
@@ -68,8 +72,6 @@ public class DictionaryActivity extends Activity {
 		
 		EditText textInput = (EditText) findViewById(R.id.wordInput);
 		textInput.addTextChangedListener(new TextWatcher() {
-			
-			int i = 0; //keep track of where we are in the displayed list
 
 			@Override
 			public void afterTextChanged(Editable s) {
@@ -164,6 +166,16 @@ public class DictionaryActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void onClear(View view) {
+		TextView wordList = (TextView) findViewById(R.id.wordList);
+		EditText textInput = (EditText) findViewById(R.id.wordInput);
+		
+		textInput.setText("");
+		wordList.setText("");
+		alreadyFound.clear();
+		i = 0;
 	}
 
 }

@@ -28,4 +28,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="114dp" />
 
+    <Button
+        android:id="@+id/clearButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:onClick="onClear"
+        android:text="@string/clear" />
+
 </RelativeLayout>

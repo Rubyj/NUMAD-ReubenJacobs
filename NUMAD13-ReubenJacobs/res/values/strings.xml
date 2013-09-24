@@ -14,6 +14,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="quit">Quit</string>
     <string name="dictionary">Dictionary</string>
+    <string name="clear">Clear</string>
     <string name="main_title">Android Sudoku</string>
     <string name="continue_label">Continue</string>
     <string name="new_game_label">New Game</string>
