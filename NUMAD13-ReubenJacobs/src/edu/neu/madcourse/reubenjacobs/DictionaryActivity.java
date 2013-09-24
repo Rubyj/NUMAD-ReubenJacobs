@@ -1,12 +1,18 @@
 package edu.neu.madcourse.reubenjacobs;
 
-import android.os.Bundle;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.os.Build;
 
 public class DictionaryActivity extends Activity {
 
@@ -16,6 +22,30 @@ public class DictionaryActivity extends Activity {
 		setContentView(R.layout.activity_dictionary);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		onStart();
+	}
+	
+	protected void onStart() {
+		ArrayList<String> Alist = new ArrayList<String>();
+		try {
+			InputStream instream = getAssets().open("wordlist.jet");
+			
+			if (instream != null) {
+				InputStreamReader inputreader = new InputStreamReader(instream);
+				BufferedReader buffreader = new BufferedReader(inputreader, 5000000);
+				
+				String line;
+				while ((line = buffreader.readLine()) != null) {
+						Alist.add(line);
+						System.out.println(line.substring(0, 1));
+				}
+				
+				
+				
+			}
+		} catch (java.io.IOException e) {
+			
+		}
 	}
 
 	/**
