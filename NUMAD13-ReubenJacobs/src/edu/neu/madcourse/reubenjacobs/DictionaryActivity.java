@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -88,7 +89,8 @@ public class DictionaryActivity extends Activity {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				
 				if ((s.length() != 0)) {
-					String firstLetter = s.subSequence(0, 1).toString();
+					String firstLetter = s.subSequence(0, 1).toString().toLowerCase(Locale.US);
+					System.out.println(firstLetter);
 					
 					if (alreadyChecked.get(firstLetter) == null) {
 						try {
@@ -101,7 +103,7 @@ public class DictionaryActivity extends Activity {
 								while ((line = buffreader.readLine()) != null) {
 									if (line.substring(0, 1).equals(firstLetter)) {
 										aTable.put(line, line);
-										System.out.println(line);
+										//System.out.println(line);
 									}
 								}
 							
@@ -119,7 +121,7 @@ public class DictionaryActivity extends Activity {
 			
 				
 				if (s.length() >= 3) {
-					String sString = s.toString();
+					String sString = s.toString().toLowerCase(Locale.US);
 					
 					if (aTable.get(s.toString()) != null && alreadyFound.get(sString) == null) {
 						TextView wordList = (TextView) findViewById(R.id.wordList);
