@@ -24,15 +24,20 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/clear_label" />
-
+    
     <TextView
         android:id="@+id/word_list"
-        android:layout_below="@id/clear_button" 
         android:layout_width="fill_parent"
         android:layout_height="220dp"
+        android:layout_below="@id/clear_button"
         android:background="@color/sudoku_background"
         android:gravity="center_horizontal"
-        android:textSize="18sp">
+        android:minLines="10"
+        android:scrollbars="vertical"
+        android:textSize="18sp" 
+        android:textColor="@color/text_color"
+        android:textColorHighlight="@color/text_color">
+        
     </TextView>
 
     <Button
