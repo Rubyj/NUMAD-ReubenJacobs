@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setTitle("Reuben Jacobs");
 		super.onCreate(savedInstanceState);
 		
 		Display display = getWindowManager().getDefaultDisplay();
@@ -28,7 +29,6 @@ public class MainActivity extends Activity {
 		int topMargin = (int)outMetrics.heightPixels/25;
 		
 		setContentView(R.layout.activity_main);
-		setTitle("Reuben Jacobs");
 		
 		Button aboutButton = (Button) this.findViewById(R.id.aboutButton);
 		Button sudokuButton = (Button) this.findViewById(R.id.sudokuButton);
