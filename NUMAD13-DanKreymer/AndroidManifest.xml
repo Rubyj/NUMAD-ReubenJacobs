@@ -9,8 +9,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="edu.neu.madcourse.dankreymer"
-      android:versionCode="5"
-      android:versionName="2.00">
+      android:versionCode="6"
+      android:versionName="2.01">
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="7" />
     
     <!-- Permissions stuff /-->
