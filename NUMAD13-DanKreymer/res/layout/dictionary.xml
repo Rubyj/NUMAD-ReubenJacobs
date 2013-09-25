@@ -13,7 +13,8 @@
         android:layout_height="50dp"
         android:ems="8"
         android:inputType="text"
-        android:digits="qwertyuiopasdfghjklzxcvbnm">
+        android:digits="qwertyuiopasdfghjklzxcvbnm"
+        android:maxLines = "10">
         <requestFocus />
     </EditText>
     
