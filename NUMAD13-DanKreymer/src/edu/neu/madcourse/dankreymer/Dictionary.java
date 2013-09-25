@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -53,6 +54,10 @@ public class Dictionary extends Activity implements OnClickListener {
 
 		View clearButton = findViewById(R.id.clear_button);
 		clearButton.setOnClickListener(this);
+		View returnButton = findViewById(R.id.return_to_menu__button);
+		returnButton.setOnClickListener(this);
+		View acknowledgementsButton = findViewById(R.id.acknowledgements_button);
+		acknowledgementsButton.setOnClickListener(this);
 
 		wordBox = (EditText) findViewById(R.id.word_box);
 		wordList = (TextView) findViewById(R.id.word_list);
@@ -106,6 +111,12 @@ public class Dictionary extends Activity implements OnClickListener {
 			wordBox.setText("");
 			wordList.setText("");
 			wordsDisplayed.clear();
+			break;
+		case (R.id.return_to_menu__button):
+			finish();
+			break;
+		case (R.id.acknowledgements_button):
+			startActivity(new Intent(this, AcknowledgementsDictionary.class));
 			break;
 		}
 	}

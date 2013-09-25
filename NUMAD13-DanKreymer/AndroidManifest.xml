@@ -41,5 +41,8 @@
         <activity android:name=".Game" android:label="@string/game_title"/>
         <activity android:name=".Dictionary" android:label="@string/dictionary_title"
                   android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".AcknowledgementsDictionary" 
+                  android:label="@string/acknowledgements_title"
+                  android:theme="@android:style/Theme.Dialog"/>
     </application>
 </manifest>
