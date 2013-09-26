@@ -9,7 +9,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="edu.neu.madcourse.dankreymer"
-      android:versionCode="7"
+      android:versionCode="8"
       android:versionName="2.02">
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14" />
     
