@@ -11,7 +11,7 @@
       package="edu.neu.madcourse.dankreymer"
       android:versionCode="6"
       android:versionName="2.01">
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="7" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14" />
     
     <!-- Permissions stuff /-->
     <uses-permission android:name="android.permission.INTERNET" />

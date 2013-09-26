@@ -22,6 +22,7 @@ import android.content.res.Resources.NotFoundException;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,6 +41,7 @@ public class Dictionary extends Activity implements OnClickListener {
 	private List<String> wordsDisplayed;
 	private SoundPool sp;
 	private int soundID;
+	private boolean loaded = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,7 +51,13 @@ public class Dictionary extends Activity implements OnClickListener {
 		lettersLoaded = new ArrayList<String>();
 		wordsDisplayed = new ArrayList<String>();
 		
-		final SoundPool sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+		sp.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+		    public void onLoadComplete(SoundPool soundPool, int sampleId,int status) {
+		       loaded = true;
+		    }
+		});
 		soundID = sp.load(this, R.raw.coin, 1);
 
 		View clearButton = findViewById(R.id.clear_button);
@@ -81,7 +89,9 @@ public class Dictionary extends Activity implements OnClickListener {
 						wordList.setText(editableText + "\n" + wordList.getText());
 						wordsDisplayed.add(editableText);
 						
-						sp.play(soundID, 1, 1, 0, 0, 1);
+						if (loaded){
+							sp.play(soundID, 1, 1, 1, 0, 1f);
+						}
 					}
 
 				}
