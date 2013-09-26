@@ -46,20 +46,24 @@ public class Dictionary extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dictionary);
-		
-		dictionary = new HashSet<String>();
-		lettersLoaded = new ArrayList<String>();
-		wordsDisplayed = new ArrayList<String>();
-		
+
+		// Set up data structures to be used for dictionary.
+		dictionary = new HashSet<String>(); // list of valid words.
+		lettersLoaded = new ArrayList<String>(); // list of all letter files loaded
+		wordsDisplayed = new ArrayList<String>(); // list of words currently displayed.
+
+		// Set up SoundPool to play Coin sound effect with new word.
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 		sp.setOnLoadCompleteListener(new OnLoadCompleteListener() {
-		    public void onLoadComplete(SoundPool soundPool, int sampleId,int status) {
-		       loaded = true;
-		    }
+			public void onLoadComplete(SoundPool soundPool, int sampleId,
+					int status) {
+				loaded = true;
+			}
 		});
 		soundID = sp.load(this, R.raw.coin, 1);
 
+		// Set up onClickListener for all buttons.
 		View clearButton = findViewById(R.id.clear_button);
 		clearButton.setOnClickListener(this);
 		View returnButton = findViewById(R.id.return_to_menu__button);
@@ -67,50 +71,52 @@ public class Dictionary extends Activity implements OnClickListener {
 		View acknowledgementsButton = findViewById(R.id.acknowledgements_button);
 		acknowledgementsButton.setOnClickListener(this);
 
+		//grab wordBox and wordList objects
 		wordBox = (EditText) findViewById(R.id.word_box);
 		wordList = (TextView) findViewById(R.id.word_list);
 		wordList.setMovementMethod(new ScrollingMovementMethod());
 
-			//Set up listener for when text is entered into the EditView
-			wordBox.addTextChangedListener(new TextWatcher() {
+		// Set up listener for when text is entered into the EditView
+		wordBox.addTextChangedListener(new TextWatcher() {
 
-				@Override
-				public void afterTextChanged(Editable editable) {
-					String editableText = editable.toString();
-					String firstLetter = editableText.equals("") ? "" : editableText.substring(0,1);
-					
-					if (!firstLetter.equals("") && !lettersLoaded.contains(firstLetter))
-					{
-						loadWords(firstLetter);
+			@Override
+			public void afterTextChanged(Editable editable) {
+				String editableText = editable.toString();
+				String firstLetter = 
+						editableText.equals("") ? "" : editableText.substring(0, 1);
+
+				//Load words if needed.
+				if (!firstLetter.equals("")&& !lettersLoaded.contains(firstLetter)) {
+					loadWords(firstLetter);
+				}
+
+				//If text is a word, print it and play sound.
+				if (dictionary.contains(editableText) && !wordsDisplayed.contains(editableText)) {
+					wordList.setText(editableText + "\n" + wordList.getText());
+					wordsDisplayed.add(editableText);
+
+					if (loaded) {
+						sp.play(soundID, 1, 1, 1, 0, 1f);
 					}
-					
-					if (dictionary.contains(editableText) && !wordsDisplayed.contains(editableText))
-					{
-						wordList.setText(editableText + "\n" + wordList.getText());
-						wordsDisplayed.add(editableText);
-						
-						if (loaded){
-							sp.play(soundID, 1, 1, 1, 0, 1f);
-						}
-					}
-
 				}
 
-				@Override
-				public void beforeTextChanged(CharSequence arg0, int arg1,
-						int arg2, int arg3) {
-					// TODO Auto-generated method stub
+			}
 
-				}
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
+				// TODO Auto-generated method stub
 
-				@Override
-				public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-						int arg3) {
-					// TODO Auto-generated method stub
+			}
 
-				}
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
 
-			});
+			}
+
+		});
 	}
 
 	@Override
@@ -130,24 +136,23 @@ public class Dictionary extends Activity implements OnClickListener {
 			break;
 		}
 	}
-	
-	private void loadWords(String letter)
-	{
+
+	private void loadWords(String letter) {
 		BufferedReader br = null;
 		String word;
-		
+
 		try {
-			br = new BufferedReader(new InputStreamReader(getAssets().open(letter + ".txt")));
-			while ((word = br.readLine()) != null)
-			{
+			br = new BufferedReader(new InputStreamReader(getAssets().open(
+					letter + ".txt")));
+			while ((word = br.readLine()) != null) {
 				dictionary.add(word);
 			}
-			
+
 			br.close();
 		} catch (IOException e1) {
 			throw new RuntimeException();
 		}
-		
+
 		lettersLoaded.add(letter);
 	}
 }
