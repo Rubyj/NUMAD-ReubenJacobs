@@ -89,16 +89,9 @@ public class Dictionary extends Activity implements OnClickListener {
 				if (!firstLetter.equals("")&& !lettersLoaded.contains(firstLetter)) {
 					loadWords(firstLetter);
 				}
-
-				//If text is a word, print it and play sound.
-				if (dictionary.contains(editableText) && !wordsDisplayed.contains(editableText)) {
-					wordList.setText(editableText + "\n" + wordList.getText());
-					wordsDisplayed.add(editableText);
-
-					if (loaded) {
-						sp.play(soundID, 1, 1, 1, 0, 1f);
-					}
-				}
+				
+				//If text is a word, print it and play sound
+				processText(editableText);
 
 			}
 
@@ -154,5 +147,23 @@ public class Dictionary extends Activity implements OnClickListener {
 		}
 
 		lettersLoaded.add(letter);
+	}
+	
+	private void processText(String text){
+		int length = text.length();
+		while (length >= 3)
+		{
+			if (dictionary.contains(text) && !wordsDisplayed.contains(text)) {
+				wordList.setText(text + "\n" + wordList.getText());
+				wordsDisplayed.add(text);
+
+				if (loaded) {
+					sp.play(soundID, 1, 1, 1, 0, 1f);
+				}
+			}
+			
+			length--;
+			text = text.substring(0, length);
+		}
 	}
 }
