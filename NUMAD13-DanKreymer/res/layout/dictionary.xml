@@ -13,8 +13,7 @@
         android:layout_height="50dp"
         android:ems="8"
         android:inputType="text"
-        android:digits="qwertyuiopasdfghjklzxcvbnm"
-        android:maxLines = "10">
+        android:digits="qwertyuiopasdfghjklzxcvbnm">
         <requestFocus />
     </EditText>
     
@@ -28,11 +27,11 @@
     <TextView
         android:id="@+id/word_list"
         android:layout_width="fill_parent"
-        android:layout_height="220dp"
+        android:layout_height="200dp"
         android:layout_below="@id/clear_button"
         android:background="@color/sudoku_background"
         android:gravity="center_horizontal"
-        android:minLines="10"
+        android:minLines="9"
         android:scrollbars="vertical"
         android:textSize="18sp" 
         android:textColor="@color/text_color"
