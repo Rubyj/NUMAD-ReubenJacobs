@@ -38,6 +38,8 @@ public class Main extends Activity implements OnClickListener {
       aboutButton.setOnClickListener(this);
       View dictionaryButton = findViewById(R.id.dictionary_button);
       dictionaryButton.setOnClickListener(this);
+      View dabbleButton = findViewById(R.id.dabble_button);
+      dabbleButton.setOnClickListener(this);
       View exitButton = findViewById(R.id.quit_button);
       exitButton.setOnClickListener(this);
    }
@@ -49,6 +51,9 @@ public class Main extends Activity implements OnClickListener {
          int[] stupidArray = null;
          stupidArray[6]++;
          break;
+      case R.id.dabble_button:
+          startActivity(new Intent(this, Dabble.class));
+          break;
       case R.id.dictionary_button:
           startActivity(new Intent(this, Dictionary.class));
           break;

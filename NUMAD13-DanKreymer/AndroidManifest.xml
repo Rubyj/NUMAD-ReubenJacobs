@@ -38,10 +38,11 @@
         </activity>
         <activity android:name=".Prefs" android:label="@string/settings_title"/>
         <activity android:name=".Sudoku" android:label="@string/sudoku_title"/>
-        <activity android:name=".Game" android:label="@string/game_title"/>
+        <activity android:name=".SudokuGame" android:label="@string/game_title"/>
         <activity android:name=".Dictionary" android:label="@string/dictionary_title"
                   android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".Dabble" android:label="@string/dabble_title"/>
         <activity android:name=".AcknowledgementsDictionary" 
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>

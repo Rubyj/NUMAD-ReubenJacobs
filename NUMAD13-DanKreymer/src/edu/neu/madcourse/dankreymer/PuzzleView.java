@@ -45,12 +45,12 @@ public class PuzzleView extends View {
    private int selY;       // Y index of selection
    private final Rect selRect = new Rect();
 
-   private final Game game;
+   private final SudokuGame game;
    
    public PuzzleView(Context context) {
       
       super(context);
-      this.game = (Game) context;
+      this.game = (SudokuGame) context;
       setFocusable(true);
       setFocusableInTouchMode(true);
       

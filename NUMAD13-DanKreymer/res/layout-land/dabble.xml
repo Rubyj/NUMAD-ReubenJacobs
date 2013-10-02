@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dabble_background"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="35dip" >
@@ -13,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dip"
-        android:text="@string/main_title"
-        android:textSize="20sp" />
+        android:text="@string/dabble_title"
+        android:textSize="24.5sp" />
 
     <TableLayout
         android:layout_width="wrap_content"
@@ -25,46 +24,32 @@
         <TableRow>
 
             <Button
-                android:id="@+id/dabble_button"
+                android:id="@+id/dabble_new_game_button"
                 android:layout_width="0dip"
                 android:layout_weight="1"
-                android:text="@string/dabble_label" />
+                android:text="@string/dabble_new_game" />
 
             <Button
-                android:id="@+id/dictionary_button"
+                android:id="@+id/dabble_resume_game_button"
                 android:layout_width="0dip"
                 android:layout_weight="1"
-                android:text="@string/dictionary_label" />
+                android:enabled="false"
+                android:text="@string/dabble_resume_game" />
         </TableRow>
 
         <TableRow>
 
             <Button
-                android:id="@+id/about_button"
+                android:id="@+id/dabble_acknowledgements_button"
                 android:layout_width="0dip"
                 android:layout_weight="1"
-                android:text="@string/about_label" />
+                android:text="@string/dabble_acknowledgements" />
 
             <Button
-                android:id="@+id/error_button"
+                android:id="@+id/dabble_quit_button"
                 android:layout_width="0dip"
                 android:layout_weight="1"
-                android:text="@string/error_label" />
-        </TableRow>
-
-        <TableRow>
-
-            <Button
-                android:id="@+id/sudoku_button"
-                android:layout_width="0dip"
-                android:layout_weight="1"
-                android:text="@string/sudoku_label" />
-
-            <Button
-                android:id="@+id/quit_button"
-                android:layout_width="0dip"
-                android:layout_weight="1"
-                android:text="@string/quit_label" />
+                android:text="@string/dabble_quit" />
         </TableRow>
     </TableLayout>
 

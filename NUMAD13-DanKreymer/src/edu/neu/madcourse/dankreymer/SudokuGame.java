@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-public class Game extends Activity {
+public class SudokuGame extends Activity {
    private static final String TAG = "Sudoku";
 
    public static final String KEY_DIFFICULTY =

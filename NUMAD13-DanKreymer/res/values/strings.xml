@@ -62,5 +62,15 @@ row, each column, and each of the 3x3 boxes
    <string name="acknowledgements_dictionary_text">The "coin" sound effect used is from:\nhttp://themushroomkingdom.net/media
        												\n\nThe dictionary used is from:\nhttp://wordlist.sourceforge.net/</string>
    <string name="acknowledgements_title">Acknowledgements</string>
+   
+   
+    <!-- Dabble stuff -->
+    <string name="dabble_label">Dabble</string>
+    <string name="dabble_title">Dabble!</string>
+    <string name="dabble_new_game">New Game</string>
+    <string name="dabble_resume_game">Resume Game</string>
+    <string name="dabble_acknowledgements">Acknowledgements</string>
+    <string name="dabble_quit">Quit</string>
+    
 
 </resources>
