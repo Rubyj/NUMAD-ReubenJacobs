@@ -3,7 +3,7 @@ package edu.neu.madcourse.reubenjacobs;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Locale;
 
 import android.annotation.TargetApi;
@@ -29,9 +29,9 @@ import android.widget.TextView;
 
 public class DictionaryActivity extends Activity {
 	
-	Hashtable<String, String> aTable = new Hashtable<String, String>();
-	Hashtable<String, String> alreadyChecked = new Hashtable<String, String>();
-	Hashtable<String, String> alreadyFound = new Hashtable<String, String>();
+	HashMap<String, String> aTable = new HashMap<String, String>();
+	HashMap<String, String> alreadyChecked = new HashMap<String, String>();
+	HashMap<String, String> alreadyFound = new HashMap<String, String>();
 	
 	InputStream instream;
 	InputStreamReader inputreader;
@@ -49,14 +49,13 @@ public class DictionaryActivity extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
-		
+		/*
 		try {
 			instream = getAssets().open("wordlist.jet");
 			
 			if (instream != null) {
 				inputreader = new InputStreamReader(instream);
-				buffreader = new BufferedReader(inputreader, 5000000);
-				
+				buffreader = new BufferedReader(inputreader);
 				
 				//Build the hashtable for words that begin with a
 				firstLetter = "a";
@@ -77,6 +76,7 @@ public class DictionaryActivity extends Activity {
 		} catch (java.io.IOException e) {
 			
 		}
+		*/
 		
 		EditText textInput = (EditText) findViewById(R.id.wordInput);
 		textInput.addTextChangedListener(new TextWatcher() {
@@ -94,27 +94,53 @@ public class DictionaryActivity extends Activity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				String sString = s.toString().toLowerCase(Locale.US);
 				
-				if ((s.length() != 0)) {
-					String firstLetter = s.subSequence(0, 1).toString().toLowerCase(Locale.US);
+				if ((sString.length() >= 3) && alreadyFound.get(sString) == null) {
+					//String firstLetter = s.subSequence(0, 1).toString().toLowerCase(Locale.US);
 					//System.out.println(firstLetter);
 					
-					if (alreadyChecked.get(firstLetter) == null) {
+					//if (alreadyChecked.get(firstLetter) == null) {
 						try {
 							instream = getAssets().open("wordlist.jet");
 					
 							if (instream != null) {
 								inputreader = new InputStreamReader(instream);
-								buffreader = new BufferedReader(inputreader, 5000000);
+								buffreader = new BufferedReader(inputreader);
+								alreadyFound.put(sString, sString); //Tells the program we have already searched for this word before even if it's not an actual word
 							
-								while ((line = buffreader.readLine()) != null) {
-									if (line.substring(0, 1).equals(firstLetter)) {
-										aTable.put(line, line);
+								while ((line = buffreader.readLine()) != null && line.compareToIgnoreCase(sString) < 1) {
+									//if (line.substring(0, 1).equals(firstLetter)) {
+									
+									//if (s.length() >= 3) {
+										
+										
+										
+										if (line.equals(sString)) {
+											TextView wordList = (TextView) findViewById(R.id.wordList);
+											String currentList = wordList.getText().toString();
+											if (i == 0) { wordList.setText(sString); }
+											else {wordList.setText(sString + ", " + currentList); }
+					 						
+											i++;
+										    
+											
+										    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+										    toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
+										    break;
+										}
+									//}										
+										
+										
+										
+										
+										
+										//aTable.put(line, line);
 										//System.out.println(line);
-									}
+									//}
 								}
 							
-								alreadyChecked.put(firstLetter, firstLetter);
+								//alreadyChecked.put(firstLetter, firstLetter);
 								buffreader.close();
 								inputreader.close();
 								instream.close();
@@ -123,25 +149,7 @@ public class DictionaryActivity extends Activity {
 						} catch (java.io.IOException e) {
 						
 						}
-					}
-				}
-			
-				
-				if (s.length() >= 3) {
-					String sString = s.toString().toLowerCase(Locale.US);
-					
-					if (aTable.get(sString) != null && alreadyFound.get(sString) == null) {
-						TextView wordList = (TextView) findViewById(R.id.wordList);
-						String currentList = wordList.getText().toString();
-						if (i == 0) { wordList.setText(sString); }
-						else {wordList.setText(sString + ", " + currentList); }
- 						alreadyFound.put(sString, sString);
-						i++;
-					    
-						
-					    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-					    toneG.startTone(ToneGenerator.TONE_PROP_BEEP); 
-					}
+					//}
 				}
 			}
 		});
@@ -151,7 +159,7 @@ public class DictionaryActivity extends Activity {
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		display.getMetrics(outMetrics);
 		
-		int sideMargin = (int)outMetrics.widthPixels/4;
+		int sideMargin = (int)outMetrics.widthPixels/5;
 		int topMargin = (int)outMetrics.heightPixels/25;
 		
 		EditText inputText = (EditText) this.findViewById(R.id.wordInput);
