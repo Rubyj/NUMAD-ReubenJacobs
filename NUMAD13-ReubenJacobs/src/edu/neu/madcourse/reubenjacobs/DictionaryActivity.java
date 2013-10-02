@@ -29,8 +29,8 @@ import android.widget.TextView;
 
 public class DictionaryActivity extends Activity {
 	
-	HashMap<String, String> aTable = new HashMap<String, String>();
-	HashMap<String, String> alreadyChecked = new HashMap<String, String>();
+	//HashMap<String, String> aTable = new HashMap<String, String>();
+	//HashMap<String, String> alreadyChecked = new HashMap<String, String>();
 	HashMap<String, String> alreadyFound = new HashMap<String, String>();
 	
 	InputStream instream;
@@ -48,35 +48,6 @@ public class DictionaryActivity extends Activity {
 		setContentView(R.layout.activity_dictionary);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		
-		/*
-		try {
-			instream = getAssets().open("wordlist.jet");
-			
-			if (instream != null) {
-				inputreader = new InputStreamReader(instream);
-				buffreader = new BufferedReader(inputreader);
-				
-				//Build the hashtable for words that begin with a
-				firstLetter = "a";
-				while ((line = buffreader.readLine()) != null) {
-						if (line.substring(0, 1).equals(firstLetter)) {
-							aTable.put(line, line);
-							//System.out.println(line);
-						}
-				}
-				
-				alreadyChecked.put(firstLetter, firstLetter);
-				buffreader.close();
-				inputreader.close();
-				instream.close();
-				
-				
-			}
-		} catch (java.io.IOException e) {
-			
-		}
-		*/
 		
 		EditText textInput = (EditText) findViewById(R.id.wordInput);
 		textInput.addTextChangedListener(new TextWatcher() {
@@ -97,47 +68,31 @@ public class DictionaryActivity extends Activity {
 				String sString = s.toString().toLowerCase(Locale.US);
 				
 				if ((sString.length() >= 3) && alreadyFound.get(sString) == null) {
-					//String firstLetter = s.subSequence(0, 1).toString().toLowerCase(Locale.US);
-					//System.out.println(firstLetter);
+					String firstLetter = sString.substring(0, 1);
 					
-					//if (alreadyChecked.get(firstLetter) == null) {
 						try {
-							instream = getAssets().open("wordlist.jet");
-					
+							instream = getAssets().open( firstLetter + "wordlist.jet");
+							
+							
 							if (instream != null) {
 								inputreader = new InputStreamReader(instream);
 								buffreader = new BufferedReader(inputreader);
 								alreadyFound.put(sString, sString); //Tells the program we have already searched for this word before even if it's not an actual word
 							
 								while ((line = buffreader.readLine()) != null && line.compareToIgnoreCase(sString) < 1) {
-									//if (line.substring(0, 1).equals(firstLetter)) {
-									
-									//if (s.length() >= 3) {
-										
-										
-										
-										if (line.equals(sString)) {
-											TextView wordList = (TextView) findViewById(R.id.wordList);
-											String currentList = wordList.getText().toString();
-											if (i == 0) { wordList.setText(sString); }
-											else {wordList.setText(sString + ", " + currentList); }
+									if (line.equals(sString)) {
+										TextView wordList = (TextView) findViewById(R.id.wordList);
+										String currentList = wordList.getText().toString();
+										if (i == 0) { wordList.setText(sString); }
+										else {wordList.setText(sString + ", " + currentList); }
 					 						
-											i++;
+										i++;
 										    
 											
-										    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-										    toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
-										    break;
-										}
-									//}										
-										
-										
-										
-										
-										
-										//aTable.put(line, line);
-										//System.out.println(line);
-									//}
+										ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+										toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
+										break;
+									}
 								}
 							
 								//alreadyChecked.put(firstLetter, firstLetter);
