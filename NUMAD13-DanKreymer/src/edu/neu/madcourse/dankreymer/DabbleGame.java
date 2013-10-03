@@ -23,7 +23,6 @@ public class DabbleGame extends Activity {
 		
 		generateSolution();
 		generateTiles();
-		
 
 		dabbleView = new DabbleView(this);
 		setContentView(dabbleView);
@@ -33,6 +32,7 @@ public class DabbleGame extends Activity {
 	
 	private void generateSolution(){
 		//TODO: use dictionary!
+		solution = new ArrayList<String>();
 		solution.add("cow");
 		solution.add("plop");
 		solution.add("crops");
