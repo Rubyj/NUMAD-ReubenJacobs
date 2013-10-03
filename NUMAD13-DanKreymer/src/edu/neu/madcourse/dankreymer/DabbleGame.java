@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 
 public class DabbleGame extends Activity {
 	private static final String TAG = "Dabble";
 
+	private static final String KEY_RESUME_GAME = "RESUME";
+	private static final String KEY_GET_TILES = "TILES";
+	private static final String KEY_GET_SELECTED = "SELECTED";
+
 	private static int numTiles = 18;
-	
+
 	private int selected = -1;
 
 	private DabbleView dabbleView;
@@ -23,13 +29,28 @@ public class DabbleGame extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		generateSolution();
-		generateTiles();
+	    SharedPreferences pref = getPreferences(MODE_PRIVATE);
+		if (!pref.contains(KEY_GET_TILES)) {
+			generateSolution();
+			generateTiles();
+		}
+		else
+		{
+			stringToTiles(pref.getString(KEY_GET_TILES, ""));
+			selected = Integer.parseInt(pref.getString(KEY_GET_SELECTED, ""));
+		}
 
 		dabbleView = new DabbleView(this);
 		setContentView(dabbleView);
 		dabbleView.requestFocus();
-
+	}
+	
+	protected void onPause() {
+		super.onPause();
+		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+		editor.putString(KEY_GET_TILES, tilesToString());
+		editor.putString(KEY_GET_SELECTED, Integer.toString(selected));
+		editor.commit();
 	}
 
 	private void generateSolution() {
@@ -45,16 +66,16 @@ public class DabbleGame extends Activity {
 		String wordsCombined = solution.get(0) + solution.get(1)
 				+ solution.get(2) + solution.get(3);
 		Random rand = new Random();
-		
+
 		tiles = new char[numTiles];
 		int index;
 		int count = 0;
-		while (wordsCombined != "")
-		{
+		while (wordsCombined != "") {
 			index = rand.nextInt(wordsCombined.length());
 			char c = wordsCombined.charAt(index);
 			tiles[count] = c;
-			wordsCombined = wordsCombined.replaceFirst(Character.toString(c), "");
+			wordsCombined = wordsCombined.replaceFirst(Character.toString(c),
+					"");
 			count++;
 		}
 	}
@@ -62,8 +83,8 @@ public class DabbleGame extends Activity {
 	protected String getTileLetter(int i) {
 		return Character.toString(tiles[i]);
 	}
-	
-	protected void swapTiles(int i, int j){
+
+	protected void swapTiles(int i, int j) {
 		char temp = tiles[i];
 		tiles[i] = tiles[j];
 		tiles[j] = temp;
@@ -73,15 +94,15 @@ public class DabbleGame extends Activity {
 		return new String(tiles);
 	}
 
-	private void StringToTiles(String string) {
+	private void stringToTiles(String string) {
 		tiles = string.toCharArray();
 	}
-	
-	protected void setSelected(int i){
+
+	protected void setSelected(int i) {
 		selected = i;
 	}
-	
-	protected String getSelected(){
+
+	protected String getSelected() {
 		return Integer.toString(selected);
 	}
 }
