@@ -20,7 +20,7 @@ import edu.neu.mobileClass.*;
 
 public class Main extends Activity implements OnClickListener {
    private static final String TAG = "Main";
-   
+
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);

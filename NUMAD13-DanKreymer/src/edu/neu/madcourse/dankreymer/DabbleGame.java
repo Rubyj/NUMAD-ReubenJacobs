@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,6 @@ import android.view.KeyEvent;
 public class DabbleGame extends Activity {
 	private static final String TAG = "Dabble";
 
-	private static final String KEY_RESUME_GAME = "RESUME";
 	private static final String KEY_GET_TILES = "TILES";
 	private static final String KEY_GET_SELECTED = "SELECTED";
 
@@ -28,14 +28,16 @@ public class DabbleGame extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Bundle bundle = getIntent().getExtras();
 
-	    SharedPreferences pref = getPreferences(MODE_PRIVATE);
-		if (!pref.contains(KEY_GET_TILES)) {
+		if (bundle.getString(Dabble.GAME_STATUS_KEY).equals(Dabble.NEW_GAME)) {
 			generateSolution();
 			generateTiles();
 		}
 		else
 		{
+			SharedPreferences pref = getPreferences(MODE_PRIVATE);
 			stringToTiles(pref.getString(KEY_GET_TILES, ""));
 			selected = Integer.parseInt(pref.getString(KEY_GET_SELECTED, ""));
 		}
