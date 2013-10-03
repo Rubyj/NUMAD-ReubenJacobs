@@ -261,7 +261,6 @@ public class PuzzleView extends View {
       rect.set((int) (x * width), (int) (y * height), (int) (x
             * width + width), (int) (y * height + height));
    }
-   
-   // ...
+
 }
 

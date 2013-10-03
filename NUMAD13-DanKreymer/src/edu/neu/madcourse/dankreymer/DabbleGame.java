@@ -9,18 +9,20 @@ import android.util.Log;
 
 public class DabbleGame extends Activity {
 	private static final String TAG = "Dabble";
-	
+
 	private static int numTiles = 18;
+	
+	private int selected = -1;
 
 	private DabbleView dabbleView;
-	
+
 	private ArrayList<String> solution;
 	private char[] tiles;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		generateSolution();
 		generateTiles();
 
@@ -29,34 +31,57 @@ public class DabbleGame extends Activity {
 		dabbleView.requestFocus();
 
 	}
-	
-	private void generateSolution(){
-		//TODO: use dictionary!
+
+	private void generateSolution() {
+		// TODO: use dictionary!
 		solution = new ArrayList<String>();
 		solution.add("cow");
 		solution.add("plop");
 		solution.add("crops");
 		solution.add("lemons");
 	}
-	
-	private void generateTiles(){
-		String wordsCombined = solution.get(0) + solution.get(1) + solution.get(2) + solution.get(3);
+
+	private void generateTiles() {
+		String wordsCombined = solution.get(0) + solution.get(1)
+				+ solution.get(2) + solution.get(3);
 		Random rand = new Random();
 		
 		tiles = new char[numTiles];
-		for (int i = 0; i < numTiles; i++)
+		int index;
+		int count = 0;
+		while (wordsCombined != "")
 		{
-			tiles[i] = wordsCombined.charAt(rand.nextInt(18));
+			index = rand.nextInt(wordsCombined.length());
+			char c = wordsCombined.charAt(index);
+			tiles[count] = c;
+			wordsCombined = wordsCombined.replaceFirst(Character.toString(c), "");
+			count++;
 		}
 	}
-	
-	private String tilesToString()
-	{
-		return new String(tiles);
+
+	protected String getTileLetter(int i) {
+		return Character.toString(tiles[i]);
 	}
 	
-	private void StringToTiles(String string)
-	{
+	protected void swapTiles(int i, int j){
+		char temp = tiles[i];
+		tiles[i] = tiles[j];
+		tiles[j] = temp;
+	}
+
+	private String tilesToString() {
+		return new String(tiles);
+	}
+
+	private void StringToTiles(String string) {
 		tiles = string.toCharArray();
+	}
+	
+	protected void setSelected(int i){
+		selected = i;
+	}
+	
+	protected String getSelected(){
+		return Integer.toString(selected);
 	}
 }

@@ -24,5 +24,6 @@
    <color name="text_color">#F5F5F5</color>
    
    <!-- Dabble stuff -->
-   <color name="dabble_background">#000000</color>
+   <color name="dabble_background">#000000</color> 
+   <color name="dabble_selected_tile">#E0FA6A</color>
 </resources>
