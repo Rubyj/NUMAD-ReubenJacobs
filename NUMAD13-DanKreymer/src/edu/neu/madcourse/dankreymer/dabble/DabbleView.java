@@ -17,8 +17,8 @@ import android.view.View;
 
 public class DabbleView extends View {
 	private static final String TAG = "Dabble";
-	private static final int GAP = 20;
-	private static final int TOP_START = 30;
+	private static final int GAP = 10;
+	private static final int TOP_START = 20;
 
 	private float size, button_size_x, button_size_y;
 
@@ -34,9 +34,9 @@ public class DabbleView extends View {
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		size = h / 6f;
+		size = h / 5f;
 		button_size_x = 120;
-		button_size_y = 80;
+		button_size_y = 72;
 		super.onSizeChanged(w, h, oldw, oldh);
 	}
 
@@ -50,6 +50,8 @@ public class DabbleView extends View {
 		drawButtons(canvas);
 		drawTimer(canvas);
 		drawScore(canvas);
+		drawPause(canvas);
+		drawBack(canvas);
 	}
 
 	private void drawBoard(Canvas canvas)
@@ -201,6 +203,17 @@ public class DabbleView extends View {
 		
 		top = getHeight() - button_size_y;
 		left = getWidth() - button_size_x;
+		
+		if (dabbleGame.getPlayMusic())
+		{
+			//TODO
+			//green text
+		}
+		else
+		{
+			//red text
+		}
+			
 
 		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText("Music", left + text_x, top + text_y, foreground);
@@ -261,6 +274,68 @@ public class DabbleView extends View {
 		canvas.drawText(dabbleGame.getScore(), left + text_x, top + text_y, foreground);
 	}
 	
+	private void drawPause(Canvas canvas)
+	{
+		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
+		foreground.setColor(getResources().getColor(R.color.dabble_text));
+		foreground.setStyle(Style.FILL);
+		foreground.setTextSize(button_size_y);
+		foreground.setTextScaleX(1);
+		foreground.setTextAlign(Paint.Align.CENTER);
+		FontMetrics fm = foreground.getFontMetrics();
+		// Centering in X: use alignment (and X at midpoint)
+		float text_x = button_size_x / 2;
+		// Centering in Y: measure ascent/descent first
+		float text_y = button_size_y / 2 - (fm.ascent + fm.descent) / 2;
+
+		float left, top;
+
+		top = (getHeight() - button_size_y) / 2;
+		left = getWidth() - button_size_x;
+		
+		String pause;
+
+		if (dabbleGame.getTimeInSeconds() == 0)
+		{
+			pause = "";
+		}
+		else if (dabbleGame.getPaused())
+		{
+			foreground.setTextSize(button_size_y * 1.2f);
+			pause = "▶";
+		}
+		else
+		{
+			foreground.setTextSize(button_size_y);
+			pause = "❙❙";
+		}
+
+		canvas.drawText(pause, left + text_x, top + text_y, foreground);
+	}
+	
+	private void drawBack(Canvas canvas)
+	{
+		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
+		foreground.setColor(getResources().getColor(R.color.dabble_text));
+		foreground.setStyle(Style.FILL);
+		foreground.setTextSize(button_size_y*1.2f);
+		foreground.setTextScaleX(1);
+		foreground.setTextAlign(Paint.Align.CENTER);
+		FontMetrics fm = foreground.getFontMetrics();
+		// Centering in X: use alignment (and X at midpoint)
+		float text_x = button_size_x / 2;
+		// Centering in Y: measure ascent/descent first
+		float text_y = button_size_y / 2 - (fm.ascent + fm.descent) / 2;
+
+		float left, top;
+
+		top = (getHeight() - button_size_y) / 2;
+		left = 0;
+		
+
+		canvas.drawText("↺", left + text_x, top + text_y, foreground);
+	}
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() != MotionEvent.ACTION_DOWN)
@@ -290,8 +365,27 @@ public class DabbleView extends View {
 			return;
 		}
 		
+		top = (getHeight() - button_size_y) / 2;
+		left = 0;
+		
+		if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
+		{
+			dabbleGame.goBack();
+			return;
+		}
+		
+		
 		if (dabbleGame.getTimeInSeconds() != 0)
 		{
+			top = (getHeight() - button_size_y) / 2;
+			left = getWidth() - button_size_x;
+			
+			if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
+			{
+				dabbleGame.pauseGame();
+				return;
+			}
+			
 			top = getHeight() - button_size_y;
 			left = getWidth() - button_size_x;
 			

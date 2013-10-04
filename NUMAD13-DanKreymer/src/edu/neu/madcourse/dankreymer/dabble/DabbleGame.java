@@ -79,7 +79,7 @@ public class DabbleGame extends Activity {
 		numLetters = letters.size();
 	}
 	
-	private final static long maxTime = 5;
+	private final static int maxTime = 300;
 
 	private final static int numTiles = 18;
 	
@@ -92,13 +92,13 @@ public class DabbleGame extends Activity {
 
 	private int selected;
 	private int time;
-	private long startTime;
 	private int score;
 
 	private DabbleView dabbleView;
 
 	private ArrayList<String> solution;
 	private char[] tiles;
+	private boolean paused;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,16 +114,17 @@ public class DabbleGame extends Activity {
 		if (bundle.getString(Dabble.GAME_STATUS_KEY).equals(Dabble.NEW_GAME)) {
 			selected = -1;
 			score = 0;
-			startTime = maxTime * 1000;
 			generateSolution();
 			generateTiles();
 			playMusic = true;
+			time = maxTime;
+			paused = false;
 		}
 		else
 		{
 			stringToTiles(pref.getString(KEY_GET_TILES, ""));
 			selected = Integer.parseInt(pref.getString(KEY_GET_SELECTED, ""));
-			startTime = stringToSeconds(pref.getString(KEY_GET_TIME, "")) * 1000;
+			time = stringToSeconds(pref.getString(KEY_GET_TIME, ""));
 			score = Integer.parseInt(pref.getString(KEY_GET_SCORE, ""));
 			solution = new ArrayList<String>();
 			solution.add(pref.getString(KEY_SOLUTION_1, ""));
@@ -131,9 +132,8 @@ public class DabbleGame extends Activity {
 			solution.add(pref.getString(KEY_SOLUTION_3, ""));
 			solution.add(pref.getString(KEY_SOLUTION_4, ""));
 			playMusic = pref.getBoolean(KEY_MUSIC, false);
+			paused = false;
 		}
-		
-		initTimer(startTime);
 		
 		dabbleView = new DabbleView(this);
 		setContentView(dabbleView);
@@ -143,6 +143,9 @@ public class DabbleGame extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!paused){
+			startTimer();
+		}
 		if (playMusic){
 			Music.play(this, R.raw.dabble_music);
 		}
@@ -151,6 +154,7 @@ public class DabbleGame extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		pauseTimer();
 		if (playMusic){
 			Music.stop(this);
 		}
@@ -233,7 +237,8 @@ public class DabbleGame extends Activity {
 		}
 	}
 
-	private void initTimer(long startTime) {
+	protected void startTimer() {
+		long startTime = time * 1000;
 		timer = new CountDownTimer(startTime, 100) {
 
 			public void onTick(long millisUntilFinished) {
@@ -243,9 +248,17 @@ public class DabbleGame extends Activity {
 
 			public void onFinish() {
 				if (playMusic)
+				{
 					toggleMusic();
+				}
+				selected = -1;
+				dabbleView.invalidate();
 			}
 		}.start();
+	}
+	
+	protected void pauseTimer() {
+		timer.cancel();
 	}
 
 	private void loadWords(String letter) {
@@ -408,6 +421,35 @@ public class DabbleGame extends Activity {
 		{
 			Music.stop(this);
 		}
+	}
+	
+	protected boolean getPlayMusic()
+	{
+		return playMusic;
+	}
+	
+	protected boolean getPaused()
+	{
+		return paused;
+	}
+	
+	protected void pauseGame()
+	{
+		if (paused)
+		{
+			startTimer();
+		}
+		else
+		{
+			pauseTimer();
+		}
 		
+		paused = !paused;
+		dabbleView.invalidate();
+	}
+	
+	protected void goBack()
+	{
+		finish();
 	}
 }
