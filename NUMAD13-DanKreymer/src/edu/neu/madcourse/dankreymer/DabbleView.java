@@ -41,6 +41,14 @@ public class DabbleView extends View {
 		background.setColor(getResources().getColor(R.color.puzzle_background));
 		canvas.drawRect(0, 0, getWidth(), getHeight(), background);
 
+		drawBoard(canvas);
+		drawButtons(canvas);
+		drawTimer(canvas);
+		drawScore(canvas);
+	}
+
+	private void drawBoard(Canvas canvas)
+	{
 		Paint dark = new Paint();
 		dark.setColor(getResources().getColor(R.color.puzzle_dark));
 		
@@ -133,9 +141,100 @@ public class DabbleView extends View {
 			left += size + GAP;
 			letterCount++;
 		}
-
 	}
+	private void drawButtons(Canvas canvas)
+	{
+		int size_x = 120;
+		int size_y = 80;
+		
+		Paint dark = new Paint();
+		dark.setColor(getResources().getColor(R.color.puzzle_dark));
 
+		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
+		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setStyle(Style.FILL);
+		foreground.setTextSize(size_y * 0.5f);
+		foreground.setTextScaleX(1);
+		foreground.setTextAlign(Paint.Align.CENTER);
+		FontMetrics fm = foreground.getFontMetrics();
+		// Centering in X: use alignment (and X at midpoint)
+		float text_x = size_x / 2;
+		// Centering in Y: measure ascent/descent first
+		float text_y = size_y / 2 - (fm.ascent + fm.descent) / 2;
+
+		float left, top;
+
+		top = getHeight() - size_y;
+		left = 0;
+
+		canvas.drawRect(left, top, left + size_x, top + size_y, dark);
+		canvas.drawText("Hint", left + text_x, top + text_y, foreground);
+		
+		top = getHeight() - size_y;
+		left = getWidth() - size_x;
+
+		canvas.drawRect(left, top, left + size_x, top + size_y, dark);
+		canvas.drawText("Music", left + text_x, top + text_y, foreground);
+	}
+	
+	private void drawTimer(Canvas canvas)
+	{
+		int size_x = 120;
+		int size_y = 80;
+		
+		Paint dark = new Paint();
+		dark.setColor(getResources().getColor(R.color.puzzle_dark));
+
+		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
+		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setStyle(Style.FILL);
+		foreground.setTextSize(size_y * 0.5f);
+		foreground.setTextScaleX(1);
+		foreground.setTextAlign(Paint.Align.CENTER);
+		FontMetrics fm = foreground.getFontMetrics();
+		// Centering in X: use alignment (and X at midpoint)
+		float text_x = size_x / 2;
+		// Centering in Y: measure ascent/descent first
+		float text_y = size_y / 2 - (fm.ascent + fm.descent) / 2;
+
+		float left, top;
+
+		top = 0;
+		left = 0;
+
+		canvas.drawRect(left, top, left + size_x, top + size_y, dark);
+		canvas.drawText(dabbleGame.getTime(), left + text_x, top + text_y, foreground);
+	}
+	
+	private void drawScore(Canvas canvas)
+	{
+		int size_x = 120;
+		int size_y = 80;
+		
+		Paint dark = new Paint();
+		dark.setColor(getResources().getColor(R.color.puzzle_dark));
+
+		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
+		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setStyle(Style.FILL);
+		foreground.setTextSize(size_y * 0.5f);
+		foreground.setTextScaleX(1);
+		foreground.setTextAlign(Paint.Align.CENTER);
+		FontMetrics fm = foreground.getFontMetrics();
+		// Centering in X: use alignment (and X at midpoint)
+		float text_x = size_x / 2;
+		// Centering in Y: measure ascent/descent first
+		float text_y = size_y / 2 - (fm.ascent + fm.descent) / 2;
+
+		float left, top;
+
+		top = 0;
+		left = getWidth() - size_x;
+
+		canvas.drawRect(left, top, left + size_x, top + size_y, dark);
+		canvas.drawText(dabbleGame.getScore(), left + text_x, top + text_y, foreground);
+	}
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() != MotionEvent.ACTION_DOWN)
@@ -156,7 +255,7 @@ public class DabbleView extends View {
 	
 	private void swapSelected(int selected1, float x, float y)
 	{
-		int selected2 = getSelected(x,y);
+		int selected2 = getSelectedTile(x,y);
 		if (selected2 != -1)
 		{
 			dabbleGame.swapTiles(selected1, selected2);
@@ -167,12 +266,12 @@ public class DabbleView extends View {
 	
 	private void markSelected(float x, float y)
 	{
-		int selected = getSelected(x, y);
+		int selected = getSelectedTile(x, y);
 		dabbleGame.setSelected(selected);
 		invalidate();
 	}
 	
-	private int getSelected(float x, float y)
+	private int getSelectedTile(float x, float y)
 	{
 		int count = 0;
 		

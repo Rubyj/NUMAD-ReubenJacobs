@@ -7,6 +7,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Handler.Callback;
+import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -15,10 +20,19 @@ public class DabbleGame extends Activity {
 
 	private static final String KEY_GET_TILES = "TILES";
 	private static final String KEY_GET_SELECTED = "SELECTED";
+	private static final String KEY_GET_TIME = "TIME";
+	private static final String KEY_GET_SCORE = "SCORE";
+	
+	private static long maxTime = 300;
 
 	private static int numTiles = 18;
+	
+	private CountDownTimer timer;
 
-	private int selected = -1;
+	private int selected;
+	private int time;
+	private long startTime;
+	private int score;
 
 	private DabbleView dabbleView;
 
@@ -32,6 +46,9 @@ public class DabbleGame extends Activity {
 		Bundle bundle = getIntent().getExtras();
 
 		if (bundle.getString(Dabble.GAME_STATUS_KEY).equals(Dabble.NEW_GAME)) {
+			selected = -1;
+			score = 0;
+			startTime = maxTime * 1000;
 			generateSolution();
 			generateTiles();
 		}
@@ -40,7 +57,11 @@ public class DabbleGame extends Activity {
 			SharedPreferences pref = getPreferences(MODE_PRIVATE);
 			stringToTiles(pref.getString(KEY_GET_TILES, ""));
 			selected = Integer.parseInt(pref.getString(KEY_GET_SELECTED, ""));
+			startTime = stringToSeconds(pref.getString(KEY_GET_TIME, "")) * 1000;
+			score = Integer.parseInt(pref.getString(KEY_GET_SCORE, ""));
 		}
+		
+		initTimer(startTime);
 
 		dabbleView = new DabbleView(this);
 		setContentView(dabbleView);
@@ -52,6 +73,8 @@ public class DabbleGame extends Activity {
 		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 		editor.putString(KEY_GET_TILES, tilesToString());
 		editor.putString(KEY_GET_SELECTED, Integer.toString(selected));
+		editor.putString(KEY_GET_TIME, secondsToString());
+		editor.putString(KEY_GET_SCORE, Integer.toString(score));
 		editor.commit();
 	}
 
@@ -82,6 +105,20 @@ public class DabbleGame extends Activity {
 		}
 	}
 
+	private void initTimer(long startTime) {
+		timer = new CountDownTimer(startTime, 1000) {
+
+			public void onTick(long millisUntilFinished) {
+				time = (int) (millisUntilFinished / 1000);
+				dabbleView.invalidate();
+			}
+
+			public void onFinish() {
+
+			}
+		}.start();
+	}
+
 	protected String getTileLetter(int i) {
 		return Character.toString(tiles[i]);
 	}
@@ -106,5 +143,27 @@ public class DabbleGame extends Activity {
 
 	protected String getSelected() {
 		return Integer.toString(selected);
+	}
+	
+	private int stringToSeconds(String string){
+		String[] split = string.split(":");
+		return Integer.parseInt(split[0]) * 60 + Integer.parseInt(split[1]);
+	}
+	
+	private String secondsToString(){
+		int minutes = time / 60;
+		int seconds = time - (minutes * 60);
+		
+		String secondString = seconds < 10 ? "0" + seconds : "" + seconds;
+		
+		return minutes + ":" + secondString;
+	}
+	
+	protected String getTime(){
+		return secondsToString();
+	}
+	
+	protected String getScore(){
+		return Integer.toString(score);
 	}
 }
