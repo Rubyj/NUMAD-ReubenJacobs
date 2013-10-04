@@ -400,7 +400,36 @@ public class DabbleView extends View {
 	}
 	
 	private void handleClickSelected(int selected1, float x, float y){
-		if (dabbleGame.getTimeInSeconds() != 0)
+		float top, left;
+		top = (getHeight() - button_size_y) / 2;
+		left = getWidth() - button_size_x;
+		
+		if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
+		{
+			dabbleGame.pauseGame();
+			return;
+		}
+		
+		top = getHeight() - button_size_y;
+		left = 0;
+		
+		if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
+		{
+			dabbleGame.showHint();
+			return;
+		}
+		
+		top = (getHeight() - button_size_y) / 2;
+		left = 0;
+		
+		if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
+		{
+			dabbleGame.goBack();
+			return;
+		}
+		
+		
+		if (dabbleGame.getTimeInSeconds() != 0 && !dabbleGame.getPaused())
 		{
 			swapSelected(selected1, x, y);
 		}
@@ -419,9 +448,12 @@ public class DabbleView extends View {
 	
 	private void markSelected(float x, float y)
 	{
-		int selected = getSelectedTile(x, y);
-		dabbleGame.setSelected(selected);
-		invalidate();
+		if (!dabbleGame.getPaused())
+		{
+			int selected = getSelectedTile(x, y);
+			dabbleGame.setSelected(selected);
+			invalidate();
+		}
 	}
 	
 	private int getSelectedTile(float x, float y)
