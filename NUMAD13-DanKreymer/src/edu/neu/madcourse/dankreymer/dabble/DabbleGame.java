@@ -19,6 +19,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -79,7 +82,7 @@ public class DabbleGame extends Activity {
 		numLetters = letters.size();
 	}
 	
-	private final static int maxTime = 300;
+	private final static int maxTime = 180;
 
 	private final static int numTiles = 18;
 	
@@ -95,6 +98,12 @@ public class DabbleGame extends Activity {
 	private int score;
 
 	private DabbleView dabbleView;
+	
+	private SoundPool sp;
+	private int soundID_letter;
+	private int soundID_word;
+	private int soundID_game_over;
+	private int[] wordsAlreadyPlayed;
 
 	private ArrayList<String> solution;
 	private char[] tiles;
@@ -106,6 +115,11 @@ public class DabbleGame extends Activity {
 		
 		dictionary = new HashSet<String>();
 		lettersLoaded = new ArrayList<String>();
+		
+		sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+		soundID_letter = sp.load(this, R.raw.dabble_letter_clicked, 1);
+		soundID_word = sp.load(this, R.raw.dabble_new_word, 1);
+		soundID_game_over = sp.load(this, R.raw.dabble_game_over, 1);
 		
 		Bundle bundle = getIntent().getExtras();
 		
@@ -253,6 +267,7 @@ public class DabbleGame extends Activity {
 				}
 				selected = -1;
 				dabbleView.invalidate();
+				playGameOverSound();
 			}
 		}.start();
 	}
@@ -451,5 +466,20 @@ public class DabbleGame extends Activity {
 	protected void goBack()
 	{
 		finish();
+	}
+	
+	protected void playLetterSound()
+	{
+		sp.play(soundID_letter, 1, 1, 1, 0, 1f);
+	}
+	
+	protected void playWordSound()
+	{
+		sp.play(soundID_word, 1, 1, 1, 0, 1f);
+	}
+	
+	private void playGameOverSound()
+	{
+		sp.play(soundID_game_over, 1, 1, 1, 0, 1f);
 	}
 }

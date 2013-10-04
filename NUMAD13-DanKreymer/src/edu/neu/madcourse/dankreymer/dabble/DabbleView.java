@@ -19,6 +19,7 @@ public class DabbleView extends View {
 	private static final String TAG = "Dabble";
 	private static final int GAP = 10;
 	private static final int TOP_START = 20;
+	private boolean[] wordsAlreadyPlayed;
 
 	private float size, button_size_x, button_size_y;
 
@@ -30,6 +31,11 @@ public class DabbleView extends View {
 		dabbleGame = (DabbleGame) context;
 		setFocusable(true);
 		setFocusableInTouchMode(true);
+		wordsAlreadyPlayed = new boolean[4];
+		wordsAlreadyPlayed[0] = false;
+		wordsAlreadyPlayed[1] = false;
+		wordsAlreadyPlayed[2] = false;
+		wordsAlreadyPlayed[3] = false;
 	}
 
 	@Override
@@ -88,6 +94,14 @@ public class DabbleView extends View {
 		if (dabbleGame.checkWord(1))
 		{
 			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+			if (!wordsAlreadyPlayed[0]){
+				dabbleGame.playWordSound();
+				wordsAlreadyPlayed[0] = true;
+			}
+		}
+		else
+		{
+			wordsAlreadyPlayed[0] = false;
 		}
 		
 		for (int i = 0; i < 3; i++) {
@@ -112,6 +126,14 @@ public class DabbleView extends View {
 		if (dabbleGame.checkWord(2))
 		{
 			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+			if (!wordsAlreadyPlayed[1]){
+				dabbleGame.playWordSound();
+				wordsAlreadyPlayed[1] = true;
+			}
+		}
+		else
+		{
+			wordsAlreadyPlayed[1] = false;
 		}
 
 		for (int i = 0; i < 4; i++) {
@@ -136,6 +158,14 @@ public class DabbleView extends View {
 		if (dabbleGame.checkWord(3))
 		{
 			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+			if (!wordsAlreadyPlayed[2]){
+				dabbleGame.playWordSound();
+				wordsAlreadyPlayed[2] = true;
+			}
+		}
+		else
+		{
+			wordsAlreadyPlayed[2] = false;
 		}
 		
 		for (int i = 0; i < 5; i++) {
@@ -160,6 +190,14 @@ public class DabbleView extends View {
 		if (dabbleGame.checkWord(4))
 		{
 			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+			if (!wordsAlreadyPlayed[3]){
+				dabbleGame.playWordSound();
+				wordsAlreadyPlayed[3] = true;
+			}
+		}
+		else
+		{
+			wordsAlreadyPlayed[3] = false;
 		}
 		
 		for (int i = 0; i < 6; i++) {
@@ -441,6 +479,7 @@ public class DabbleView extends View {
 		if (selected2 != -1)
 		{
 			dabbleGame.swapTiles(selected1, selected2);
+			dabbleGame.playLetterSound();
 		}
 		dabbleGame.setSelected(-1);
 		invalidate();
@@ -452,6 +491,10 @@ public class DabbleView extends View {
 		{
 			int selected = getSelectedTile(x, y);
 			dabbleGame.setSelected(selected);
+			if (selected != -1)
+			{
+				dabbleGame.playLetterSound();
+			}
 			invalidate();
 		}
 	}
