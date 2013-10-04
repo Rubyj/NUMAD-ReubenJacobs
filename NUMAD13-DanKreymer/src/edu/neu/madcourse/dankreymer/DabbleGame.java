@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class DabbleGame extends Activity {
 	private static final String KEY_GET_TILES = "TILES";
 	private static final String KEY_GET_SELECTED = "SELECTED";
 	private static final String KEY_GET_TIME = "TIME";
-	private static final String KEY_GET_SCORE = "SCORE";
+	protected static final String KEY_GET_SCORE = "SCORE";
 	protected static final String KEY_MUSIC = "music";
 	protected static final String KEY_SOLUTION_1 = "solution1";
 	protected static final String KEY_SOLUTION_2 = "solution2";
@@ -73,7 +74,7 @@ public class DabbleGame extends Activity {
 		numLetters = letters.size();
 	}
 	
-	private final static long maxTime = 30;
+	private final static long maxTime = 10;
 
 	private final static int numTiles = 18;
 	
@@ -236,9 +237,17 @@ public class DabbleGame extends Activity {
 			}
 
 			public void onFinish() {
-				time = 0;
+				gameOver();
 			}
 		}.start();
+	}
+	
+	private void gameOver()
+	{
+		Intent i = new Intent(this, DabbleScore.class);
+		i.putExtra(KEY_GET_SCORE, score);
+		startActivity(i);
+		finish();
 	}
 
 	private void loadWords(String letter) {

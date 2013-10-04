@@ -68,6 +68,7 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_label">Dabble</string>
     <string name="dabble_title">Dabble!</string>
     <string name="dabble_hint">Here\'s a hint:</string>
+    <string name="dabble_score">Final Score:</string>
     <string name="dabble_new_game">New Game</string>
     <string name="dabble_resume_game">Resume Game</string>
     <string name="dabble_acknowledgements">Acknowledgements</string>
