@@ -31,6 +31,8 @@ public class DabbleGame extends Activity {
 	private static final String KEY_GET_TIME = "TIME";
 	private static final String KEY_GET_SCORE = "SCORE";
 	private final static Map<Character, Integer> letterPoints;
+	private final static List<Character> letters;
+	private final static int numLetters;
 	
 	static
 	{
@@ -61,6 +63,9 @@ public class DabbleGame extends Activity {
 		letterPoints.put('x', 8);
 		letterPoints.put('y', 4);
 		letterPoints.put('z', 10);
+		
+		letters = new ArrayList<Character>(letterPoints.keySet());
+		numLetters = letters.size();
 	}
 	
 	private final static long maxTime = 300;
@@ -125,12 +130,51 @@ public class DabbleGame extends Activity {
 	}
 
 	private void generateSolution() {
-		// TODO: use dictionary!
+		Random rand = new Random();
 		solution = new ArrayList<String>();
-		solution.add("cow");
-		solution.add("plop");
-		solution.add("crops");
-		solution.add("lemons");
+		
+		Character letter;
+		
+		letter = letters.get(rand.nextInt(numLetters));
+		loadWords(letter.toString());
+		solution.add(randomWord(3));
+		clearDictionary();
+		
+		letter = letters.get(rand.nextInt(numLetters));
+		loadWords(letter.toString());
+		solution.add(randomWord(4));
+		clearDictionary();
+		
+		letter = letters.get(rand.nextInt(numLetters));
+		loadWords(letter.toString());
+		solution.add(randomWord(5));
+		clearDictionary();
+		
+		letter = letters.get(rand.nextInt(numLetters));
+		loadWords(letter.toString());
+		solution.add(randomWord(6));
+		clearDictionary();
+	}
+	
+	private void clearDictionary()
+	{
+		dictionary.clear();
+		lettersLoaded.clear();
+	}
+	
+	private String randomWord(int size)
+	{
+		String[] array = dictionary.toArray(new String[0]);
+		String word = "";
+		int count = 0;
+		
+		while (word.length() != size)
+		{
+			word = (String) array[count];
+			count++;
+		}
+		
+		return word;
 	}
 
 	private void generateTiles() {
