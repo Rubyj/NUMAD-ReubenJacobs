@@ -37,6 +37,16 @@ public class Dabble extends Activity implements OnClickListener {
 		View quitButton = findViewById(R.id.dabble_quit_button);
 		quitButton.setOnClickListener(this);
 	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if (getPreferences(MODE_PRIVATE).contains(RESUME_BUTTON_ENABLED_KEY))
+		{
+			findViewById(R.id.dabble_resume_game_button).setEnabled(true);
+		}
+	}
 
 	@Override
 	public void onClick(View v) {
