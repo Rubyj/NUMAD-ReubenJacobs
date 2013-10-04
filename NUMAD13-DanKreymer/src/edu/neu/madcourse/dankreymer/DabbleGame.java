@@ -75,7 +75,7 @@ public class DabbleGame extends Activity {
 		numLetters = letters.size();
 	}
 	
-	private final static long maxTime = 300;
+	private final static long maxTime = 5;
 
 	private final static int numTiles = 18;
 	
@@ -104,6 +104,8 @@ public class DabbleGame extends Activity {
 		lettersLoaded = new ArrayList<String>();
 		
 		Bundle bundle = getIntent().getExtras();
+		
+		SharedPreferences pref = getPreferences(MODE_PRIVATE);
 
 		if (bundle.getString(Dabble.GAME_STATUS_KEY).equals(Dabble.NEW_GAME)) {
 			selected = -1;
@@ -114,7 +116,6 @@ public class DabbleGame extends Activity {
 		}
 		else
 		{
-			SharedPreferences pref = getPreferences(MODE_PRIVATE);
 			stringToTiles(pref.getString(KEY_GET_TILES, ""));
 			selected = Integer.parseInt(pref.getString(KEY_GET_SELECTED, ""));
 			startTime = stringToSeconds(pref.getString(KEY_GET_TIME, "")) * 1000;
@@ -230,7 +231,7 @@ public class DabbleGame extends Activity {
 	}
 
 	private void initTimer(long startTime) {
-		timer = new CountDownTimer(startTime, 1000) {
+		timer = new CountDownTimer(startTime, 100) {
 
 			public void onTick(long millisUntilFinished) {
 				time = (int) (millisUntilFinished / 1000);
@@ -238,17 +239,9 @@ public class DabbleGame extends Activity {
 			}
 
 			public void onFinish() {
-				gameOver();
+				toggleMusic();
 			}
 		}.start();
-	}
-	
-	private void gameOver()
-	{
-		finish();
-		Intent i = new Intent(this, DabbleScore.class);
-		i.putExtra(KEY_GET_SCORE, score);
-		startActivity(i);
 	}
 
 	private void loadWords(String letter) {
@@ -403,7 +396,7 @@ public class DabbleGame extends Activity {
 	protected void toggleMusic()
 	{
 		playMusic = !playMusic;
-		if (playMusic)
+		if (playMusic && time > 0)
 		{
 			Music.play(this, R.raw.dabble_music);
 		}

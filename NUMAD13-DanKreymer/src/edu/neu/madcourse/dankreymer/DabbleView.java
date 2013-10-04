@@ -260,7 +260,7 @@ public class DabbleView extends View {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() != MotionEvent.ACTION_DOWN)
+		if (event.getAction() != MotionEvent.ACTION_DOWN || dabbleGame.getTimeInSeconds() == 0)
 			return super.onTouchEvent(event);
 
 		int selected = Integer.parseInt(dabbleGame.getSelected());

@@ -34,6 +34,10 @@ public class DabbleHint extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Music.stop(this);
+		if (getIntent().getExtras().getBoolean(DabbleGame.KEY_MUSIC))
+		{
+			Music.stop(this);
+		}
+		finish();
 	}
 }

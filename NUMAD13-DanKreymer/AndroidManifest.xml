@@ -48,8 +48,6 @@
         <activity android:name=".DabbleHint" android:label="@string/dabble_hint"
                   android:launchMode="singleTop"
            		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".DabbleScore" android:label="@string/dabble_score"
-           		  android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".AcknowledgementsDictionary" 
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>

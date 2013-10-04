@@ -19,13 +19,6 @@ public class Dabble extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dabble);
 		
-		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(RESUME_BUTTON_ENABLED_KEY))
-		{
-			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-			editor.remove(RESUME_BUTTON_ENABLED_KEY);
-			editor.commit();
-		}
-		
 		if (getPreferences(MODE_PRIVATE).contains(RESUME_BUTTON_ENABLED_KEY))
 		{
 			findViewById(R.id.dabble_resume_game_button).setEnabled(true);
