@@ -44,7 +44,9 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".Dabble" android:label="@string/dabble_title"/>
         <activity android:name=".DabbleGame" android:label="@string/dabble_title"
-             android:screenOrientation="landscape"/>
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".DabbleHint" android:label="@string/dabble_hint"
+           		  android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".AcknowledgementsDictionary" 
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>

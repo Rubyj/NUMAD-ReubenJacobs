@@ -1,6 +1,7 @@
 package edu.neu.madcourse.dankreymer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -17,7 +18,8 @@ public class DabbleView extends View {
 	private static final int GAP = 20;
 	private static final int TOP_START = 30;
 
-	private float size;
+	private float size, button_size_x, button_size_y;
+
 
 	private DabbleGame dabbleGame;
 
@@ -31,7 +33,8 @@ public class DabbleView extends View {
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		size = h / 6f;
-		// getRect(selX, selY, selRect);
+		button_size_x = 120;
+		button_size_y = 80;
 		super.onSizeChanged(w, h, oldw, oldh);
 	}
 
@@ -78,6 +81,11 @@ public class DabbleView extends View {
 		
 		int selected = Integer.parseInt(dabbleGame.getSelected());
 
+		if (dabbleGame.checkWord(1))
+		{
+			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+		}
+		
 		for (int i = 0; i < 3; i++) {
 			canvas.drawRect(left, top, left + size, top + size, dark);
 			canvas.drawText(dabbleGame.getTileLetter(letterCount), left
@@ -90,10 +98,17 @@ public class DabbleView extends View {
 			left += size + GAP;
 			letterCount++;
 		}
+		
+		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
 
 		top += size + GAP;
 		
 		left = (getWidth() - size * 4 - GAP * 3) / 2;
+		
+		if (dabbleGame.checkWord(2))
+		{
+			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+		}
 
 		for (int i = 0; i < 4; i++) {
 			canvas.drawRect(left, top, left + size, top + size, dark);
@@ -107,11 +122,18 @@ public class DabbleView extends View {
 			left += size + GAP;
 			letterCount++;
 		}
+		
+		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
 
 		top += size + GAP;
 		
 		left = (getWidth() - size * 5 - GAP * 4) / 2;
 
+		if (dabbleGame.checkWord(3))
+		{
+			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+		}
+		
 		for (int i = 0; i < 5; i++) {
 			canvas.drawRect(left, top, left + size, top + size, dark);
 			canvas.drawText(dabbleGame.getTileLetter(letterCount), left
@@ -124,11 +146,18 @@ public class DabbleView extends View {
 			left += size + GAP;
 			letterCount++;
 		}
+		
+		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
 
 		top += size + GAP;
 
 		left = (getWidth() - size * 6 - GAP * 5) / 2;
 
+		if (dabbleGame.checkWord(4))
+		{
+			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+		}
+		
 		for (int i = 0; i < 6; i++) {
 			canvas.drawRect(left, top, left + size, top + size, dark);
 			canvas.drawText(dabbleGame.getTileLetter(letterCount), left
@@ -144,8 +173,6 @@ public class DabbleView extends View {
 	}
 	private void drawButtons(Canvas canvas)
 	{
-		int size_x = 120;
-		int size_y = 80;
 		
 		Paint dark = new Paint();
 		dark.setColor(getResources().getColor(R.color.puzzle_dark));
@@ -153,63 +180,58 @@ public class DabbleView extends View {
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
 		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
 		foreground.setStyle(Style.FILL);
-		foreground.setTextSize(size_y * 0.5f);
+		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
 		foreground.setTextAlign(Paint.Align.CENTER);
 		FontMetrics fm = foreground.getFontMetrics();
 		// Centering in X: use alignment (and X at midpoint)
-		float text_x = size_x / 2;
+		float text_x = button_size_x / 2;
 		// Centering in Y: measure ascent/descent first
-		float text_y = size_y / 2 - (fm.ascent + fm.descent) / 2;
+		float text_y = button_size_y / 2 - (fm.ascent + fm.descent) / 2;
 
 		float left, top;
 
-		top = getHeight() - size_y;
+		top = getHeight() - button_size_y;
 		left = 0;
 
-		canvas.drawRect(left, top, left + size_x, top + size_y, dark);
+		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText("Hint", left + text_x, top + text_y, foreground);
 		
-		top = getHeight() - size_y;
-		left = getWidth() - size_x;
+		top = getHeight() - button_size_y;
+		left = getWidth() - button_size_x;
 
-		canvas.drawRect(left, top, left + size_x, top + size_y, dark);
+		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText("Music", left + text_x, top + text_y, foreground);
 	}
 	
 	private void drawTimer(Canvas canvas)
 	{
-		int size_x = 120;
-		int size_y = 80;
-		
 		Paint dark = new Paint();
 		dark.setColor(getResources().getColor(R.color.puzzle_dark));
 
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
 		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
 		foreground.setStyle(Style.FILL);
-		foreground.setTextSize(size_y * 0.5f);
+		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
 		foreground.setTextAlign(Paint.Align.CENTER);
 		FontMetrics fm = foreground.getFontMetrics();
 		// Centering in X: use alignment (and X at midpoint)
-		float text_x = size_x / 2;
+		float text_x = button_size_x / 2;
 		// Centering in Y: measure ascent/descent first
-		float text_y = size_y / 2 - (fm.ascent + fm.descent) / 2;
+		float text_y = button_size_y / 2 - (fm.ascent + fm.descent) / 2;
 
 		float left, top;
 
 		top = 0;
 		left = 0;
 
-		canvas.drawRect(left, top, left + size_x, top + size_y, dark);
+		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText(dabbleGame.getTime(), left + text_x, top + text_y, foreground);
 	}
 	
 	private void drawScore(Canvas canvas)
 	{
-		int size_x = 120;
-		int size_y = 80;
 		
 		Paint dark = new Paint();
 		dark.setColor(getResources().getColor(R.color.puzzle_dark));
@@ -217,21 +239,21 @@ public class DabbleView extends View {
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
 		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
 		foreground.setStyle(Style.FILL);
-		foreground.setTextSize(size_y * 0.5f);
+		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
 		foreground.setTextAlign(Paint.Align.CENTER);
 		FontMetrics fm = foreground.getFontMetrics();
 		// Centering in X: use alignment (and X at midpoint)
-		float text_x = size_x / 2;
+		float text_x = button_size_x / 2;
 		// Centering in Y: measure ascent/descent first
-		float text_y = size_y / 2 - (fm.ascent + fm.descent) / 2;
+		float text_y = button_size_y / 2 - (fm.ascent + fm.descent) / 2;
 
 		float left, top;
 
 		top = 0;
-		left = getWidth() - size_x;
+		left = getWidth() - button_size_x;
 
-		canvas.drawRect(left, top, left + size_x, top + size_y, dark);
+		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText(dabbleGame.getScore(), left + text_x, top + text_y, foreground);
 	}
 	
@@ -243,14 +265,33 @@ public class DabbleView extends View {
 		int selected = Integer.parseInt(dabbleGame.getSelected());
 		if (selected == -1)
 		{
-			markSelected(event.getX(), event.getY());
+			handleClickNoSelected(event.getX(), event.getY());
 		}
 		else
 		{
-			swapSelected(selected, event.getX(), event.getY());
+			handleClickSelected(selected, event.getX(), event.getY());
 		}
 		
 		return true;
+	}
+	
+	private void handleClickNoSelected(float x, float y){
+		float top, left;
+		top = getHeight() - button_size_y;
+		left = 0;
+		
+		if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
+		{
+			dabbleGame.showHint();
+		}
+		else
+		{
+			markSelected(x, y);
+		}
+	}
+	
+	private void handleClickSelected(int selected1, float x, float y){
+		swapSelected(selected1, x, y);
 	}
 	
 	private void swapSelected(int selected1, float x, float y)
