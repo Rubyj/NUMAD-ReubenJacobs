@@ -35,13 +35,13 @@ public class Dabble extends Activity implements OnClickListener {
 		quitButton.setOnClickListener(this);
 	}
 	
+	@Override
 	protected void onPause() {
 		super.onPause();
 		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 		editor.putBoolean(RESUME_BUTTON_ENABLED_KEY, true);
 		editor.commit();
 	}
-
 
 	@Override
 	public void onClick(View v) {

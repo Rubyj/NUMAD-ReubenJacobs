@@ -208,9 +208,10 @@ public class DabbleView extends View {
 	{
 		Paint dark = new Paint();
 		dark.setColor(getResources().getColor(R.color.puzzle_dark));
-
+		
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
-		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setColor(getResources().getColor(dabbleGame.getTimeInSeconds() > 10 ? 
+										R.color.dabble_text : R.color.dabble_red_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
@@ -237,7 +238,7 @@ public class DabbleView extends View {
 		dark.setColor(getResources().getColor(R.color.puzzle_dark));
 
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
-		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setColor(getResources().getColor(R.color.dabble_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
@@ -283,11 +284,19 @@ public class DabbleView extends View {
 		if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
 		{
 			dabbleGame.showHint();
+			return;
 		}
-		else
+		
+		top = getHeight() - button_size_y;
+		left = getWidth() - button_size_x;
+		
+		if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
 		{
-			markSelected(x, y);
+			dabbleGame.toggleMusic();
+			return;
 		}
+
+		markSelected(x, y);
 	}
 	
 	private void handleClickSelected(int selected1, float x, float y){

@@ -30,6 +30,11 @@ public class DabbleGame extends Activity {
 	private static final String KEY_GET_SELECTED = "SELECTED";
 	private static final String KEY_GET_TIME = "TIME";
 	private static final String KEY_GET_SCORE = "SCORE";
+	protected static final String KEY_MUSIC = "music";
+	protected static final String KEY_SOLUTION_1 = "solution1";
+	protected static final String KEY_SOLUTION_2 = "solution2";
+	protected static final String KEY_SOLUTION_3 = "solution3";
+	protected static final String KEY_SOLUTION_4 = "solution4";
 	private final static Map<Character, Integer> letterPoints;
 	private final static List<Character> letters;
 	private final static int numLetters;
@@ -68,9 +73,11 @@ public class DabbleGame extends Activity {
 		numLetters = letters.size();
 	}
 	
-	private final static long maxTime = 300;
+	private final static long maxTime = 30;
 
 	private final static int numTiles = 18;
+	
+	private boolean playMusic;
 	
 	private CountDownTimer timer;
 	
@@ -110,22 +117,47 @@ public class DabbleGame extends Activity {
 			selected = Integer.parseInt(pref.getString(KEY_GET_SELECTED, ""));
 			startTime = stringToSeconds(pref.getString(KEY_GET_TIME, "")) * 1000;
 			score = Integer.parseInt(pref.getString(KEY_GET_SCORE, ""));
+			solution = new ArrayList<String>();
+			solution.add(pref.getString(KEY_SOLUTION_1, ""));
+			solution.add(pref.getString(KEY_SOLUTION_2, ""));
+			solution.add(pref.getString(KEY_SOLUTION_3, ""));
+			solution.add(pref.getString(KEY_SOLUTION_4, ""));
+			playMusic = pref.getBoolean(KEY_MUSIC, false);
 		}
 		
 		initTimer(startTime);
 
+		playMusic = true;
+		
 		dabbleView = new DabbleView(this);
 		setContentView(dabbleView);
 		dabbleView.requestFocus();
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (playMusic){
+			Music.play(this, R.raw.dabble_music);
+		}
+	}
+	   
+	@Override
 	protected void onPause() {
 		super.onPause();
+		if (playMusic){
+			Music.stop(this);
+		}
 		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 		editor.putString(KEY_GET_TILES, tilesToString());
 		editor.putString(KEY_GET_SELECTED, Integer.toString(selected));
 		editor.putString(KEY_GET_TIME, secondsToString());
 		editor.putString(KEY_GET_SCORE, Integer.toString(score));
+		editor.putString(KEY_SOLUTION_1, solution.get(0));
+		editor.putString(KEY_SOLUTION_2, solution.get(1));
+		editor.putString(KEY_SOLUTION_3, solution.get(2));
+		editor.putString(KEY_SOLUTION_4, solution.get(3));
+		editor.putBoolean(KEY_MUSIC, playMusic);
 		editor.commit();
 	}
 
@@ -204,7 +236,7 @@ public class DabbleGame extends Activity {
 			}
 
 			public void onFinish() {
-
+				time = 0;
 			}
 		}.start();
 	}
@@ -272,6 +304,10 @@ public class DabbleGame extends Activity {
 	
 	protected String getTime(){
 		return secondsToString();
+	}
+	
+	protected int getTimeInSeconds(){
+		return time;
 	}
 	
 	protected String getScore(){
@@ -346,10 +382,25 @@ public class DabbleGame extends Activity {
 	protected void showHint()
 	{
 		Intent i = new Intent(this, DabbleHint.class);
-		i.putExtra("solution1", solution.get(0));
-		i.putExtra("solution2", solution.get(1));
-		i.putExtra("solution3", solution.get(2));
-		i.putExtra("solution4", solution.get(3));
+		i.putExtra(KEY_SOLUTION_1, solution.get(0));
+		i.putExtra(KEY_SOLUTION_2, solution.get(1));
+		i.putExtra(KEY_SOLUTION_3, solution.get(2));
+		i.putExtra(KEY_SOLUTION_4, solution.get(3));
+		i.putExtra(KEY_MUSIC, playMusic);
 		startActivity(new Intent(i));
+	}
+	
+	protected void toggleMusic()
+	{
+		playMusic = !playMusic;
+		if (playMusic)
+		{
+			Music.play(this, R.raw.dabble_music);
+		}
+		else
+		{
+			Music.stop(this);
+		}
+		
 	}
 }
