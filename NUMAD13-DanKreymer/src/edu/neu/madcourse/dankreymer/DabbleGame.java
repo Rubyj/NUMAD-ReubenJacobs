@@ -36,6 +36,7 @@ public class DabbleGame extends Activity {
 	protected static final String KEY_SOLUTION_2 = "solution2";
 	protected static final String KEY_SOLUTION_3 = "solution3";
 	protected static final String KEY_SOLUTION_4 = "solution4";
+	protected static final String KEY_CLOSE_HINT = "finish";
 	private final static Map<Character, Integer> letterPoints;
 	private final static List<Character> letters;
 	private final static int numLetters;
@@ -74,7 +75,7 @@ public class DabbleGame extends Activity {
 		numLetters = letters.size();
 	}
 	
-	private final static long maxTime = 10;
+	private final static long maxTime = 300;
 
 	private final static int numTiles = 18;
 	
@@ -244,10 +245,10 @@ public class DabbleGame extends Activity {
 	
 	private void gameOver()
 	{
+		finish();
 		Intent i = new Intent(this, DabbleScore.class);
 		i.putExtra(KEY_GET_SCORE, score);
 		startActivity(i);
-		finish();
 	}
 
 	private void loadWords(String letter) {

@@ -13,11 +13,18 @@ public class Dabble extends Activity implements OnClickListener {
 	protected static String GAME_STATUS_KEY = "STATUS";
 	protected static String NEW_GAME = "NEW_GAME";
 	protected static String RESUME_GAME = "RESUME_GAME";
-	private static String RESUME_BUTTON_ENABLED_KEY = "RESUME_BUTTON_ENABLED";
+	protected static String RESUME_BUTTON_ENABLED_KEY = "RESUME_BUTTON_ENABLED";
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dabble);
+		
+		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(RESUME_BUTTON_ENABLED_KEY))
+		{
+			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+			editor.remove(RESUME_BUTTON_ENABLED_KEY);
+			editor.commit();
+		}
 		
 		if (getPreferences(MODE_PRIVATE).contains(RESUME_BUTTON_ENABLED_KEY))
 		{
@@ -34,20 +41,15 @@ public class Dabble extends Activity implements OnClickListener {
 		View quitButton = findViewById(R.id.dabble_quit_button);
 		quitButton.setOnClickListener(this);
 	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-		editor.putBoolean(RESUME_BUTTON_ENABLED_KEY, true);
-		editor.commit();
-	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.dabble_new_game_button:
 			startNewGame(NEW_GAME);
+			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+			editor.putBoolean(RESUME_BUTTON_ENABLED_KEY, true);
+			editor.commit();
 			break;
 		case R.id.dabble_resume_game_button:
 			startNewGame(RESUME_GAME);

@@ -46,6 +46,7 @@
         <activity android:name=".DabbleGame" android:label="@string/dabble_title"
                   android:screenOrientation="landscape"/>
         <activity android:name=".DabbleHint" android:label="@string/dabble_hint"
+                  android:launchMode="singleTop"
            		  android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".DabbleScore" android:label="@string/dabble_score"
            		  android:theme="@android:style/Theme.Dialog"/>
