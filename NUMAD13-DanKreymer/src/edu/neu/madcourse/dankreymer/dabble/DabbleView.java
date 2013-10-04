@@ -1,5 +1,7 @@
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.dabble;
 
+import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.color;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;

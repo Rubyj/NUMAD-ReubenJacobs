@@ -1,6 +1,12 @@
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.dabble;
 
 import java.util.List;
+
+import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.id;
+import edu.neu.madcourse.dankreymer.R.layout;
+import edu.neu.madcourse.dankreymer.R.raw;
+import edu.neu.madcourse.dankreymer.misc.Music;
 
 import android.app.Activity;
 import android.content.Intent;

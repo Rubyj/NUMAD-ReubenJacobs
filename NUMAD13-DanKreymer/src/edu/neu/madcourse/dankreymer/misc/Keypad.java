@@ -6,9 +6,13 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 ***/
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.misc;
 
 import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.id;
+import edu.neu.madcourse.dankreymer.R.layout;
+import edu.neu.madcourse.dankreymer.R.string;
+import edu.neu.madcourse.dankreymer.sudoku.PuzzleView;
 
 import android.app.Dialog;
 import android.content.Context;

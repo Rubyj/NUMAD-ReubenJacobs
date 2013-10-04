@@ -6,9 +6,10 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 ***/
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.sudoku;
 
 import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.xml;
 
 import android.content.Context;
 import android.os.Bundle;

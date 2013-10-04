@@ -7,9 +7,11 @@
  * Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 ***/
 
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.sudoku;
 
 import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.anim;
+import edu.neu.madcourse.dankreymer.R.color;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,9 +1,16 @@
 /**
  * Main landing screen!
  */
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.main;
 
 import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.id;
+import edu.neu.madcourse.dankreymer.R.layout;
+import edu.neu.madcourse.dankreymer.R.menu;
+import edu.neu.madcourse.dankreymer.dabble.Dabble;
+import edu.neu.madcourse.dankreymer.dictionary.Dictionary;
+import edu.neu.madcourse.dankreymer.sudoku.Prefs;
+import edu.neu.madcourse.dankreymer.sudoku.Sudoku;
 
 import android.app.Activity;
 import android.app.AlertDialog;

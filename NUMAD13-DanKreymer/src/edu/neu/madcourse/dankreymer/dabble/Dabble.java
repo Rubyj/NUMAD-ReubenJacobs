@@ -1,5 +1,8 @@
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.dabble;
 
+import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.id;
+import edu.neu.madcourse.dankreymer.R.layout;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;

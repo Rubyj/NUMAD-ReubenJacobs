@@ -21,34 +21,33 @@
     
     <application android:icon="@drawable/ic_launcher"
           android:label="@string/app_name">
-        <activity android:name=".Main"
+        <activity android:name=".main.Main"
               android:label="@string/main_title">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".About"
+        </activity>        <activity android:name=".main.About"
               android:label="@string/about_title"
               android:theme="@android:style/Theme.Dialog">
         </activity>
-        <activity android:name=".AboutSudoku"
+        <activity android:name=".sudoku.AboutSudoku"
               android:label="@string/about_title"
               android:theme="@android:style/Theme.Dialog">
         </activity>
-        <activity android:name=".Prefs" android:label="@string/settings_title"/>
-        <activity android:name=".Sudoku" android:label="@string/sudoku_title"/>
-        <activity android:name=".SudokuGame" android:label="@string/game_title"/>
-        <activity android:name=".Dictionary" android:label="@string/dictionary_title"
+        <activity android:name=".sudoku.Prefs" android:label="@string/settings_title"/>
+        <activity android:name=".sudoku.Sudoku" android:label="@string/sudoku_title"/>
+        <activity android:name=".sudoku.SudokuGame" android:label="@string/game_title"/>
+        <activity android:name=".dictionary.Dictionary" android:label="@string/dictionary_title"
                   android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".Dabble" android:label="@string/dabble_title"/>
-        <activity android:name=".DabbleGame" android:label="@string/dabble_title"
+        <activity android:name=".dabble.Dabble" android:label="@string/dabble_title"/>
+        <activity android:name=".dabble.DabbleGame" android:label="@string/dabble_title"
                   android:screenOrientation="landscape"/>
-        <activity android:name=".DabbleHint" android:label="@string/dabble_hint"
+        <activity android:name=".dabble.DabbleHint" android:label="@string/dabble_hint"
                   android:launchMode="singleTop"
            		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".AcknowledgementsDictionary" 
+        <activity android:name=".dictionary.AcknowledgementsDictionary" 
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>
     </application>

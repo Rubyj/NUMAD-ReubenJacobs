@@ -1,6 +1,7 @@
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.main;
 
 import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;

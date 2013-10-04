@@ -6,8 +6,16 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 ***/
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.sudoku;
 
+import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.array;
+import edu.neu.madcourse.dankreymer.R.id;
+import edu.neu.madcourse.dankreymer.R.layout;
+import edu.neu.madcourse.dankreymer.R.menu;
+import edu.neu.madcourse.dankreymer.R.raw;
+import edu.neu.madcourse.dankreymer.R.string;
+import edu.neu.madcourse.dankreymer.misc.Music;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

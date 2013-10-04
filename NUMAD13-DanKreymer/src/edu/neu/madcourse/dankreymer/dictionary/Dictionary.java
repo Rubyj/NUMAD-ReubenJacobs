@@ -1,4 +1,4 @@
-package edu.neu.madcourse.dankreymer;
+package edu.neu.madcourse.dankreymer.dictionary;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +15,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.R.id;
+import edu.neu.madcourse.dankreymer.R.layout;
+import edu.neu.madcourse.dankreymer.R.raw;
 
 import android.app.Activity;
 import android.content.Intent;
