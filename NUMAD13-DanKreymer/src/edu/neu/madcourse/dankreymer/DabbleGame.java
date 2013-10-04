@@ -113,6 +113,7 @@ public class DabbleGame extends Activity {
 			startTime = maxTime * 1000;
 			generateSolution();
 			generateTiles();
+			playMusic = true;
 		}
 		else
 		{
@@ -129,8 +130,6 @@ public class DabbleGame extends Activity {
 		}
 		
 		initTimer(startTime);
-
-		playMusic = true;
 		
 		dabbleView = new DabbleView(this);
 		setContentView(dabbleView);
@@ -239,7 +238,8 @@ public class DabbleGame extends Activity {
 			}
 
 			public void onFinish() {
-				toggleMusic();
+				if (playMusic)
+					toggleMusic();
 			}
 		}.start();
 	}
