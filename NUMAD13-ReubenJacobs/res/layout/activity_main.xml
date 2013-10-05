@@ -50,7 +50,7 @@
         android:text="@string/dictionary" />
 
     <Button
-        android:id="@+id/dabbleButton"
+        android:id="@+id/dabButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/dictionaryButton"

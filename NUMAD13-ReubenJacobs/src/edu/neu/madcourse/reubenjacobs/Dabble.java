@@ -103,7 +103,7 @@ public class Dabble extends Activity {
 	  radio2.setLayoutParams(radio2Params);
 	  
 	  LayoutParams radio3Params = (RelativeLayout.LayoutParams) radio3.getLayoutParams();
-	  radio3Params.setMargins(0, 0, sideMargin, topMargin-10);
+	  radio3Params.setMargins(0, 5, sideMargin, topMargin-20);
 	  radio3.setLayoutParams(radio3Params);
 	  
 	  LayoutParams radio4Params = (RelativeLayout.LayoutParams) radio4.getLayoutParams();

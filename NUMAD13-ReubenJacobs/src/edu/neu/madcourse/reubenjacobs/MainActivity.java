@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.View;
@@ -21,7 +22,9 @@ public class MainActivity extends Activity {
 		setTitle("Reuben Jacobs");
 		super.onCreate(savedInstanceState);
 		//Uncomment for authorization
-		PhoneCheckAPI.doAuthorization(this); 
+		PhoneCheckAPI.doAuthorization(this);
+		setContentView(R.layout.activity_main);
+		
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		DisplayMetrics outMetrics = new DisplayMetrics();
@@ -30,15 +33,14 @@ public class MainActivity extends Activity {
 		int sideMargin = (int)outMetrics.widthPixels/4;
 		int topMargin = (int)outMetrics.heightPixels/30 ;
 		
-		setContentView(R.layout.activity_main);
+		
 		
 		Button aboutButton = (Button) this.findViewById(R.id.aboutButton);
 		Button sudokuButton = (Button) this.findViewById(R.id.sudokuButton);
 		Button errorButton = (Button) this.findViewById(R.id.errorButton);
 		Button quitButton = (Button) this.findViewById(R.id.quitButton);
 		Button dictButton = (Button) this.findViewById(R.id.dictionaryButton);
-		Button dabButton = (Button) this.findViewById(R.id.dabbleButton);
-		
+		Button dabButton = (Button) this.findViewById(R.id.dabButton);
 		
 		LayoutParams aboutParams = (RelativeLayout.LayoutParams) aboutButton.getLayoutParams();
 		aboutParams.setMargins(sideMargin, topMargin*2, sideMargin, topMargin);
@@ -59,10 +61,11 @@ public class MainActivity extends Activity {
 		LayoutParams dictParams = (RelativeLayout.LayoutParams) dictButton.getLayoutParams();
 		dictParams.setMargins(0, topMargin, sideMargin, topMargin);
 		dictButton.setLayoutParams(dictParams);
-		
+
 		LayoutParams dabParams = (RelativeLayout.LayoutParams) dabButton.getLayoutParams();
 		dabParams.setMargins(0, topMargin, sideMargin, topMargin);
 		dabButton.setLayoutParams(dabParams);
+		
 	}
 
 	@Override
