@@ -34,6 +34,7 @@ import android.view.KeyEvent;
 public class DabbleGame extends Activity {
 	private static final String TAG = "Dabble";
 
+	//various keys
 	private static final String KEY_GET_TILES = "TILES";
 	private static final String KEY_GET_SELECTED = "SELECTED";
 	private static final String KEY_GET_TIME = "TIME";
@@ -45,9 +46,13 @@ public class DabbleGame extends Activity {
 	protected static final String KEY_SOLUTION_4 = "solution4";
 	protected static final String KEY_CLOSE_HINT = "finish";
 	protected static final String KEY_GAME_OVER = "over";
-	private final static Map<Character, Integer> letterPoints;
-	private final static List<Character> letters;
-	private final static int numLetters;
+	
+	//the list of point values assigned to letters
+	private static final Map<Character, Integer> letterPoints;
+	
+	//list of all letters
+	private static final List<Character> letters;
+	private static final int numLetters;
 	
 	static
 	{
@@ -83,20 +88,15 @@ public class DabbleGame extends Activity {
 		numLetters = letters.size();
 	}
 	
-	private final static int maxTime = 5;
+	//seconds of gameplay at the start of a game
+	private final static int maxTime = 180;
 
 	private final static int numTiles = 18;
-	
-	private boolean playMusic;
 	
 	private CountDownTimer timer;
 	
 	private Set<String> dictionary;
 	private List<String> lettersLoaded;
-
-	private int selected;
-	private int time;
-	private int score;
 
 	private DabbleView dabbleView;
 	
@@ -104,11 +104,17 @@ public class DabbleGame extends Activity {
 	private int soundID_letter;
 	private int soundID_word;
 	private int soundID_game_over;
-	private boolean gameOver;
 
 	private ArrayList<String> solution;
 	private char[] tiles;
+	
+	private int selected;
+	private int time;
+	private int score;
+	
+	private boolean gameOver;
 	private boolean paused;
+	private boolean playMusic;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +123,7 @@ public class DabbleGame extends Activity {
 		dictionary = new HashSet<String>();
 		lettersLoaded = new ArrayList<String>();
 		
+		//set up sound pool.
 		sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 		soundID_letter = sp.load(this, R.raw.dabble_letter_clicked, 1);
 		soundID_word = sp.load(this, R.raw.dabble_new_word, 1);
@@ -126,7 +133,9 @@ public class DabbleGame extends Activity {
 		
 		SharedPreferences pref = getPreferences(MODE_PRIVATE);
 
-		if (bundle.getString(Dabble.GAME_STATUS_KEY).equals(Dabble.NEW_GAME)) {
+		//start a new game
+		if (bundle.getString(Dabble.GAME_STATUS_KEY).equals(Dabble.NEW_GAME)) 
+		{
 			selected = -1;
 			score = 0;
 			generateSolution();
@@ -137,6 +146,7 @@ public class DabbleGame extends Activity {
 			gameOver = false;
 		}
 		else
+			//continue previous game. grab data from preferences.
 		{
 			stringToTiles(pref.getString(KEY_GET_TILES, ""));
 			selected = Integer.parseInt(pref.getString(KEY_GET_SELECTED, ""));
@@ -175,6 +185,7 @@ public class DabbleGame extends Activity {
 		if (playMusic){
 			Music.stop(this);
 		}
+		//save data in preferences
 		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 		editor.putString(KEY_GET_TILES, tilesToString());
 		editor.putString(KEY_GET_SELECTED, Integer.toString(selected));
@@ -222,6 +233,7 @@ public class DabbleGame extends Activity {
 		lettersLoaded.clear();
 	}
 	
+	//grab a random word of specified size from what's loaded in the dictionary.
 	private String randomWord(int size)
 	{
 		String[] array = dictionary.toArray(new String[0]);
@@ -237,6 +249,7 @@ public class DabbleGame extends Activity {
 		return word;
 	}
 
+	//randomize the solution and create the board.
 	private void generateTiles() {
 		String wordsCombined = solution.get(0) + solution.get(1)
 				+ solution.get(2) + solution.get(3);
@@ -349,6 +362,7 @@ public class DabbleGame extends Activity {
 		return time;
 	}
 	
+	//Compute the score using the letterPoints assigned earlier.
 	protected String getScore(){
 		score = 0;
 		int tempScore;
@@ -387,6 +401,7 @@ public class DabbleGame extends Activity {
 		return Integer.toString(score);
 	}
 	
+	//check if a row (1,2,3,4) has a valid word.
 	protected boolean checkWord(int row){
 		String word;
 		if (row == 1)
@@ -418,6 +433,7 @@ public class DabbleGame extends Activity {
 		}
 	}
 	
+	//show the hint activity.
 	protected void showHint()
 	{
 		Intent i = new Intent(this, DabbleHint.class);

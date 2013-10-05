@@ -10,6 +10,6 @@ public class AcknowledgementsDictionary extends Activity {
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.acknowledgements_dictionary);
+      setContentView(R.layout.dabble_acknowledgements);
    }
 }

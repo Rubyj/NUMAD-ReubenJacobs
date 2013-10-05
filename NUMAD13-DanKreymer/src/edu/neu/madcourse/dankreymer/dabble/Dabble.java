@@ -21,11 +21,6 @@ public class Dabble extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dabble);
-		
-		if (getPreferences(MODE_PRIVATE).contains(RESUME_BUTTON_ENABLED_KEY))
-		{
-			findViewById(R.id.dabble_resume_game_button).setEnabled(true);
-		}
 
 		// Set up click listeners for all the buttons
 		View newButton = findViewById(R.id.dabble_new_game_button);
@@ -59,6 +54,9 @@ public class Dabble extends Activity implements OnClickListener {
 			break;
 		case R.id.dabble_resume_game_button:
 			startNewGame(RESUME_GAME);
+			break;
+		case R.id.dabble_acknowledgements_button:
+			startActivity(new Intent(this, DabbleAcknowledgements.class));
 			break;
 		case R.id.dabble_quit_button:
 			finish();

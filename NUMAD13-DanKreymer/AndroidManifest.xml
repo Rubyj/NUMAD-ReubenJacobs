@@ -50,5 +50,8 @@
         <activity android:name=".dictionary.AcknowledgementsDictionary" 
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".dabble.DabbleAcknowledgements" 
+                  android:label="@string/acknowledgements_title"
+                  android:theme="@android:style/Theme.Dialog"/>
     </application>
 </manifest>

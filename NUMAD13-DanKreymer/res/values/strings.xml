@@ -73,6 +73,9 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_resume_game">Resume Game</string>
     <string name="dabble_acknowledgements">Acknowledgements</string>
     <string name="dabble_quit">Quit</string>
+    <string name="dabble_acknowledgements_text">The Mario sound effects used are from:\nhttp://themushroomkingdom.net/media
+       												\n\nThe song "Danger Zone" used is by Kenny Loggins and ripped from Youtube.
+       												\n\nThe dictionary used is from:\nhttp://www.scrabblejunction.org/wordlists.htm</string>
     
 
 </resources>
