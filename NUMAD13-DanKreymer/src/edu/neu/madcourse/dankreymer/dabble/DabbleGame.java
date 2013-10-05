@@ -115,6 +115,8 @@ public class DabbleGame extends Activity {
 	private boolean gameOver;
 	private boolean paused;
 	private boolean playMusic;
+	
+	private Random rand;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +140,7 @@ public class DabbleGame extends Activity {
 		{
 			selected = -1;
 			score = 0;
+			rand = new Random();
 			generateSolution();
 			generateTiles();
 			playMusic = true;
@@ -238,12 +241,10 @@ public class DabbleGame extends Activity {
 	{
 		String[] array = dictionary.toArray(new String[0]);
 		String word = "";
-		int count = 0;
 		
 		while (word.length() != size)
 		{
-			word = (String) array[count];
-			count++;
+			word = (String) array[rand.nextInt(array.length)];
 		}
 		
 		return word;
