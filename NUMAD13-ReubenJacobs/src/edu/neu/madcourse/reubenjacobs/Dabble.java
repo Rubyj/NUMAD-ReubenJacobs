@@ -15,23 +15,27 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
+import edu.neu.madcourse.reubenjacobs.R;
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.ToneGenerator;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Dabble extends Activity {
  
@@ -63,6 +67,8 @@ public class Dabble extends Activity {
    private String line;
 
    private GridView gridView;
+   
+   BackgroundSound mBackgroundSound = new BackgroundSound();
    
    private SparseArray<String> goTo = new SparseArray<String>();
    
@@ -131,6 +137,9 @@ public class Dabble extends Activity {
 			public void onItemClick(AdapterView<?> parent, View v,
 				int position, long id) {
 				
+				ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+				toneG.startTone(ToneGenerator.TONE_PROP_ACK);
+				
 				if (counter == 0) {
 					firstLetterClicked = ((TextView) v).getText().toString();
 					v.setBackgroundColor(Color.GREEN);
@@ -152,16 +161,32 @@ public class Dabble extends Activity {
 				}
 			}
 		});
+      
+      final TextView timerView = (TextView)findViewById(R.id.timerView);
+      
+      new CountDownTimer(500000, 1000) {
+
+    	     public void onTick(long millisUntilFinished) {
+    	         timerView.setText("Seconds Remaining: " + millisUntilFinished / 1000);
+    	     }
+
+    	     public void onFinish() {
+    	         timerView.setText("You Lose!");
+    	     }
+    	  }.start();
    }
 
    @Override
    protected void onResume() {
       super.onResume();
+      Void params = null;
+      mBackgroundSound.execute(params);
    }
 
    @Override
    protected void onPause() {
 	   super.onPause();
+	   mBackgroundSound.cancel(true);
    }
    
    protected void reloadGrid(boolean switchLetters) {
@@ -663,6 +688,20 @@ public class Dabble extends Activity {
 	  radio3.setChecked(true);
 	  radio4.setChecked(true);
    }
+   
+   public class BackgroundSound extends AsyncTask<Void, Void, Void> {
+
+	    @Override
+	    protected Void doInBackground(Void... params) {
+	        MediaPlayer player = MediaPlayer.create(Dabble.this, R.raw.quicksilver); 
+	        player.setLooping(true); // Set looping 
+	        player.setVolume(100,100); 
+	        player.start(); 
+
+	        return null;
+	    }
+
+	}
 }
 
 class CustomAdapter<T> extends ArrayAdapter<T> {

@@ -55,6 +55,7 @@ public class WelcomeDabble extends Activity {
 	}
 	
 	public void startDabble(View view) {
+		finish();
 		Intent intent = new Intent(this, Dabble.class);
 		startActivity(intent);
 	}
