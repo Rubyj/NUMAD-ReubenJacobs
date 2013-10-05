@@ -49,7 +49,7 @@ public class DabbleView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		Paint background = new Paint();
-		background.setColor(getResources().getColor(R.color.puzzle_background));
+		background.setColor(getResources().getColor(R.color.dabble_background));
 		canvas.drawRect(0, 0, getWidth(), getHeight(), background);
 
 		drawBoard(canvas);
@@ -63,15 +63,15 @@ public class DabbleView extends View {
 	private void drawBoard(Canvas canvas)
 	{
 		Paint dark = new Paint();
-		dark.setColor(getResources().getColor(R.color.puzzle_dark));
+		dark.setColor(getResources().getColor(R.color.dabble_tile_background));
 		
 		Paint selectedPaint = new Paint();
 		selectedPaint.setColor(getResources().getColor(R.color.dabble_selected_tile));
 		selectedPaint.setStyle(Paint.Style.STROKE);
-		selectedPaint.setStrokeWidth(3);
+		selectedPaint.setStrokeWidth(4);
 
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
-		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setColor(getResources().getColor(R.color.dabble_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(size * 0.75f);
 		foreground.setTextScaleX(1);
@@ -93,7 +93,7 @@ public class DabbleView extends View {
 
 		if (dabbleGame.checkWord(1))
 		{
-			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+			foreground.setColor(getResources().getColor(R.color.dabble_valid_word));
 			if (!wordsAlreadyPlayed[0]){
 				dabbleGame.playWordSound();
 				wordsAlreadyPlayed[0] = true;
@@ -117,7 +117,7 @@ public class DabbleView extends View {
 			letterCount++;
 		}
 		
-		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setColor(getResources().getColor(R.color.dabble_text));
 
 		top += size + GAP;
 		
@@ -125,7 +125,7 @@ public class DabbleView extends View {
 		
 		if (dabbleGame.checkWord(2))
 		{
-			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+			foreground.setColor(getResources().getColor(R.color.dabble_valid_word));
 			if (!wordsAlreadyPlayed[1]){
 				dabbleGame.playWordSound();
 				wordsAlreadyPlayed[1] = true;
@@ -149,7 +149,7 @@ public class DabbleView extends View {
 			letterCount++;
 		}
 		
-		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setColor(getResources().getColor(R.color.dabble_text));
 
 		top += size + GAP;
 		
@@ -157,7 +157,7 @@ public class DabbleView extends View {
 
 		if (dabbleGame.checkWord(3))
 		{
-			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+			foreground.setColor(getResources().getColor(R.color.dabble_valid_word));
 			if (!wordsAlreadyPlayed[2]){
 				dabbleGame.playWordSound();
 				wordsAlreadyPlayed[2] = true;
@@ -181,7 +181,7 @@ public class DabbleView extends View {
 			letterCount++;
 		}
 		
-		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
+		foreground.setColor(getResources().getColor(R.color.dabble_text));
 
 		top += size + GAP;
 
@@ -189,7 +189,7 @@ public class DabbleView extends View {
 
 		if (dabbleGame.checkWord(4))
 		{
-			foreground.setColor(getResources().getColor(R.color.dabble_selected_tile));
+			foreground.setColor(getResources().getColor(R.color.dabble_valid_word));
 			if (!wordsAlreadyPlayed[3]){
 				dabbleGame.playWordSound();
 				wordsAlreadyPlayed[3] = true;
@@ -215,13 +215,9 @@ public class DabbleView extends View {
 	}
 	private void drawButtons(Canvas canvas)
 	{
-		
-		Paint dark = new Paint();
-		dark.setColor(getResources().getColor(R.color.puzzle_dark));
-
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
-		foreground.setColor(getResources().getColor(R.color.puzzle_foreground));
 		foreground.setStyle(Style.FILL);
+		foreground.setColor(getResources().getColor(R.color.dabble_background_text));
 		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
 		foreground.setTextAlign(Paint.Align.CENTER);
@@ -236,7 +232,6 @@ public class DabbleView extends View {
 		top = getHeight() - button_size_y;
 		left = 0;
 
-		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText("Hint", left + text_x, top + text_y, foreground);
 		
 		top = getHeight() - button_size_y;
@@ -244,27 +239,21 @@ public class DabbleView extends View {
 		
 		if (dabbleGame.getPlayMusic())
 		{
-			//TODO
-			//green text
+			foreground.setColor(getResources().getColor(R.color.dabble_green_text));
 		}
 		else
 		{
-			//red text
+			foreground.setColor(getResources().getColor(R.color.dabble_red_text));
 		}
 			
-
-		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText("Music", left + text_x, top + text_y, foreground);
 	}
 	
 	private void drawTimer(Canvas canvas)
-	{
-		Paint dark = new Paint();
-		dark.setColor(getResources().getColor(R.color.puzzle_dark));
-		
+	{		
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
 		foreground.setColor(getResources().getColor(dabbleGame.getTimeInSeconds() > 10 ? 
-										R.color.dabble_text : R.color.dabble_red_text));
+										R.color.dabble_background_text : R.color.dabble_red_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
@@ -280,19 +269,14 @@ public class DabbleView extends View {
 		top = 0;
 		left = 0;
 
-		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText(dabbleGame.getTime(), left + text_x, top + text_y, foreground);
 	}
 	
 	private void drawScore(Canvas canvas)
 	{
-		
-		Paint dark = new Paint();
-		dark.setColor(getResources().getColor(R.color.puzzle_dark));
-
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
 		foreground.setColor(getResources().getColor(dabbleGame.getTimeInSeconds() != 0 ? 
-													R.color.dabble_text : R.color.dabble_red_text));
+													R.color.dabble_background_text : R.color.dabble_red_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
@@ -308,14 +292,13 @@ public class DabbleView extends View {
 		top = 0;
 		left = getWidth() - button_size_x;
 
-		canvas.drawRect(left, top, left + button_size_x, top + button_size_y, dark);
 		canvas.drawText(dabbleGame.getScore(), left + text_x, top + text_y, foreground);
 	}
 	
 	private void drawPause(Canvas canvas)
 	{
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
-		foreground.setColor(getResources().getColor(R.color.dabble_text));
+		foreground.setColor(getResources().getColor(R.color.dabble_background_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(button_size_y);
 		foreground.setTextScaleX(1);
@@ -354,7 +337,7 @@ public class DabbleView extends View {
 	private void drawBack(Canvas canvas)
 	{
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
-		foreground.setColor(getResources().getColor(R.color.dabble_text));
+		foreground.setColor(getResources().getColor(R.color.dabble_background_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(button_size_y*1.2f);
 		foreground.setTextScaleX(1);

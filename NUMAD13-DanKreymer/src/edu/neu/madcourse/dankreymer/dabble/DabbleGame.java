@@ -44,6 +44,7 @@ public class DabbleGame extends Activity {
 	protected static final String KEY_SOLUTION_3 = "solution3";
 	protected static final String KEY_SOLUTION_4 = "solution4";
 	protected static final String KEY_CLOSE_HINT = "finish";
+	protected static final String KEY_GAME_OVER = "over";
 	private final static Map<Character, Integer> letterPoints;
 	private final static List<Character> letters;
 	private final static int numLetters;
@@ -82,7 +83,7 @@ public class DabbleGame extends Activity {
 		numLetters = letters.size();
 	}
 	
-	private final static int maxTime = 180;
+	private final static int maxTime = 5;
 
 	private final static int numTiles = 18;
 	
@@ -103,7 +104,7 @@ public class DabbleGame extends Activity {
 	private int soundID_letter;
 	private int soundID_word;
 	private int soundID_game_over;
-	private int[] wordsAlreadyPlayed;
+	private boolean gameOver;
 
 	private ArrayList<String> solution;
 	private char[] tiles;
@@ -133,6 +134,7 @@ public class DabbleGame extends Activity {
 			playMusic = true;
 			time = maxTime;
 			paused = false;
+			gameOver = false;
 		}
 		else
 		{
@@ -146,6 +148,7 @@ public class DabbleGame extends Activity {
 			solution.add(pref.getString(KEY_SOLUTION_3, ""));
 			solution.add(pref.getString(KEY_SOLUTION_4, ""));
 			playMusic = pref.getBoolean(KEY_MUSIC, false);
+			gameOver = pref.getBoolean(KEY_GAME_OVER, false);
 			paused = false;
 		}
 		
@@ -182,6 +185,7 @@ public class DabbleGame extends Activity {
 		editor.putString(KEY_SOLUTION_3, solution.get(2));
 		editor.putString(KEY_SOLUTION_4, solution.get(3));
 		editor.putBoolean(KEY_MUSIC, playMusic);
+		editor.putBoolean(KEY_GAME_OVER, gameOver);
 		editor.commit();
 	}
 
@@ -436,6 +440,8 @@ public class DabbleGame extends Activity {
 		{
 			Music.stop(this);
 		}
+		
+		dabbleView.invalidate();
 	}
 	
 	protected boolean getPlayMusic()
@@ -480,6 +486,9 @@ public class DabbleGame extends Activity {
 	
 	private void playGameOverSound()
 	{
-		sp.play(soundID_game_over, 1, 1, 1, 0, 1f);
+		if (!gameOver){
+			sp.play(soundID_game_over, 1, 1, 1, 0, 1f);
+			gameOver = true;
+		}
 	}
 }

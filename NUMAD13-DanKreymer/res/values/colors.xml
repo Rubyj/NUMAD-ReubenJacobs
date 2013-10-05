@@ -25,7 +25,11 @@
    
    <!-- Dabble stuff -->
    <color name="dabble_background">#000000</color> 
+   <color name="dabble_tile_background">#D1B294</color> 
    <color name="dabble_selected_tile">#E0FA6A</color>
+   <color name="dabble_valid_word">#ff3399ff</color>
    <color name="dabble_text">#ff000000</color>
+   <color name="dabble_background_text">#ffffffff</color>
    <color name="dabble_red_text">#ffff0000</color>
+   <color name="dabble_green_text">#ff00ff00</color>
 </resources>
