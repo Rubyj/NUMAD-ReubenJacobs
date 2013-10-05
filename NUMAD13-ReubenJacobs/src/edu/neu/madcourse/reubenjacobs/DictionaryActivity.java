@@ -28,9 +28,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class DictionaryActivity extends Activity {
-	
-	//HashMap<String, String> aTable = new HashMap<String, String>();
-	//HashMap<String, String> alreadyChecked = new HashMap<String, String>();
+
 	HashMap<String, String> alreadyFound = new HashMap<String, String>();
 	
 	InputStream instream;

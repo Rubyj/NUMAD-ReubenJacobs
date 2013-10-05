@@ -49,4 +49,13 @@
         android:onClick="startDictionary"
         android:text="@string/dictionary" />
 
+    <Button
+        android:id="@+id/dabbleButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dictionaryButton"
+        android:layout_below="@+id/dictionaryButton"
+        android:onClick="startDabble"
+        android:text="Dabble" />
+
 </RelativeLayout>

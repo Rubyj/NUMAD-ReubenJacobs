@@ -73,6 +73,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.reubenjacobs.DictionaryActivity" />
         </activity>
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.Dabble"
+            android:label="@string/title_activity_dabble"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
