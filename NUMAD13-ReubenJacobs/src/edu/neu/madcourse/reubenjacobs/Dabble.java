@@ -18,14 +18,18 @@ import java.util.Random;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +82,34 @@ public class Dabble extends Activity {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_dabble);
       
+      Display display = getWindowManager().getDefaultDisplay();
+      DisplayMetrics outMetrics = new DisplayMetrics();
+      display.getMetrics(outMetrics);
+		
+      int sideMargin = (int)outMetrics.widthPixels/25;
+      int topMargin = (int)outMetrics.heightPixels/35 ;
+      
+      RadioButton radio1 = (RadioButton)findViewById(R.id.radioButton1);
+	  RadioButton radio2 = (RadioButton)findViewById(R.id.radioButton2);
+	  RadioButton radio3 = (RadioButton)findViewById(R.id.radioButton3);
+	  RadioButton radio4 = (RadioButton)findViewById(R.id.radioButton4);
+	  
+	  LayoutParams radio1Params = (RelativeLayout.LayoutParams) radio1.getLayoutParams();
+	  radio1Params.setMargins(sideMargin, topMargin, sideMargin, topMargin-20);
+	  radio1.setLayoutParams(radio1Params);
+	  
+	  LayoutParams radio2Params = (RelativeLayout.LayoutParams) radio2.getLayoutParams();
+	  radio2Params.setMargins(0, topMargin, sideMargin, topMargin);
+	  radio2.setLayoutParams(radio2Params);
+	  
+	  LayoutParams radio3Params = (RelativeLayout.LayoutParams) radio3.getLayoutParams();
+	  radio3Params.setMargins(0, 0, sideMargin, topMargin-10);
+	  radio3.setLayoutParams(radio3Params);
+	  
+	  LayoutParams radio4Params = (RelativeLayout.LayoutParams) radio4.getLayoutParams();
+	  radio4Params.setMargins(0, topMargin-10, sideMargin, topMargin);
+	  radio4.setLayoutParams(radio4Params);
+      
       populateMap();
       
       setWord3();
@@ -109,7 +141,7 @@ public class Dabble extends Activity {
 					nextPosition = position;
 					counter = 0;
 					
-					reloadGrid();
+					reloadGrid(true);
 					
 					gridView = (GridView) findViewById(R.id.gridView1);
 					
@@ -132,9 +164,12 @@ public class Dabble extends Activity {
 	   super.onPause();
    }
    
-   protected void reloadGrid() {
-		numbers[firstPosition] = nextLetterClicked;
-		numbers[nextPosition] = firstLetterClicked;
+   protected void reloadGrid(boolean switchLetters) {
+	   
+	   if (switchLetters == true) {
+		   numbers[firstPosition] = nextLetterClicked;
+		   numbers[nextPosition] = firstLetterClicked;
+	   }
 	   
 	   CustomAdapter<String> adapter = new CustomAdapter<String>(this,
 					android.R.layout.simple_list_item_1, numbers);
@@ -460,15 +495,16 @@ public class Dabble extends Activity {
 				
 				MainLoop:
 				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
-					Log.d("line", line);
-					Log.d("threeWord", threeWord);
-					System.out.println("DEBUG");
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio1.setChecked(true);
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio1.setChecked(false);
 						}
+				}
+				
+				if (!line.equalsIgnoreCase(threeWord)){
+					radio1.setChecked(false);
 				}
 
 				buffreader.close();
@@ -478,9 +514,7 @@ public class Dabble extends Activity {
 			}
 		} catch (java.io.IOException e) {
 		
-		}
-		
-	  
+		}  
    }
    
    protected void checkMatches4() {
@@ -506,6 +540,11 @@ public class Dabble extends Activity {
 							radio2.setChecked(false);
 						}
 				}
+				
+				if (!line.equalsIgnoreCase(threeWord)){
+					radio2.setChecked(false);
+				}
+				
 				buffreader.close();
 				inputreader.close();
 				instream.close();
@@ -513,9 +552,7 @@ public class Dabble extends Activity {
 			}
 		} catch (java.io.IOException e) {
 		
-		}
-		
-	  
+		} 
    }
    protected void checkMatches5() {
 	   
@@ -540,6 +577,11 @@ public class Dabble extends Activity {
 							radio3.setChecked(false);
 						}
 				}
+				
+				if (!line.equalsIgnoreCase(threeWord)){
+					radio3.setChecked(false);
+				}
+				
 				buffreader.close();
 				inputreader.close();
 				instream.close();
@@ -547,9 +589,7 @@ public class Dabble extends Activity {
 			}
 		} catch (java.io.IOException e) {
 		
-		}
-		
-	  
+		} 
    }
    protected void checkMatches6() {
 	   
@@ -574,6 +614,10 @@ public class Dabble extends Activity {
 							radio4.setChecked(false);
 						}
 				}
+				
+				if (!line.equalsIgnoreCase(threeWord)){
+					radio4.setChecked(false);
+				}
 
 				buffreader.close();
 				inputreader.close();
@@ -582,81 +626,42 @@ public class Dabble extends Activity {
 		} catch (java.io.IOException e) {
 		
 		}
-		
-	  
    }
    
-   protected void checkMatches(int wordLength) {
-
-	   RadioButton radio1 = (RadioButton)findViewById(R.id.radioButton1);
-	   RadioButton radio2 = (RadioButton)findViewById(R.id.radioButton2);
-	   RadioButton radio3 = (RadioButton)findViewById(R.id.radioButton3);
-	   RadioButton radio4 = (RadioButton)findViewById(R.id.radioButton4);
-	   
-	   String threeWord = "";
-	   String fourWord = "";
-	   String fiveWord = "";
-	   String sixWord = "";
-	   
-	   String firstLetter = "";
-	   
-	   if (wordLength == 3) {
-		   threeWord = numbers[2] + numbers[3] + numbers[4];
-		   firstLetter = numbers[2].toLowerCase(Locale.US);
-	   } else if (wordLength == 4) {
-		   fourWord = numbers[8] + numbers[9] + numbers[10] + numbers[11];
-		   firstLetter = numbers[8].toLowerCase(Locale.US);
-	   } else if (wordLength == 5) {
-		   fiveWord = numbers[13] + numbers[14] + numbers[15] + numbers[16] + numbers[17];
-		   firstLetter = numbers[13].toLowerCase(Locale.US);
-	   } else if (wordLength == 6) {
-		   sixWord = numbers[18] + numbers[19] + numbers[20] + numbers[21] + numbers[22] + numbers[23];
-		   firstLetter = numbers[18].toLowerCase(Locale.US);
-	   }
-	   
-	   
-	   try {
-				instream = getAssets().open(firstLetter + "wordlist.jet");
-				
-				if (instream != null) {
-					inputreader = new InputStreamReader(instream);
-					buffreader = new BufferedReader(inputreader);
-					
-					MainLoop:
-					while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
-							if (wordLength == 3 && line.equalsIgnoreCase(threeWord)) {
-								radio1.setChecked(true);
-								break MainLoop;
-							} else if (wordLength == 4 && line.equalsIgnoreCase(fourWord)) {
-								radio2.setChecked(true);
-								break MainLoop;
-							} else if (wordLength == 5 && line.equalsIgnoreCase(fiveWord)) {
-								radio3.setChecked(true);
-								break MainLoop;
-							} else if (wordLength == 6 && line.equalsIgnoreCase(sixWord)) {
-								radio4.setChecked(true);
-								break MainLoop;
-							} else if (wordLength == 3 && !line.equalsIgnoreCase(threeWord)){
-								radio1.setChecked(false);
-							} else if (wordLength == 4 && !line.equalsIgnoreCase(threeWord)){
-								radio1.setChecked(false);
-							} else if (wordLength == 5 && !line.equalsIgnoreCase(threeWord)){
-								radio1.setChecked(false);
-							} else if (wordLength == 6 && !line.equalsIgnoreCase(threeWord)){
-								radio1.setChecked(false);
-							}
-							
-					}
-
-					buffreader.close();
-					inputreader.close();
-					instream.close();
-				
-				}
-			} catch (java.io.IOException e) {
-			
-			}
-			
+   public void onHint(View view) {
+	  numbers[2] = letters.get(0);
+	  numbers[3] = letters.get(1);
+	  numbers[4] = letters.get(2);
+	  
+	  numbers[8] = letters.get(3);
+	  numbers[9] = letters.get(4);
+	  numbers[10] = letters.get(5);
+	  numbers[11] = letters.get(6);
+	  
+	  numbers[13] = letters.get(7);
+	  numbers[14] = letters.get(8);
+	  numbers[15] = letters.get(9);
+	  numbers[16] = letters.get(10);
+	  numbers[17] = letters.get(11);
+	  
+	  numbers[18] = letters.get(12);
+	  numbers[19] = letters.get(13);
+	  numbers[20] = letters.get(14);
+	  numbers[21] = letters.get(15);
+	  numbers[22] = letters.get(16);
+	  numbers[23] = letters.get(17);
+	  
+	  reloadGrid(false);
+	  
+	  RadioButton radio1 = (RadioButton)findViewById(R.id.radioButton1);
+	  RadioButton radio2 = (RadioButton)findViewById(R.id.radioButton2);
+	  RadioButton radio3 = (RadioButton)findViewById(R.id.radioButton3);
+	  RadioButton radio4 = (RadioButton)findViewById(R.id.radioButton4);
+	  
+	  radio1.setChecked(true);
+	  radio2.setChecked(true);
+	  radio3.setChecked(true);
+	  radio4.setChecked(true);
    }
 }
 

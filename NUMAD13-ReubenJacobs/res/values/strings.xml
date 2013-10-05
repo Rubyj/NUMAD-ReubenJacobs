@@ -52,5 +52,5 @@ row, each column, and each of the 3x3 boxes
     <string name="title_activity_acknowledgements">Acknowledgements</string>
     <string name="title_activity_dabble">Dabble</string>
     <string name="title_activity_welcome_dabble">Welcome to Dabble</string>
-
+	<string name="solve">Solve</string>
 </resources>
