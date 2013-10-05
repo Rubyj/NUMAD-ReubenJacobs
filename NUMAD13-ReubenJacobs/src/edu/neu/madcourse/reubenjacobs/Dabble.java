@@ -21,11 +21,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -112,13 +112,12 @@ public class Dabble extends Activity {
 					reloadGrid();
 					
 					gridView = (GridView) findViewById(R.id.gridView1);
-					checkMatches(3);
-					checkMatches(4);
-					checkMatches(5);
-					checkMatches(6);
+					
+					checkMatches3();
+					checkMatches4();
+					checkMatches5();
+					checkMatches6();
 				}
-				
-			   Toast.makeText(getApplicationContext(), ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
 			}
 		});
    }
@@ -445,9 +444,154 @@ public class Dabble extends Activity {
  	  tempArray.remove(random);
    }
    
+   protected void checkMatches3() {
+	   
+	   RadioButton radio1 = (RadioButton)findViewById(R.id.radioButton1);
+	   String firstLetter = numbers[2].toLowerCase(Locale.US);
+	   
+	   String threeWord = numbers[2] + numbers[3] + numbers[4];
+	   
+	   try {
+			instream = getAssets().open(firstLetter + "wordlist.jet");
+			
+			if (instream != null) {
+				inputreader = new InputStreamReader(instream);
+				buffreader = new BufferedReader(inputreader);
+				
+				MainLoop:
+				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
+					Log.d("line", line);
+					Log.d("threeWord", threeWord);
+					System.out.println("DEBUG");
+						if (line.equalsIgnoreCase(threeWord)) {
+							radio1.setChecked(true);
+							break MainLoop;
+						} else if (!line.equalsIgnoreCase(threeWord)){
+							radio1.setChecked(false);
+						}
+				}
+
+				buffreader.close();
+				inputreader.close();
+				instream.close();
+			
+			}
+		} catch (java.io.IOException e) {
+		
+		}
+		
+	  
+   }
+   
+   protected void checkMatches4() {
+	   
+	   RadioButton radio2 = (RadioButton)findViewById(R.id.radioButton2);
+	   String firstLetter = numbers[8].toLowerCase(Locale.US);
+	   
+	   String threeWord = numbers[8] + numbers[9] + numbers[10] + numbers[11];
+	   
+	   try {
+			instream = getAssets().open(firstLetter + "wordlist.jet");
+			
+			if (instream != null) {
+				inputreader = new InputStreamReader(instream);
+				buffreader = new BufferedReader(inputreader);
+				
+				MainLoop:
+				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
+						if (line.equalsIgnoreCase(threeWord)) {
+							radio2.setChecked(true);
+							break MainLoop;
+						} else if (!line.equalsIgnoreCase(threeWord)){
+							radio2.setChecked(false);
+						}
+				}
+				buffreader.close();
+				inputreader.close();
+				instream.close();
+			
+			}
+		} catch (java.io.IOException e) {
+		
+		}
+		
+	  
+   }
+   protected void checkMatches5() {
+	   
+	   RadioButton radio3 = (RadioButton)findViewById(R.id.radioButton3);
+	   String firstLetter = numbers[13].toLowerCase(Locale.US);
+	   
+	   String threeWord = numbers[13] + numbers[14] + numbers[15] + numbers[16] + numbers[17];
+	   
+	   try {
+			instream = getAssets().open(firstLetter + "wordlist.jet");
+			
+			if (instream != null) {
+				inputreader = new InputStreamReader(instream);
+				buffreader = new BufferedReader(inputreader);
+				
+				MainLoop:
+				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
+						if (line.equalsIgnoreCase(threeWord)) {
+							radio3.setChecked(true);
+							break MainLoop;
+						} else if (!line.equalsIgnoreCase(threeWord)){
+							radio3.setChecked(false);
+						}
+				}
+				buffreader.close();
+				inputreader.close();
+				instream.close();
+			
+			}
+		} catch (java.io.IOException e) {
+		
+		}
+		
+	  
+   }
+   protected void checkMatches6() {
+	   
+	   RadioButton radio4 = (RadioButton)findViewById(R.id.radioButton4);
+	   String firstLetter = numbers[18].toLowerCase(Locale.US);
+	   
+	   String threeWord = numbers[18] + numbers[19] + numbers[20] + numbers[21] + numbers[22] + numbers[23];
+	   
+	   try {
+			instream = getAssets().open(firstLetter + "wordlist.jet");
+			
+			if (instream != null) {
+				inputreader = new InputStreamReader(instream);
+				buffreader = new BufferedReader(inputreader);
+				
+				MainLoop:
+				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
+						if (line.equalsIgnoreCase(threeWord)) {
+							radio4.setChecked(true);
+							break MainLoop;
+						} else if (!line.equalsIgnoreCase(threeWord)){
+							radio4.setChecked(false);
+						}
+				}
+
+				buffreader.close();
+				inputreader.close();
+				instream.close();
+			}
+		} catch (java.io.IOException e) {
+		
+		}
+		
+	  
+   }
+   
    protected void checkMatches(int wordLength) {
-	   CustomAdapter<String> adapter = new CustomAdapter<String>(this,
-				android.R.layout.simple_list_item_1, numbers);
+
+	   RadioButton radio1 = (RadioButton)findViewById(R.id.radioButton1);
+	   RadioButton radio2 = (RadioButton)findViewById(R.id.radioButton2);
+	   RadioButton radio3 = (RadioButton)findViewById(R.id.radioButton3);
+	   RadioButton radio4 = (RadioButton)findViewById(R.id.radioButton4);
 	   
 	   String threeWord = "";
 	   String fourWord = "";
@@ -455,7 +599,6 @@ public class Dabble extends Activity {
 	   String sixWord = "";
 	   
 	   String firstLetter = "";
-	   TextView tempView;
 	   
 	   if (wordLength == 3) {
 		   threeWord = numbers[2] + numbers[3] + numbers[4];
@@ -471,85 +614,40 @@ public class Dabble extends Activity {
 		   firstLetter = numbers[18].toLowerCase(Locale.US);
 	   }
 	   
-	   /*
+	   
 	   try {
 				instream = getAssets().open(firstLetter + "wordlist.jet");
-				Log.d("firstLetter", firstLetter);
 				
 				if (instream != null) {
 					inputreader = new InputStreamReader(instream);
 					buffreader = new BufferedReader(inputreader);
 					
-					
 					MainLoop:
-					while ((line = buffreader.readLine()) != null) {
-						Log.d("line", line);
-						Log.d("threeword", threeWord);
+					while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
 							if (wordLength == 3 && line.equalsIgnoreCase(threeWord)) {
-								tempView = (TextView)adapter.getView(2, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(3, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(4, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
+								radio1.setChecked(true);
 								break MainLoop;
 							} else if (wordLength == 4 && line.equalsIgnoreCase(fourWord)) {
-								tempView = (TextView)adapter.getView(8, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(9, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(10, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(11, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-
+								radio2.setChecked(true);
 								break MainLoop;
 							} else if (wordLength == 5 && line.equalsIgnoreCase(fiveWord)) {
-								tempView = (TextView)adapter.getView(13, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(14, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(15, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(16, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(17, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-											
+								radio3.setChecked(true);
 								break MainLoop;
 							} else if (wordLength == 6 && line.equalsIgnoreCase(sixWord)) {
-								tempView = (TextView)adapter.getView(18, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(19, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(20, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(21, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(22, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-								
-								tempView = (TextView)adapter.getView(23, null, gridView);
-								tempView.setBackgroundColor(Color.RED);
-						
+								radio4.setChecked(true);
 								break MainLoop;
+							} else if (wordLength == 3 && !line.equalsIgnoreCase(threeWord)){
+								radio1.setChecked(false);
+							} else if (wordLength == 4 && !line.equalsIgnoreCase(threeWord)){
+								radio1.setChecked(false);
+							} else if (wordLength == 5 && !line.equalsIgnoreCase(threeWord)){
+								radio1.setChecked(false);
+							} else if (wordLength == 6 && !line.equalsIgnoreCase(threeWord)){
+								radio1.setChecked(false);
 							}
+							
 					}
-					
-					//lineCounter = 0;
+
 					buffreader.close();
 					inputreader.close();
 					instream.close();
@@ -558,11 +656,7 @@ public class Dabble extends Activity {
 			} catch (java.io.IOException e) {
 			
 			}
-			*/
-   }
-   
-   public void setViewColor(int[] positionArray) {
-	   
+			
    }
 }
 

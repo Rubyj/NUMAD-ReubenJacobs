@@ -16,4 +16,37 @@
         android:numColumns="6" >
     </GridView>
 
+    <RadioButton
+        android:id="@+id/radioButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/gridView1"
+        android:enabled="false" />
+
+    <RadioButton
+        android:id="@+id/radioButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/gridView1"
+        android:layout_below="@+id/radioButton3" 
+        android:enabled="false"/>
+
+    <RadioButton
+        android:id="@+id/radioButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/gridView1"
+        android:layout_centerVertical="true" 
+        android:enabled="false"/>
+
+    <RadioButton
+        android:id="@+id/radioButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/radioButton3"
+        android:layout_alignRight="@+id/gridView1"
+        android:layout_marginBottom="14dp" 
+        android:enabled="false"/>
+
 </RelativeLayout>

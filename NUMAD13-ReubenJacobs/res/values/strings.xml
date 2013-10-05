@@ -51,5 +51,6 @@ row, each column, and each of the 3x3 boxes
     <string name="akLinks">http://stackoverflow.com/questions/12728255/android-set-margin-programmatically-in-dp-on-button, http://stackoverflow.com/questions/6465680/how-to-determine-the-screen-width-in-terms-of-dp-or-dip-at-runtime-in-android, http://stackoverflow.com/questions/14684318/setmargin-does-not-works-in-relative-layout-in-android, http://stackoverflow.com/questions/8026204/how-to-write-to-and-read-from-a-text-file-in-android, http://stackoverflow.com/questions/9120003/where-to-put-text-files-in-directory-in-android, http://stackoverflow.com/questions/15260156/how-to-read-a-text-file-txt-and-set-the-words-inside-in-string-variables-on-a, http://stackoverflow.com/questions/6242661/enter-data-in-edittext-and-respond-without-pressing-enter/6242778#6242778, http://stackoverflow.com/questions/6462105/how-do-i-access-androids-default-beep-sound</string>
     <string name="title_activity_acknowledgements">Acknowledgements</string>
     <string name="title_activity_dabble">Dabble</string>
+    <string name="title_activity_welcome_dabble">Welcome to Dabble</string>
 
 </resources>

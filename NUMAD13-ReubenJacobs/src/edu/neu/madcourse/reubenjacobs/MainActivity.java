@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
 		setTitle("Reuben Jacobs");
 		super.onCreate(savedInstanceState);
 		//Uncomment for authorization
-		//PhoneCheckAPI.doAuthorization(this); 
+		PhoneCheckAPI.doAuthorization(this); 
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		DisplayMetrics outMetrics = new DisplayMetrics();
@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void startDabble(View view) {
-		Intent intent = new Intent(this, Dabble.class);
+		Intent intent = new Intent(this, WelcomeDabble.class);
 		startActivity(intent);
 	}
 
