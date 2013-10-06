@@ -14,16 +14,18 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.media.ToneGenerator;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.view.Display;
@@ -68,7 +70,12 @@ public class Dabble extends Activity {
 
    private GridView gridView;
    
-   MediaPlayer player1;
+   private MediaPlayer player1;
+   
+   private long timerNumber = 200;
+   
+   private Runnable mUpdateTimeTask;
+   private Handler mHandler;
    
    private SparseArray<String> goTo = new SparseArray<String>();
    
@@ -115,16 +122,17 @@ public class Dabble extends Activity {
 	  LayoutParams radio4Params = (RelativeLayout.LayoutParams) radio4.getLayoutParams();
 	  radio4Params.setMargins(0, topMargin-10, sideMargin, topMargin);
 	  radio4.setLayoutParams(radio4Params);
+	  
+	  final TextView timerView = (TextView)findViewById(R.id.timerView);
       
       populateMap();
-      
+
       setWord3();
       setWord4();
       setWord5();
       setWord6();
-      
       setArray();
-      
+ 
       gridView = (GridView) findViewById(R.id.gridView1);
       
       CustomAdapter<String> adapter = new CustomAdapter<String>(this,
@@ -154,26 +162,50 @@ public class Dabble extends Activity {
 					
 					gridView = (GridView) findViewById(R.id.gridView1);
 					
-					checkMatches3();
-					checkMatches4();
-					checkMatches5();
-					checkMatches6();
+					int point3;
+					int point4;
+					int point5;
+					int point6;
+					
+					point3 = checkMatches3();
+					point4 = checkMatches4();
+					point5 = checkMatches5();
+					point6 = checkMatches6();
+					
+					int totalPoints = point3 + point4 + point5 + point6;
+					
+					setPoints(totalPoints);
 				}
 			}
 		});
       
-      final TextView timerView = (TextView)findViewById(R.id.timerView);
+      mHandler = new Handler();
       
-      new CountDownTimer(500000, 1000) {
+      mUpdateTimeTask = new Runnable() {
+          public void run() {
 
-    	     public void onTick(long millisUntilFinished) {
-    	         timerView.setText("Seconds Remaining: " + millisUntilFinished / 1000);
-    	     }
+              final long start = timerNumber;
+              int seconds = (int) start;
+              int minutes = seconds / 60;
+              seconds     = seconds % 60;
 
-    	     public void onFinish() {
-    	         timerView.setText("You Lose!");
-    	     }
-    	  }.start();
+              if (minutes + seconds < 1) {
+            	timerView.setText("You Lose!");
+            	onLose();
+              } else if (seconds < 10) {
+                 timerView.setText("" + minutes + ":0" + seconds);
+              } else {
+                  timerView.setText("" + minutes + ":" + seconds);            
+              } 
+              
+              timerNumber--;
+
+              // add a delay to adjust for computation time
+              if (minutes + seconds >=1 ) {
+            	  mHandler.postDelayed(this, 1000);
+              }
+          }
+       };
    }
 
    @Override
@@ -182,12 +214,14 @@ public class Dabble extends Activity {
       player1 = MediaPlayer.create(Dabble.this, R.raw.quicksilver);
       player1.setLooping(true);
       player1.start();
+      
+      mHandler.post(mUpdateTimeTask);
    }
 
    @Override
    protected void onPause() {
 	   super.onPause();
-	   
+	   mHandler.removeCallbacks(mUpdateTimeTask);
 	   player1.stop();
 	   player1.release();
    }
@@ -507,8 +541,9 @@ public class Dabble extends Activity {
  	  tempArray.remove(random);
    }
    
-   protected void checkMatches3() {
+   protected int checkMatches3() {
 	   
+	   int points = 0;
 	   RadioButton radio1 = (RadioButton)findViewById(R.id.radioButton1);
 	   String firstLetter = numbers[2].toLowerCase(Locale.US);
 	   
@@ -525,6 +560,7 @@ public class Dabble extends Activity {
 				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio1.setChecked(true);
+							points = 3;
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio1.setChecked(false);
@@ -542,11 +578,14 @@ public class Dabble extends Activity {
 			}
 		} catch (java.io.IOException e) {
 		
-		}  
+		} 
+	   
+	   return points;
    }
    
-   protected void checkMatches4() {
+   protected int checkMatches4() {
 	   
+	   int points = 0;
 	   RadioButton radio2 = (RadioButton)findViewById(R.id.radioButton2);
 	   String firstLetter = numbers[8].toLowerCase(Locale.US);
 	   
@@ -563,6 +602,7 @@ public class Dabble extends Activity {
 				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio2.setChecked(true);
+							points = 4;
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio2.setChecked(false);
@@ -580,10 +620,12 @@ public class Dabble extends Activity {
 			}
 		} catch (java.io.IOException e) {
 		
-		} 
+		}
+	   return points;
    }
-   protected void checkMatches5() {
+   protected int checkMatches5() {
 	   
+	   int points = 0;
 	   RadioButton radio3 = (RadioButton)findViewById(R.id.radioButton3);
 	   String firstLetter = numbers[13].toLowerCase(Locale.US);
 	   
@@ -600,6 +642,7 @@ public class Dabble extends Activity {
 				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio3.setChecked(true);
+							points = 5;
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio3.setChecked(false);
@@ -617,10 +660,12 @@ public class Dabble extends Activity {
 			}
 		} catch (java.io.IOException e) {
 		
-		} 
+		}
+	   return points;
    }
-   protected void checkMatches6() {
+   protected int checkMatches6() {
 	   
+	   int points = 0;
 	   RadioButton radio4 = (RadioButton)findViewById(R.id.radioButton4);
 	   String firstLetter = numbers[18].toLowerCase(Locale.US);
 	   
@@ -637,6 +682,7 @@ public class Dabble extends Activity {
 				while ((line = buffreader.readLine()) != null && threeWord.compareToIgnoreCase(line) >= 0) {
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio4.setChecked(true);
+							points = 6;
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio4.setChecked(false);
@@ -654,6 +700,7 @@ public class Dabble extends Activity {
 		} catch (java.io.IOException e) {
 		
 		}
+	   return points;
    }
    
    public void onHint(View view) {
@@ -692,6 +739,22 @@ public class Dabble extends Activity {
 	  radio4.setChecked(true);
    }
    
+   public void onPauseClick(View view) {
+		mHandler.removeCallbacks(mUpdateTimeTask);
+	   	Intent intent = new Intent(this, PauseDabble.class);
+		startActivity(intent);
+   }
+   
+   public void onLose() {
+	   	finish();
+	   	Intent intent = new Intent(this, WelcomeDabble.class);
+		startActivity(intent);
+   }
+   
+   public void setPoints(int totalPoints) {
+	   	TextView pointsView = (TextView)findViewById(R.id.pointsView);
+	   	pointsView.setText("Points: " + totalPoints);
+  }
 }
 
 class CustomAdapter<T> extends ArrayAdapter<T> {

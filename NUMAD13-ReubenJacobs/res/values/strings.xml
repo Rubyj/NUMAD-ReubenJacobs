@@ -52,5 +52,16 @@ row, each column, and each of the 3x3 boxes
     <string name="title_activity_acknowledgements">Acknowledgements</string>
     <string name="title_activity_dabble">Dabble</string>
     <string name="title_activity_welcome_dabble">Welcome to Dabble</string>
-	<string name="solve">Solve</string>
+    <string name="solve">Solve</string>
+    <string name="title_activity_pause_dabble">Pause</string>
+    <string name="pause_dabble">You have paused the game, go back or click the resume button to return</string>
+    <string name="title_activity_dabble_acknow">Acknowledgments</string>
+    <string name="dabbleLinks1">http://www.mkyong.com/android/android-gridview-example/</string>
+    <string name="dabbleLinks2">http://stackoverflow.com/questions/4148670/activity-oncreate-called-when-phone-goes-to-sleep</string>
+    <string name="dabbleLinks3">http://stackoverflow.com/questions/3765161/updating-ui-with-runnable-postdelayed-not-working-with-timer-app</string>
+    <string name="dabbleLinks4">http://stackoverflow.com/questions/7928803/background-music-android</string>
+    <string name="dabbleLinks5">http://developer.android.com/reference/android/widget/ArrayAdapter.html</string>
+    <string name="dabbleLinks6">http://stackoverflow.com/questions/12692179/set-certain-item-in-gridview-not-clickable</string>
+    <string name="dabbleLinks7">http://developer.android.com/reference/android/util/SparseArray.html</string>
+
 </resources>
