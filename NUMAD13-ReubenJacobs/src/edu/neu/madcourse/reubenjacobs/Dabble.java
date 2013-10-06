@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
-import edu.neu.madcourse.reubenjacobs.R;
 import android.app.Activity;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,7 +68,7 @@ public class Dabble extends Activity {
 
    private GridView gridView;
    
-   BackgroundSound mBackgroundSound = new BackgroundSound();
+   MediaPlayer player1;
    
    private SparseArray<String> goTo = new SparseArray<String>();
    
@@ -179,16 +179,19 @@ public class Dabble extends Activity {
    @Override
    protected void onResume() {
       super.onResume();
-      Void params = null;
-      mBackgroundSound.execute(params);
+      player1 = MediaPlayer.create(Dabble.this, R.raw.quicksilver);
+      player1.setLooping(true);
+      player1.start();
    }
 
    @Override
    protected void onPause() {
 	   super.onPause();
-	   mBackgroundSound.cancel(true);
+	   
+	   player1.stop();
+	   player1.release();
    }
-   
+
    protected void reloadGrid(boolean switchLetters) {
 	   
 	   if (switchLetters == true) {
@@ -689,19 +692,6 @@ public class Dabble extends Activity {
 	  radio4.setChecked(true);
    }
    
-   public class BackgroundSound extends AsyncTask<Void, Void, Void> {
-
-	    @Override
-	    protected Void doInBackground(Void... params) {
-	        MediaPlayer player = MediaPlayer.create(Dabble.this, R.raw.quicksilver); 
-	        player.setLooping(true); // Set looping 
-	        player.setVolume(100,100); 
-	        player.start(); 
-
-	        return null;
-	    }
-
-	}
 }
 
 class CustomAdapter<T> extends ArrayAdapter<T> {
