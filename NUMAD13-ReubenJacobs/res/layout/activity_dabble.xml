@@ -83,4 +83,13 @@
         android:layout_toLeftOf="@+id/button1"
         android:text="Points: 0" />
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_toRightOf="@+id/button2"
+        android:text="Mute/Unmute"
+        android:onClick="onMute" />
+
 </RelativeLayout>

@@ -77,6 +77,8 @@ public class Dabble extends Activity {
    private Runnable mUpdateTimeTask;
    private Handler mHandler;
    
+   private boolean player1Muted = false;
+   
    private SparseArray<String> goTo = new SparseArray<String>();
    
    String[] numbers = new String[] { 
@@ -194,6 +196,9 @@ public class Dabble extends Activity {
             	onLose();
               } else if (seconds < 10) {
                  timerView.setText("" + minutes + ":0" + seconds);
+                 if (minutes == 0 && seconds < 10) {
+                	 timerView.setTextColor(Color.CYAN);
+                 }
               } else {
                   timerView.setText("" + minutes + ":" + seconds);            
               } 
@@ -561,6 +566,10 @@ public class Dabble extends Activity {
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio1.setChecked(true);
 							points = 3;
+							
+							ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+							toneG.startTone(ToneGenerator.TONE_PROP_BEEP2);
+							
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio1.setChecked(false);
@@ -603,6 +612,10 @@ public class Dabble extends Activity {
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio2.setChecked(true);
 							points = 4;
+							
+							ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+							toneG.startTone(ToneGenerator.TONE_PROP_BEEP2);
+							
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio2.setChecked(false);
@@ -643,6 +656,10 @@ public class Dabble extends Activity {
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio3.setChecked(true);
 							points = 5;
+							
+							ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+							toneG.startTone(ToneGenerator.TONE_PROP_BEEP2);
+							
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio3.setChecked(false);
@@ -683,6 +700,10 @@ public class Dabble extends Activity {
 						if (line.equalsIgnoreCase(threeWord)) {
 							radio4.setChecked(true);
 							points = 6;
+							
+							ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+							toneG.startTone(ToneGenerator.TONE_PROP_BEEP2);
+							
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
 							radio4.setChecked(false);
@@ -755,6 +776,17 @@ public class Dabble extends Activity {
 	   	TextView pointsView = (TextView)findViewById(R.id.pointsView);
 	   	pointsView.setText("Points: " + totalPoints);
   }
+   
+   public void onMute(View view){
+	   
+	   if (!player1Muted) {
+		   player1.setVolume(0, 0);
+		   player1Muted = true;
+	   } else {
+		   player1.setVolume(1.0F, 1.0F);
+		   player1Muted = false;
+	   }
+   }
 }
 
 class CustomAdapter<T> extends ArrayAdapter<T> {
