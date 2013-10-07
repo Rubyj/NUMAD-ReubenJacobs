@@ -778,14 +778,21 @@ public class Dabble extends Activity {
   }
    
    public void onMute(View view){
+	   TextView tv = (TextView)findViewById(R.id.muteButton);
 	   
 	   if (!player1Muted) {
 		   player1.setVolume(0, 0);
 		   player1Muted = true;
+		   tv.setText("Unmute");
 	   } else {
 		   player1.setVolume(1.0F, 1.0F);
+		   tv.setText("Mute");
 		   player1Muted = false;
 	   }
+   }
+   
+   public void onQuit(View view) {
+	   finish();
    }
 }
 
