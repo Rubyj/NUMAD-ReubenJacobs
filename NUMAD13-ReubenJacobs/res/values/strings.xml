@@ -63,5 +63,7 @@ row, each column, and each of the 3x3 boxes
     <string name="dabbleLinks5">http://developer.android.com/reference/android/widget/ArrayAdapter.html</string>
     <string name="dabbleLinks6">http://stackoverflow.com/questions/12692179/set-certain-item-in-gridview-not-clickable</string>
     <string name="dabbleLinks7">http://developer.android.com/reference/android/util/SparseArray.html</string>
+    <string name="introDabble">To begin press New Game. Try to move the letters around to create 3, 4, 5, and 6 letter words. If you found a word the radio button next to the corresponding row will light up.</string>
+    <string name="dabbleMusic">Music loop taken from http://www.uniquetracks.com/Free-Music-Loops.html</string>
 
 </resources>

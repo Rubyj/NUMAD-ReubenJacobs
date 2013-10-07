@@ -14,17 +14,16 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
@@ -78,6 +77,7 @@ public class Dabble extends Activity {
    private Handler mHandler;
    
    private boolean player1Muted = false;
+   private boolean gameWon = false;
    
    private SparseArray<String> goTo = new SparseArray<String>();
    
@@ -148,7 +148,8 @@ public class Dabble extends Activity {
 				int position, long id) {
 				
 				ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-				toneG.startTone(ToneGenerator.TONE_PROP_ACK);
+				toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
+				toneG.release();
 				
 				if (counter == 0) {
 					firstLetterClicked = ((TextView) v).getText().toString();
@@ -177,6 +178,10 @@ public class Dabble extends Activity {
 					int totalPoints = point3 + point4 + point5 + point6;
 					
 					setPoints(totalPoints);
+					
+					if (totalPoints >= 18) {
+						onWin();
+					}
 				}
 			}
 		});
@@ -190,8 +195,10 @@ public class Dabble extends Activity {
               int seconds = (int) start;
               int minutes = seconds / 60;
               seconds     = seconds % 60;
-
-              if (minutes + seconds < 1) {
+              
+              if (gameWon) {
+            	  return;
+              } else if (minutes + seconds < 1) {
             	timerView.setText("You Lose!");
             	onLose();
               } else if (seconds < 10) {
@@ -206,7 +213,7 @@ public class Dabble extends Activity {
               timerNumber--;
 
               // add a delay to adjust for computation time
-              if (minutes + seconds >=1 ) {
+              if (minutes + seconds >=1 || gameWon) {
             	  mHandler.postDelayed(this, 1000);
               }
           }
@@ -568,7 +575,8 @@ public class Dabble extends Activity {
 							points = 3;
 							
 							ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-							toneG.startTone(ToneGenerator.TONE_PROP_BEEP2);
+							toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
+							toneG.release();
 							
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
@@ -614,7 +622,8 @@ public class Dabble extends Activity {
 							points = 4;
 							
 							ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-							toneG.startTone(ToneGenerator.TONE_PROP_BEEP2);
+							toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
+							toneG.release();
 							
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
@@ -658,7 +667,8 @@ public class Dabble extends Activity {
 							points = 5;
 							
 							ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-							toneG.startTone(ToneGenerator.TONE_PROP_BEEP2);
+							toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
+							toneG.release();
 							
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
@@ -702,7 +712,8 @@ public class Dabble extends Activity {
 							points = 6;
 							
 							ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-							toneG.startTone(ToneGenerator.TONE_PROP_BEEP2);
+							toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
+							toneG.release();
 							
 							break MainLoop;
 						} else if (!line.equalsIgnoreCase(threeWord)){
@@ -793,6 +804,26 @@ public class Dabble extends Activity {
    
    public void onQuit(View view) {
 	   finish();
+   }
+   
+   public void onWin(){
+	   	gameWon = true;
+	   	
+		AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("YOU WON!");
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("Back",
+                new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+        
+        TextView tv = (TextView)findViewById(R.id.timerView);
+        tv.setText("You won!");
    }
 }
 

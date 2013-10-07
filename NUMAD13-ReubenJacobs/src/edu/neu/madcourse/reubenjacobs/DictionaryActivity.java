@@ -86,9 +86,9 @@ public class DictionaryActivity extends Activity {
 					 						
 										i++;
 										    
-											
 										ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
 										toneG.startTone(ToneGenerator.TONE_PROP_BEEP);
+										toneG.release();
 										break;
 									}
 								}
