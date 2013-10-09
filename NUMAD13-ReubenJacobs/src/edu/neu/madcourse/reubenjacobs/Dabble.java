@@ -71,7 +71,7 @@ public class Dabble extends Activity {
    
    private MediaPlayer player1;
    
-   private long timerNumber = 200;
+   private long timerNumber = 120;
    
    private Runnable mUpdateTimeTask;
    private Handler mHandler;
