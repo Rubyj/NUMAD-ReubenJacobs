@@ -153,7 +153,7 @@ public class Dabble extends Activity {
 				
 				if (counter == 0) {
 					firstLetterClicked = ((TextView) v).getText().toString();
-					v.setBackgroundColor(Color.GREEN);
+					((TextView) v).setTextColor(Color.RED);
 					firstPosition = position;
 					counter++;
 				} else {
