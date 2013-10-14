@@ -1,16 +1,15 @@
-package edu.neu.madcourse.reubenjacobs;
+package edu.neu.madcourse.reubenjacobs.main;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.widget.TextView;
-import edu.neu.mobileClass.*;
+import edu.neu.madcourse.reubenjacobs.R;
 
 public class AboutActivity extends Activity {
 	

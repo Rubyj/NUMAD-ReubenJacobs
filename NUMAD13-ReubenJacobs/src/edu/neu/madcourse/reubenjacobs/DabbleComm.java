@@ -30,8 +30,9 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import edu.neu.mhealth.api.KeyValueAPI;
 
-public class Dabble extends Activity {
+public class DabbleComm extends Activity {
  
    private int counter = 0;
    private int firstPosition;
@@ -130,7 +131,7 @@ public class Dabble extends Activity {
  
       gridView = (GridView) findViewById(R.id.gridView1);
       
-      CustomAdapter<String> adapter = new CustomAdapter<String>(this,
+      CustomAdapterComm<String> adapter = new CustomAdapterComm<String>(this,
 				android.R.layout.simple_list_item_1, numbers);
 	
       gridView.setAdapter(adapter);
@@ -216,7 +217,7 @@ public class Dabble extends Activity {
    @Override
    protected void onResume() {
       super.onResume();
-      player1 = MediaPlayer.create(Dabble.this, R.raw.quicksilver);
+      player1 = MediaPlayer.create(DabbleComm.this, R.raw.quicksilver);
       player1.setLooping(true);
       player1.start();
       
@@ -238,7 +239,7 @@ public class Dabble extends Activity {
 		   numbers[nextPosition] = firstLetterClicked;
 	   }
 	   
-	   CustomAdapter<String> adapter = new CustomAdapter<String>(this,
+	   CustomAdapterComm<String> adapter = new CustomAdapterComm<String>(this,
 					android.R.layout.simple_list_item_1, numbers);
 	   
 	   gridView.setAdapter(adapter);
@@ -802,9 +803,9 @@ public class Dabble extends Activity {
    }
 }
 
-class CustomAdapter<T> extends ArrayAdapter<T> {
+class CustomAdapterComm<T> extends ArrayAdapter<T> {
 	
-	public CustomAdapter(Dabble dabble, int resource, T[] objects) {
+	public CustomAdapterComm(DabbleComm dabble, int resource, T[] objects) {
 		super(dabble, resource, objects);
 	}
 	

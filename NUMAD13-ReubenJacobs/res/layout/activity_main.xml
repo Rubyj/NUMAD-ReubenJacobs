@@ -58,4 +58,13 @@
         android:onClick="startDabble"
         android:text="Dabble" />
 
+    <Button
+        android:id="@+id/commButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dabButton"
+        android:layout_alignLeft="@+id/dabButton"
+        android:onClick="startComm"
+        android:text="Communication" />
+
 </RelativeLayout>

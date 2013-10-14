@@ -6,7 +6,7 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 ***/
-package edu.neu.madcourse.reubenjacobs;
+package edu.neu.madcourse.reubenjacobs.sudoku;
 import edu.neu.madcourse.reubenjacobs.R;
 import android.content.Context;
 import android.os.Bundle;

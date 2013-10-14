@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_DATA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -20,7 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="edu.neu.madcourse.reubenjacobs.MainActivity"
+            android:name="edu.neu.madcourse.reubenjacobs.main.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -30,40 +31,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.neu.madcourse.reubenjacobs.AboutActivity"
+            android:name="edu.neu.madcourse.reubenjacobs.main.AboutActivity"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName="edu.neu.madcourse.reubenjacobs.MainActivity" >
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.main.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />
+                android:value="edu.neu.madcourse.reubenjacobs.main.MainActivity" />
         </activity>
         <activity
-            android:name="edu.neu.madcourse.reubenjacobs.Sudoku"
+            android:name="edu.neu.madcourse.reubenjacobs.sudoku.Sudoku"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.neu.madcourse.reubenjacobs.About"
+            android:name="edu.neu.madcourse.reubenjacobs.sudoku.About"
             android:label="@string/about_title"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
-            android:name="edu.neu.madcourse.reubenjacobs.Prefs"
+            android:name="edu.neu.madcourse.reubenjacobs.sudoku.Prefs"
             android:label="@string/settings_title" >
         </activity>
         <activity
-            android:name="edu.neu.madcourse.reubenjacobs.Game"
+            android:name="edu.neu.madcourse.reubenjacobs.sudoku.Game"
             android:label="@string/game_title" />
         <activity
             android:name="edu.neu.madcourse.reubenjacobs.DictionaryActivity"
             android:label="@string/title_activity_dictionary"
-            android:parentActivityName="edu.neu.madcourse.reubenjacobs.MainActivity"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.main.MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />
+                android:value="edu.neu.madcourse.reubenjacobs.main.MainActivity" />
         </activity>
         <activity
             android:name="edu.neu.madcourse.reubenjacobs.Acknowledgements"
@@ -86,10 +87,10 @@
         <activity
             android:name="edu.neu.madcourse.reubenjacobs.WelcomeDabble"
             android:label="@string/title_activity_welcome_dabble"
-            android:parentActivityName="edu.neu.madcourse.reubenjacobs.MainActivity" >
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.main.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.neu.madcourse.reubenjacobs.MainActivity" />
+                android:value="edu.neu.madcourse.reubenjacobs.main.MainActivity" />
         </activity>
         <activity
             android:name="edu.neu.madcourse.reubenjacobs.PauseDabble"
@@ -106,6 +107,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.reubenjacobs.WelcomeDabble" />
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.DabbleComm"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_dabble_comm"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.WelcomeComm"
+            android:screenOrientation="landscape" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.main.MainActivity" />
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.WelcomeComm"
+            android:label="@string/title_activity_welcome_comm"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.main.MainActivity" />
         </activity>
     </application>
 

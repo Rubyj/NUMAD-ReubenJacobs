@@ -1,16 +1,20 @@
-package edu.neu.madcourse.reubenjacobs;
+package edu.neu.madcourse.reubenjacobs.main;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import edu.neu.madcourse.reubenjacobs.DabbleComm;
+import edu.neu.madcourse.reubenjacobs.DictionaryActivity;
+import edu.neu.madcourse.reubenjacobs.R;
+import edu.neu.madcourse.reubenjacobs.WelcomeDabble;
+import edu.neu.madcourse.reubenjacobs.sudoku.Sudoku;
 import edu.neu.mobileClass.PhoneCheckAPI;
 
 public class MainActivity extends Activity {
@@ -25,15 +29,12 @@ public class MainActivity extends Activity {
 		PhoneCheckAPI.doAuthorization(this);
 		setContentView(R.layout.activity_main);
 		
-		
 		Display display = getWindowManager().getDefaultDisplay();
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		display.getMetrics(outMetrics);
 		
 		int sideMargin = (int)outMetrics.widthPixels/4;
-		int topMargin = (int)outMetrics.heightPixels/30 ;
-		
-		
+		int topMargin = (int)outMetrics.heightPixels/50 ;
 		
 		Button aboutButton = (Button) this.findViewById(R.id.aboutButton);
 		Button sudokuButton = (Button) this.findViewById(R.id.sudokuButton);
@@ -41,9 +42,10 @@ public class MainActivity extends Activity {
 		Button quitButton = (Button) this.findViewById(R.id.quitButton);
 		Button dictButton = (Button) this.findViewById(R.id.dictionaryButton);
 		Button dabButton = (Button) this.findViewById(R.id.dabButton);
+		Button comButton = (Button) this.findViewById(R.id.commButton);
 		
 		LayoutParams aboutParams = (RelativeLayout.LayoutParams) aboutButton.getLayoutParams();
-		aboutParams.setMargins(sideMargin, topMargin*2, sideMargin, topMargin);
+		aboutParams.setMargins(sideMargin, topMargin*3, sideMargin, topMargin);
 		aboutButton.setLayoutParams(aboutParams);
 		
 		LayoutParams sudokuParams = (RelativeLayout.LayoutParams) sudokuButton.getLayoutParams();
@@ -65,6 +67,10 @@ public class MainActivity extends Activity {
 		LayoutParams dabParams = (RelativeLayout.LayoutParams) dabButton.getLayoutParams();
 		dabParams.setMargins(0, topMargin, sideMargin, topMargin);
 		dabButton.setLayoutParams(dabParams);
+		
+		LayoutParams comParams = (RelativeLayout.LayoutParams) comButton.getLayoutParams();
+		comParams.setMargins(0, topMargin, sideMargin, topMargin);
+		comButton.setLayoutParams(comParams);
 		
 	}
 
@@ -103,6 +109,11 @@ public class MainActivity extends Activity {
 	
 	public void startDabble(View view) {
 		Intent intent = new Intent(this, WelcomeDabble.class);
+		startActivity(intent);
+	}
+	
+	public void startComm(View view) {
+		Intent intent = new Intent(this, DabbleComm.class);
 		startActivity(intent);
 	}
 
