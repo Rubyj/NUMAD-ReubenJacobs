@@ -48,6 +48,11 @@ public class DabbleView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		if (wordsAlreadyPlayed[0] && wordsAlreadyPlayed[1] && wordsAlreadyPlayed[2] && wordsAlreadyPlayed[3])
+		{
+			dabbleGame.gameOver();
+		}
+		
 		Paint background = new Paint();
 		background.setColor(getResources().getColor(R.color.dabble_background));
 		canvas.drawRect(0, 0, getWidth(), getHeight(), background);
@@ -212,6 +217,7 @@ public class DabbleView extends View {
 			left += size + GAP;
 			letterCount++;
 		}
+		
 	}
 	private void drawButtons(Canvas canvas)
 	{

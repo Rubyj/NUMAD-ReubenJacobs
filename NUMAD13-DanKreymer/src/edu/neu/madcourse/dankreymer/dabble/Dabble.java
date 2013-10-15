@@ -16,7 +16,8 @@ public class Dabble extends Activity implements OnClickListener {
 	protected static String GAME_STATUS_KEY = "STATUS";
 	protected static String NEW_GAME = "NEW_GAME";
 	protected static String RESUME_GAME = "RESUME_GAME";
-	protected static String RESUME_BUTTON_ENABLED_KEY = "RESUME_BUTTON_ENABLED";
+	
+	private static int REQUEST_CODE = 1;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,9 +38,17 @@ public class Dabble extends Activity implements OnClickListener {
 	public void onResume()
 	{
 		super.onResume();
-		if (getPreferences(MODE_PRIVATE).contains(RESUME_BUTTON_ENABLED_KEY))
-		{
-			findViewById(R.id.dabble_resume_game_button).setEnabled(true);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (REQUEST_CODE == 1) {
+			if (resultCode == RESULT_OK) {
+				findViewById(R.id.dabble_resume_game_button).setEnabled(false);
+			}
+			if (resultCode == RESULT_CANCELED) {
+				findViewById(R.id.dabble_resume_game_button).setEnabled(true);
+			}
 		}
 	}
 
@@ -48,9 +57,6 @@ public class Dabble extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.dabble_new_game_button:
 			startNewGame(NEW_GAME);
-			SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-			editor.putBoolean(RESUME_BUTTON_ENABLED_KEY, true);
-			editor.commit();
 			break;
 		case R.id.dabble_resume_game_button:
 			startNewGame(RESUME_GAME);
@@ -67,6 +73,6 @@ public class Dabble extends Activity implements OnClickListener {
 	private void startNewGame(String val) {
 		Intent intent = new Intent(this, DabbleGame.class);
 		intent.putExtra(GAME_STATUS_KEY, val);
-		startActivity(intent);
+		startActivityForResult(intent, REQUEST_CODE);
 	}
 }

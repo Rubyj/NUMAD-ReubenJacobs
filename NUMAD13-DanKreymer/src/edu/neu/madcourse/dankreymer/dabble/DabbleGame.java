@@ -46,6 +46,8 @@ public class DabbleGame extends Activity {
 	protected static final String KEY_SOLUTION_4 = "solution4";
 	protected static final String KEY_CLOSE_HINT = "finish";
 	protected static final String KEY_GAME_OVER = "over";
+
+	private static final int REQUEST_CODE = 1;
 	
 	//the list of point values assigned to letters
 	private static final Map<Character, Integer> letterPoints;
@@ -89,7 +91,7 @@ public class DabbleGame extends Activity {
 	}
 	
 	//seconds of gameplay at the start of a game
-	private final static int maxTime = 180;
+	private final static int maxTime = 5;
 
 	private final static int numTiles = 18;
 	
@@ -104,6 +106,7 @@ public class DabbleGame extends Activity {
 	private int soundID_letter;
 	private int soundID_word;
 	private int soundID_game_over;
+	private int soundID_game_won;
 
 	private ArrayList<String> solution;
 	private char[] tiles;
@@ -130,6 +133,7 @@ public class DabbleGame extends Activity {
 		soundID_letter = sp.load(this, R.raw.dabble_letter_clicked, 1);
 		soundID_word = sp.load(this, R.raw.dabble_new_word, 1);
 		soundID_game_over = sp.load(this, R.raw.dabble_game_over, 1);
+		soundID_game_won = sp.load(this, R.raw.dabble_game_won, 1);
 		
 		Bundle bundle = getIntent().getExtras();
 		
@@ -203,6 +207,16 @@ public class DabbleGame extends Activity {
 		editor.putBoolean(KEY_GAME_OVER, gameOver);
 		editor.commit();
 	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		  if (requestCode == REQUEST_CODE) {
+		     if (resultCode == RESULT_CANCELED) {   
+		 		 Intent returnIntent = new Intent();
+				 setResult(RESULT_OK, returnIntent); 
+		         finish();
+		     }
+		  }
+		}
 
 	private void generateSolution() {
 		Random rand = new Random();
@@ -286,7 +300,7 @@ public class DabbleGame extends Activity {
 				}
 				selected = -1;
 				dabbleView.invalidate();
-				playGameOverSound();
+				gameOver();
 			}
 		}.start();
 	}
@@ -490,6 +504,8 @@ public class DabbleGame extends Activity {
 	
 	protected void goBack()
 	{
+		Intent returnIntent = new Intent();
+		setResult(RESULT_CANCELED, returnIntent); 
 		finish();
 	}
 	
@@ -503,11 +519,29 @@ public class DabbleGame extends Activity {
 		sp.play(soundID_word, 1, 1, 1, 0, 1f);
 	}
 	
-	private void playGameOverSound()
+	private void playOutOfTimeSound()
 	{
-		if (!gameOver){
-			sp.play(soundID_game_over, 1, 1, 1, 0, 1f);
-			gameOver = true;
+		sp.play(soundID_game_over, 1, 1, 1, 0, 1f);
+	}
+	
+	private void playYouWinSound()
+	{
+		sp.play(soundID_game_won, 1, 1, 1, 0, 1f);
+	}
+	
+	protected void gameOver()
+	{
+		if (time > 0)
+		{
+			playYouWinSound();
 		}
+		else
+		{
+			playOutOfTimeSound();
+		}
+		
+		Intent i = new Intent(this, DabbleGameOver.class);
+		i.putExtra(KEY_GET_SCORE, Integer.toString(score));
+		startActivityForResult(i, REQUEST_CODE);
 	}
 }

@@ -14,16 +14,21 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class DabblePause extends Activity {
+public class DabbleGameOver extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dabble_pause);
+		setContentView(R.layout.dabble_game_over);
+		TextView textBox = (TextView) findViewById(R.id.dabble_score_text);
+		Bundle bundle = getIntent().getExtras();
+		textBox.setText(bundle.getString(DabbleGame.KEY_GET_SCORE));
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
+		Intent returnIntent = new Intent();
+		setResult(RESULT_CANCELED, returnIntent);        
 		finish();
 	}
 }
