@@ -1,14 +1,15 @@
 package edu.neu.madcourse.reubenjacobs;
 
-import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.Build;
+import android.widget.TextView;
 
 public class WelcomeComm extends Activity {
 
@@ -55,8 +56,14 @@ public class WelcomeComm extends Activity {
 	}
 	
 	public void startComm(View view) {
-		finish();
+		TextView tv = (TextView)findViewById(R.id.userName);
+		String userName = tv.getText().toString();
+		
 		Intent intent = new Intent(this, DabbleComm.class);
+		intent.putExtra("USER", userName);
+		
+		finish();
 		startActivity(intent);
+		
 	}
 }

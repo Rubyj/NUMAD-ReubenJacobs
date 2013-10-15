@@ -73,6 +73,8 @@ public class DabbleComm extends Activity {
    private boolean player1Muted = false;
    private boolean gameWon = false;
    
+   private String userName;
+   
    private SparseArray<String> goTo = new SparseArray<String>();
    
    String[] numbers = new String[] { 
@@ -89,6 +91,17 @@ public class DabbleComm extends Activity {
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      
+      //Retrieve the username entered on the welcomeComm activity
+      Bundle extras = getIntent().getExtras();
+      this.userName = extras.getString("USER");
+      String isUserCreated = KeyValueAPI.get("sloth_nation", "fromunda", this.userName);
+      
+      //If the username is not found on the server store it
+      if (isUserCreated == null) {
+    	  KeyValueAPI.put("sloth_nation", "fromunda", this.userName, "active");
+      }
+     
       setContentView(R.layout.activity_dabble);
       
       Display display = getWindowManager().getDefaultDisplay();
@@ -230,6 +243,19 @@ public class DabbleComm extends Activity {
 	   mHandler.removeCallbacks(mUpdateTimeTask);
 	   player1.stop();
 	   player1.release();
+	   KeyValueAPI.put("sloth_nation", "fromunda", this.userName, "inactive");
+   }
+   
+   @Override
+   protected void onStop() {
+	   super.onStop();
+	   KeyValueAPI.put("sloth_nation", "fromunda", this.userName, "inactive");
+   }
+   
+   @Override
+   protected void onDestroy() {
+	   super.onDestroy();
+	   KeyValueAPI.put("sloth_nation", "fromunda", this.userName, "inactive");
    }
 
    protected void reloadGrid(boolean switchLetters) {
