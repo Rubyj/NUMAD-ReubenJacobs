@@ -59,5 +59,8 @@
         <activity android:name=".dabble.DabbleAcknowledgements" 
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".dabble.DabbleInstructions" 
+                  android:label="@string/dabble_instructions"
+                  android:theme="@android:style/Theme.Dialog"/>
     </application>
 </manifest>

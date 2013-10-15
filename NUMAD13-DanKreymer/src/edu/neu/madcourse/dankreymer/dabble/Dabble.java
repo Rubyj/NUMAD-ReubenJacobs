@@ -30,6 +30,8 @@ public class Dabble extends Activity implements OnClickListener {
 		resumeButton.setOnClickListener(this);
 		View acknowledgementsButton = findViewById(R.id.dabble_acknowledgements_button);
 		acknowledgementsButton.setOnClickListener(this);
+		View instructionsButon = findViewById(R.id.dabble_instructions_button);
+		instructionsButon.setOnClickListener(this);
 		View quitButton = findViewById(R.id.dabble_quit_button);
 		quitButton.setOnClickListener(this);
 	}
@@ -60,6 +62,9 @@ public class Dabble extends Activity implements OnClickListener {
 			break;
 		case R.id.dabble_resume_game_button:
 			startNewGame(RESUME_GAME);
+			break;
+		case R.id.dabble_instructions_button:
+			startActivity(new Intent(this, DabbleInstructions.class));
 			break;
 		case R.id.dabble_acknowledgements_button:
 			startActivity(new Intent(this, DabbleAcknowledgements.class));
