@@ -91,7 +91,7 @@ public class DabbleGame extends Activity {
 	}
 	
 	//seconds of gameplay at the start of a game
-	private final static int maxTime = 5;
+	private final static int maxTime = 180;
 
 	private final static int numTiles = 18;
 	
