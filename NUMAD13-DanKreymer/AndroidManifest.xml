@@ -22,7 +22,8 @@
     <application android:icon="@drawable/ic_launcher"
           android:label="@string/app_name">
         <activity android:name=".main.Main"
-              android:label="@string/main_title">
+              android:label="@string/main_title"
+              android:screenOrientation="portrait">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -41,6 +42,10 @@
         <activity android:name=".dictionary.Dictionary" android:label="@string/dictionary_title"
                   android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".dictionary.AcknowledgementsDictionary" 
+                  android:label="@string/acknowledgements_title"
+                  android:theme="@android:style/Theme.Dialog"/>
+        
         <activity android:name=".dabble.Dabble" android:label="@string/dabble_title"/>
         <activity android:name=".dabble.DabbleGame" android:label="@string/dabble_title"
                   android:screenOrientation="landscape"/>
@@ -53,13 +58,30 @@
         <activity android:name=".dabble.DabbleGameOver" android:label="@string/dabble_game_over"
                   android:launchMode="singleTop"
            		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".dictionary.AcknowledgementsDictionary" 
-                  android:label="@string/acknowledgements_title"
-                  android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".dabble.DabbleAcknowledgements" 
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".dabble.DabbleInstructions" 
+                  android:label="@string/dabble_instructions"
+                  android:theme="@android:style/Theme.Dialog"/>
+        
+        <activity android:name=".communication.DabbleCom" android:label="@string/dabble_com_title"
+           		  android:screenOrientation="portrait"/>
+        <activity android:name=".communication.DabbleComGame" android:label="@string/dabble_title"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".communication.DabbleComHint" android:label="@string/dabble_hint"
+                  android:launchMode="singleTop"
+           		  android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".communication.DabbleComPause" android:label="@string/dabble_pause"
+                  android:launchMode="singleTop"
+           		  android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".communication.DabbleComGameOver" android:label="@string/dabble_game_over"
+                  android:launchMode="singleTop"
+           		  android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".communication.DabbleComAcknowledgements" 
+                  android:label="@string/acknowledgements_title"
+                  android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".communication.DabbleComInstructions" 
                   android:label="@string/dabble_instructions"
                   android:theme="@android:style/Theme.Dialog"/>
     </application>

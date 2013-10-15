@@ -83,4 +83,8 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_instructions">Instructions</string>
     <string name="dabble_instructions_text">Tap a tile to select it, and tap another tile to swap the two. Swap any two tiles until you form a valid word on each row!</string>
 
+    <!-- Dabble Communication stuff -->
+    <string name="dabble_com_label">Communication</string>
+    <string name="dabble_com_title">Dabble Communication</string>
+    
 </resources>
