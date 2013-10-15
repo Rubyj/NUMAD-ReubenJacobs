@@ -173,9 +173,10 @@ public class DabbleGame extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (!paused){
-			startTimer();
+		if (paused){
+			paused = !paused;
 		}
+		startTimer();
 		if (playMusic){
 			Music.play(this, R.raw.dabble_music);
 		}
@@ -480,6 +481,7 @@ public class DabbleGame extends Activity {
 		else
 		{
 			pauseTimer();
+			startActivity(new Intent(this, DabblePause.class));
 		}
 		
 		paused = !paused;

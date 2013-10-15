@@ -47,6 +47,9 @@
         <activity android:name=".dabble.DabbleHint" android:label="@string/dabble_hint"
                   android:launchMode="singleTop"
            		  android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".dabble.DabblePause" android:label="@string/dabble_pause"
+                  android:launchMode="singleTop"
+           		  android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".dictionary.AcknowledgementsDictionary" 
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>
