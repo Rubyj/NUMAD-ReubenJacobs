@@ -21,7 +21,7 @@ public class DabbleCom extends Activity implements OnClickListener {
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dabble);
+		setContentView(R.layout.dabble_com);
 
 		// Set up click listeners for all the buttons
 		View newButton = findViewById(R.id.dabble_new_game_button);
@@ -32,6 +32,8 @@ public class DabbleCom extends Activity implements OnClickListener {
 		acknowledgementsButton.setOnClickListener(this);
 		View instructionsButon = findViewById(R.id.dabble_instructions_button);
 		instructionsButon.setOnClickListener(this);
+		View highScores = findViewById(R.id.dabble_high_scores_button);
+		highScores.setOnClickListener(this);
 		View quitButton = findViewById(R.id.dabble_quit_button);
 		quitButton.setOnClickListener(this);
 	}
@@ -65,6 +67,9 @@ public class DabbleCom extends Activity implements OnClickListener {
 			break;
 		case R.id.dabble_instructions_button:
 			startActivity(new Intent(this, DabbleComInstructions.class));
+			break;
+		case R.id.dabble_high_scores_button:
+			startActivity(new Intent(this, DabbleComHighScores.class));
 			break;
 		case R.id.dabble_acknowledgements_button:
 			startActivity(new Intent(this, DabbleComAcknowledgements.class));

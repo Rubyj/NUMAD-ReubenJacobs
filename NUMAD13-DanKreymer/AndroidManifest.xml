@@ -17,7 +17,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.READ_PHONE_DATA" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     
     <application android:icon="@drawable/ic_launcher"
           android:label="@string/app_name">
@@ -46,7 +47,8 @@
                   android:label="@string/acknowledgements_title"
                   android:theme="@android:style/Theme.Dialog"/>
         
-        <activity android:name=".dabble.Dabble" android:label="@string/dabble_title"/>
+        <activity android:name=".dabble.Dabble" android:label="@string/dabble_title"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".dabble.DabbleGame" android:label="@string/dabble_title"
                   android:screenOrientation="landscape"/>
         <activity android:name=".dabble.DabbleHint" android:label="@string/dabble_hint"
@@ -84,5 +86,8 @@
         <activity android:name=".communication.DabbleComInstructions" 
                   android:label="@string/dabble_instructions"
                   android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".communication.DabbleComHighScores" 
+                  android:label="@string/dabble_high_scores"
+                  android:screenOrientation="portrait"/>
     </application>
 </manifest>

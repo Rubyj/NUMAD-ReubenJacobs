@@ -358,7 +358,6 @@ public class DabbleView extends View {
 
 		top = (getHeight() - button_size_y) / 2;
 		left = 0;
-		
 
 		canvas.drawText("↺", left + text_x, top + text_y, foreground);
 	}

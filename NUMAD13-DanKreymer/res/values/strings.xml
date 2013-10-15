@@ -86,5 +86,7 @@ row, each column, and each of the 3x3 boxes
     <!-- Dabble Communication stuff -->
     <string name="dabble_com_label">Communication</string>
     <string name="dabble_com_title">Dabble Communication</string>
+    <string name="dabble_high_scores">High Scores</string>
+    <string name="dabble_back">Back</string>
     
 </resources>
