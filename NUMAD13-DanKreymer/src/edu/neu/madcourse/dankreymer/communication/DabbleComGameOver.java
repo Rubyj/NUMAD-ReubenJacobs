@@ -1,7 +1,10 @@
 package edu.neu.madcourse.dankreymer.communication;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -24,6 +27,7 @@ import android.widget.TextView;
 
 public class DabbleComGameOver extends Activity {
 	private String score;
+	private String username;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,6 +35,7 @@ public class DabbleComGameOver extends Activity {
 		TextView textBox = (TextView) findViewById(R.id.dabble_score_text);
 		Bundle bundle = getIntent().getExtras();
 		score = bundle.getString(DabbleComGame.KEY_GET_SCORE);
+		username = bundle.getString(DabbleCom.USERNAME);
 		textBox.setText(score);
 		new SaveScoreTask().execute();
 	}
@@ -44,9 +49,14 @@ public class DabbleComGameOver extends Activity {
 	}
 	
 	private class SaveScoreTask extends AsyncTask<String, String, String> {
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("M/d, H:mm");
+		
 		@Override
 		protected String doInBackground(String... parameter) { 
 			String scoreData = KeyValueAPI.get(Keys.TEAMNAME, Keys.PASSWORD, Keys.HIGHSCORES);
+
+			
 			if (scoreData.equals(ServerError.NO_CONNECTION.getText()))
 			{
 				return "";
@@ -59,7 +69,7 @@ public class DabbleComGameOver extends Activity {
 			
 			if (scoreData == "")
 			{
-				scoreData = score;
+				scoreData = score + " (" + username + ", " + sdf.format(c.getTime()) + ")";
 			}
 			else
 			{
@@ -73,11 +83,13 @@ public class DabbleComGameOver extends Activity {
 			List<String> scoreList = new ArrayList<String>(
 					Arrays.asList(scoreData.split(";")));
 
-			scoreList.add(score);
+			scoreList.add(score + " (" + username + ", " + sdf.format(c.getTime()) + ")");
 
 			Collections.sort(scoreList, new Comparator<String>() {
 				public int compare(String a, String b) {
-					return Integer.signum(parse(b) - parse(a));
+					String numA = a.split(" ")[0];
+					String numB = b.split(" ")[0];
+					return Integer.signum(parse(numB) - parse(numA));
 				}
 
 				private int parse(String s) {

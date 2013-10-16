@@ -18,10 +18,11 @@ public class DabbleCom extends Activity implements OnClickListener {
 	protected static String RESUME_GAME = "RESUME_GAME";
 	
 	protected static final String USERNAME = "USER";
-	private String username;
 	
 	private static int GAME_REQUEST_CODE = 1;
 	private static int USERNAME_REQUEST_CODE = 2;
+	
+	SharedPreferences pref;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,10 +64,9 @@ public class DabbleCom extends Activity implements OnClickListener {
 		else if (requestCode == USERNAME_REQUEST_CODE)
 		{
 			if (resultCode == RESULT_OK) {
-				username = data.getStringExtra(USERNAME);
 			
 				SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-				editor.putString(USERNAME, username);
+				editor.putString(USERNAME, data.getStringExtra(USERNAME));
 				editor.commit();
 			}
 			
@@ -103,6 +103,7 @@ public class DabbleCom extends Activity implements OnClickListener {
 	private void startNewGame(String val) {
 		Intent intent = new Intent(this, DabbleComGame.class);
 		intent.putExtra(GAME_STATUS_KEY, val);
+		intent.putExtra(USERNAME, getPreferences(MODE_PRIVATE).getString(USERNAME, ""));
 		startActivityForResult(intent, GAME_REQUEST_CODE);
 	}
 }

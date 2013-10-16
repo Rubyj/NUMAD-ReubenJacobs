@@ -91,7 +91,7 @@ public class DabbleComGame extends Activity {
 	}
 	
 	//seconds of gameplay at the start of a game
-	private final static int maxTime = 180;
+	private final static int maxTime = 5;
 
 	private final static int numTiles = 18;
 	
@@ -120,6 +120,8 @@ public class DabbleComGame extends Activity {
 	private boolean playMusic;
 	
 	private Random rand;
+	
+	private String username;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +140,8 @@ public class DabbleComGame extends Activity {
 		Bundle bundle = getIntent().getExtras();
 		
 		SharedPreferences pref = getPreferences(MODE_PRIVATE);
+		
+		username = bundle.getString(DabbleCom.USERNAME);
 
 		//start a new game
 		if (bundle.getString(DabbleCom.GAME_STATUS_KEY).equals(DabbleCom.NEW_GAME)) 
@@ -542,6 +546,7 @@ public class DabbleComGame extends Activity {
 		
 		Intent i = new Intent(this, DabbleComGameOver.class);
 		i.putExtra(KEY_GET_SCORE, Integer.toString(score));
+		i.putExtra(DabbleCom.USERNAME, username);
 		startActivityForResult(i, REQUEST_CODE);
 	}
 }
