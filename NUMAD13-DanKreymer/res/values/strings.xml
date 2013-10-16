@@ -88,5 +88,8 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_com_title">Dabble Communication</string>
     <string name="dabble_high_scores">High Scores</string>
     <string name="dabble_back">Back</string>
+    <string name="dabble_username">Who are you?</string>
+    <string name="dabble_enter_username">Please enter a username:</string>
+    <string name="dabble_done">Done!</string>
     
 </resources>

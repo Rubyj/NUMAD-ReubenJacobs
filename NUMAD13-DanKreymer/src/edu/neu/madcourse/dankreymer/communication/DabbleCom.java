@@ -17,11 +17,23 @@ public class DabbleCom extends Activity implements OnClickListener {
 	protected static String NEW_GAME = "NEW_GAME";
 	protected static String RESUME_GAME = "RESUME_GAME";
 	
-	private static int REQUEST_CODE = 1;
+	protected static final String USERNAME = "USER";
+	private String username;
+	
+	private static int GAME_REQUEST_CODE = 1;
+	private static int USERNAME_REQUEST_CODE = 2;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dabble_com);
+		
+		SharedPreferences pref = getPreferences(MODE_PRIVATE);
+		
+		if (pref.getString(USERNAME, "") == "")
+		{
+			Intent intent = new Intent(this, DabbleComUsername.class);
+			startActivityForResult(intent, USERNAME_REQUEST_CODE);
+		}
 
 		// Set up click listeners for all the buttons
 		View newButton = findViewById(R.id.dabble_new_game_button);
@@ -39,19 +51,27 @@ public class DabbleCom extends Activity implements OnClickListener {
 	}
 	
 	@Override
-	public void onResume()
-	{
-		super.onResume();
-	}
-	
-	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (REQUEST_CODE == 1) {
+		if (requestCode == GAME_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				findViewById(R.id.dabble_resume_game_button).setEnabled(false);
 			}
 			if (resultCode == RESULT_CANCELED) {
 				findViewById(R.id.dabble_resume_game_button).setEnabled(true);
+			}
+		}
+		else if (requestCode == USERNAME_REQUEST_CODE)
+		{
+			if (resultCode == RESULT_OK) {
+				username = data.getStringExtra(USERNAME);
+			
+				SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+				editor.putString(USERNAME, username);
+				editor.commit();
+			}
+			
+			if (resultCode == RESULT_CANCELED) {
+				finish();
 			}
 		}
 	}
@@ -83,6 +103,6 @@ public class DabbleCom extends Activity implements OnClickListener {
 	private void startNewGame(String val) {
 		Intent intent = new Intent(this, DabbleComGame.class);
 		intent.putExtra(GAME_STATUS_KEY, val);
-		startActivityForResult(intent, REQUEST_CODE);
+		startActivityForResult(intent, GAME_REQUEST_CODE);
 	}
 }

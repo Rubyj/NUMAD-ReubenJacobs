@@ -1,5 +1,9 @@
 package edu.neu.madcourse.dankreymer.communication;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.neu.madcourse.dankreymer.R;
@@ -59,10 +63,38 @@ public class DabbleComGameOver extends Activity {
 			}
 			else
 			{
-				scoreData = scoreData + ";" + score;
+				scoreData = addNewScore(scoreData);
 			}
 			
 			return KeyValueAPI.put(Keys.TEAMNAME, Keys.PASSWORD, Keys.HIGHSCORES, scoreData);
+		}
+		
+		private String addNewScore(String scoreData) {
+			List<String> scoreList = new ArrayList<String>(
+					Arrays.asList(scoreData.split(";")));
+
+			scoreList.add(score);
+
+			Collections.sort(scoreList, new Comparator<String>() {
+				public int compare(String a, String b) {
+					return Integer.signum(parse(b) - parse(a));
+				}
+
+				private int parse(String s) {
+					return Integer.parseInt(s);
+				}
+			});
+			
+			if (scoreList.size() > 10) {
+				scoreList = scoreList.subList(0, 10);
+			}
+			
+			String ret = "";
+			for (String score : scoreList) {
+				ret += score + ";";
+			}
+
+			return ret.substring(0, ret.length() - 1);
 		}
 	}
 }
