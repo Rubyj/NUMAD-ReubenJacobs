@@ -7,6 +7,7 @@ import edu.neu.madcourse.dankreymer.R.id;
 import edu.neu.madcourse.dankreymer.R.layout;
 import edu.neu.madcourse.dankreymer.R.raw;
 import edu.neu.madcourse.dankreymer.keys.Keys;
+import edu.neu.madcourse.dankreymer.keys.ServerError;
 import edu.neu.madcourse.dankreymer.misc.Music;
 import edu.neu.mhealth.api.KeyValueAPI;
 
@@ -42,7 +43,12 @@ public class DabbleComGameOver extends Activity {
 		@Override
 		protected String doInBackground(String... parameter) { 
 			String scoreData = KeyValueAPI.get(Keys.TEAMNAME, Keys.PASSWORD, Keys.HIGHSCORES);
-			if (scoreData.contains("Error"))
+			if (scoreData.equals(ServerError.NO_CONNECTION.getText()))
+			{
+				return "";
+			}
+			
+			if (scoreData.equals(ServerError.NO_SUCH_KEY.getText()))
 			{
 				scoreData = "";
 			}

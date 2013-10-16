@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import edu.neu.madcourse.dankreymer.R;
 import edu.neu.madcourse.dankreymer.keys.Keys;
+import edu.neu.madcourse.dankreymer.keys.ServerError;
 import edu.neu.mhealth.api.KeyValueAPI;
 
 public class DabbleComHighScores extends Activity implements OnClickListener{
@@ -40,7 +41,8 @@ public class DabbleComHighScores extends Activity implements OnClickListener{
 	
 	private String parseScores(String string)
 	{
-		if (string.contains("Error"))
+		if (string.equals(ServerError.NO_CONNECTION.getText()) ||
+			string.equals(ServerError.NO_SUCH_KEY.getText()))
 		{
 			string = NO_SCORES;
 		}
