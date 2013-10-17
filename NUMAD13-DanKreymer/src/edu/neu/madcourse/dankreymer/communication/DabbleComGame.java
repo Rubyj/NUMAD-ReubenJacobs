@@ -13,6 +13,7 @@ import java.util.Set;
 
 import edu.neu.madcourse.dankreymer.R;
 import edu.neu.madcourse.dankreymer.R.raw;
+import edu.neu.madcourse.dankreymer.keys.Keys;
 import edu.neu.madcourse.dankreymer.misc.Music;
 
 import android.app.Activity;
@@ -22,6 +23,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -181,6 +183,8 @@ public class DabbleComGame extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		new UserInGameTask().execute();
+		
 		if (paused){
 			paused = !paused;
 		}
@@ -548,5 +552,14 @@ public class DabbleComGame extends Activity {
 		i.putExtra(KEY_GET_SCORE, Integer.toString(score));
 		i.putExtra(DabbleCom.USERNAME, username);
 		startActivityForResult(i, REQUEST_CODE);
+	}
+	
+	private class UserInGameTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.put(Keys.userStatusKey(username), Keys.STATUS_IN_GAME);
+		}
+		
 	}
 }

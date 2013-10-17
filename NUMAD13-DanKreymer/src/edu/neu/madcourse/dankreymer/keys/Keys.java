@@ -7,6 +7,9 @@ public class Keys {
 	private static final String PASSWORD = "mallard";
 	public static final String HIGHSCORES = "high_scores";
 	public static final String USERS = "users";
+	public static final String STATUS_OFFLINE = "offline";
+	public static final String STATUS_ONLINE = "online";
+	public static final String STATUS_IN_GAME = "in game";
 	private static final String USER_STATUS = "user_status";
 	
 	

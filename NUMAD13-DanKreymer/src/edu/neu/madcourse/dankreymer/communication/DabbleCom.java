@@ -64,6 +64,12 @@ public class DabbleCom extends Activity implements OnClickListener {
 		new RegisterUserTask().execute();
 	}
 	
+	public void onDestroy()
+	{
+		new UserOfflineTask().execute();
+		super.onDestroy();
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == GAME_REQUEST_CODE) {
@@ -127,6 +133,15 @@ public class DabbleCom extends Activity implements OnClickListener {
 		return getPreferences(MODE_PRIVATE).getString(USERNAME, "");
 	}
 	
+	private class UserOfflineTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.put(Keys.userStatusKey(getUser()), Keys.STATUS_OFFLINE);
+		}
+		
+	}
+	
 	private class RegisterUserTask extends AsyncTask<String, String, String> {
 		@Override
 		protected String doInBackground(String... arg0) {
@@ -136,6 +151,8 @@ public class DabbleCom extends Activity implements OnClickListener {
 			{
 				return "";
 			}
+			
+			Keys.put(Keys.userStatusKey(getUser()), Keys.STATUS_ONLINE);
 			
 			if (usersListRaw.equals(ServerError.NO_SUCH_KEY.getText()))
 			{
@@ -162,6 +179,7 @@ public class DabbleCom extends Activity implements OnClickListener {
 				}
 				
 				Keys.put(Keys.USERS, newList);
+				Keys.put(Keys.userStatusKey(getUser()), Keys.STATUS_ONLINE);
 				return "";
 			}
 		}
