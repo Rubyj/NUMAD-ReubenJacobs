@@ -73,7 +73,7 @@ public class DabbleComHighScores extends Activity implements OnClickListener{
 		
 		@Override
 		protected String doInBackground(String... parameter) { 
-			return KeyValueAPI.get(Keys.TEAMNAME, Keys.PASSWORD, Keys.HIGHSCORES);
+			return Keys.get(Keys.HIGHSCORES);
 		}
 	}
 }

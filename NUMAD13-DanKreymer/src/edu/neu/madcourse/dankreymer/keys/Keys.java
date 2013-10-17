@@ -1,7 +1,27 @@
 package edu.neu.madcourse.dankreymer.keys;
 
+import edu.neu.mhealth.api.KeyValueAPI;
+
 public class Keys {
-	public static final String TEAMNAME = "dkreymer";
-	public static final String PASSWORD = "mallard";
+	private static final String TEAMNAME = "dkreymer";
+	private static final String PASSWORD = "mallard";
 	public static final String HIGHSCORES = "high_scores";
+	public static final String USERS = "users";
+	private static final String USER_STATUS = "user_status";
+	
+	
+	public static String get(String key)
+	{
+		return KeyValueAPI.get(Keys.TEAMNAME, Keys.PASSWORD, key);
+	}
+	
+	public static String put(String key, String val)
+	{
+		return KeyValueAPI.put(Keys.TEAMNAME, Keys.PASSWORD, key, val);
+	}
+	
+	public static String userStatusKey(String user)
+	{
+		return USER_STATUS + "_" + user;
+	}
 }

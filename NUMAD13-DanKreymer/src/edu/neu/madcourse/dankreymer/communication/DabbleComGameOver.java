@@ -54,7 +54,7 @@ public class DabbleComGameOver extends Activity {
 		
 		@Override
 		protected String doInBackground(String... parameter) { 
-			String scoreData = KeyValueAPI.get(Keys.TEAMNAME, Keys.PASSWORD, Keys.HIGHSCORES);
+			String scoreData = Keys.get(Keys.HIGHSCORES);
 
 			
 			if (scoreData.equals(ServerError.NO_CONNECTION.getText()))
@@ -76,7 +76,7 @@ public class DabbleComGameOver extends Activity {
 				scoreData = addNewScore(scoreData);
 			}
 			
-			return KeyValueAPI.put(Keys.TEAMNAME, Keys.PASSWORD, Keys.HIGHSCORES, scoreData);
+			return Keys.put(Keys.HIGHSCORES, scoreData);
 		}
 		
 		private String addNewScore(String scoreData) {

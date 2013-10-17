@@ -1,11 +1,18 @@
 package edu.neu.madcourse.dankreymer.communication;
 
+import java.util.Arrays;
+import java.util.List;
+
 import edu.neu.madcourse.dankreymer.R;
 import edu.neu.madcourse.dankreymer.R.id;
 import edu.neu.madcourse.dankreymer.R.layout;
+import edu.neu.madcourse.dankreymer.keys.Keys;
+import edu.neu.madcourse.dankreymer.keys.ServerError;
+import edu.neu.mhealth.api.KeyValueAPI;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +58,12 @@ public class DabbleCom extends Activity implements OnClickListener {
 		quitButton.setOnClickListener(this);
 	}
 	
+	public void onResume()
+	{
+		super.onResume();
+		new RegisterUserTask().execute();
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == GAME_REQUEST_CODE) {
@@ -68,6 +81,8 @@ public class DabbleCom extends Activity implements OnClickListener {
 				SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 				editor.putString(USERNAME, data.getStringExtra(USERNAME));
 				editor.commit();
+				
+				new RegisterUserTask().execute();
 			}
 			
 			if (resultCode == RESULT_CANCELED) {
@@ -103,7 +118,52 @@ public class DabbleCom extends Activity implements OnClickListener {
 	private void startNewGame(String val) {
 		Intent intent = new Intent(this, DabbleComGame.class);
 		intent.putExtra(GAME_STATUS_KEY, val);
-		intent.putExtra(USERNAME, getPreferences(MODE_PRIVATE).getString(USERNAME, ""));
+		intent.putExtra(USERNAME,getUser());
 		startActivityForResult(intent, GAME_REQUEST_CODE);
+	}
+	
+	private String getUser()
+	{
+		return getPreferences(MODE_PRIVATE).getString(USERNAME, "");
+	}
+	
+	private class RegisterUserTask extends AsyncTask<String, String, String> {
+		@Override
+		protected String doInBackground(String... arg0) {
+			String usersListRaw = Keys.get(Keys.USERS);
+			
+			if (usersListRaw.equals(ServerError.NO_CONNECTION.getText()))
+			{
+				return "";
+			}
+			
+			if (usersListRaw.equals(ServerError.NO_SUCH_KEY.getText()))
+			{
+				usersListRaw = "";
+			}
+			
+			List<String> usersList = 
+					Arrays.asList(Keys.get(Keys.USERS).split(","));
+			
+			if (usersList.contains(getUser()))
+			{
+				return "";
+			}
+			else
+			{
+				String newList;
+				if (usersListRaw == "")
+				{
+					newList = getUser();
+				}
+				else
+				{
+					newList = usersListRaw + "," + getUser();
+				}
+				
+				Keys.put(Keys.USERS, newList);
+				return "";
+			}
+		}
 	}
 }
