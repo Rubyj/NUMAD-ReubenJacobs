@@ -26,7 +26,6 @@ public class CommGame extends Activity {
 		Bundle extras = getIntent().getExtras();
 		this.userName = extras.getString("USER");
 		this.opponentName = extras.getString("OPPONENT");
-		this.moveNumber = 0;
 		
 		new CreateGameTask().execute(this.userName, this.opponentName);
 		
@@ -69,7 +68,80 @@ public class CommGame extends Activity {
 	}
 	
 	public void onSendScore(View view) {
-		new SendScoreTask().execute(this.userName, this.opponentName, this.secondsLeft.toString(), this.moveNumber.toString());
+		new LoadMoveNumberTask(this).doInBackground(this.userName, this.opponentName);
+		this.moveNumber++;
+		new SendScoreTask(this).execute(this.userName, this.opponentName, this.secondsLeft.toString(), this.moveNumber.toString());
+	}
+	
+	public int getSecondsLeft() {
+		return this.secondsLeft;
+	}
+	
+	public void setMove(int num) {
+		this.moveNumber = num;
+	}
+	
+	class SendScoreTask extends AsyncTask<String, Void, Void> {
+		CommGame instance;
+		
+		public SendScoreTask(CommGame l) {
+			instance = l;
+		}
+		
+		protected Void doInBackground(String... strings) {
+			  String game = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+			  String gameRev = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
+			  
+			  int timeF = Integer.parseInt(game.substring(0, game.indexOf("-")));
+			  int timeR = Integer.parseInt(gameRev.substring(0, gameRev.indexOf("-")));
+			  
+			  Boolean updateScore = false;
+			  if (game.contains("game")) {
+				  updateScore = true;
+			  } else if (instance.getSecondsLeft() > timeF) {
+				  updateScore = true;
+			  }
+			  
+			  Boolean updateScoreRev = false;
+			  if (gameRev.contains("game")) {
+				  updateScoreRev = true;
+			  } else if (instance.getSecondsLeft() > timeR) {
+				  updateScoreRev = true;
+			  }
+			  
+			  //Stores the score by time. (User-Opponent, Score-UserWhoSentScore:Move#)
+			  if (!game.contains("Error") && updateScore) {
+				  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], strings[2] + "-" + strings[0] + ":" + strings[3]); //2 is score and 3 is move number
+			  } else if (!gameRev.contains("Error") && updateScoreRev) {
+				  KeyValueAPI.put("sloth_nation", "fromunda", strings[1] + "-" + strings[0], strings[2] + "-" + strings[0] + ":" + strings[3]);
+			  }
+		      return null;
+		}
+	}
+
+	class LoadMoveNumberTask extends AsyncTask<String, Void, Void> {
+		CommGame instance;
+		Integer moveNum;
+		
+		public LoadMoveNumberTask(CommGame l) {
+			this.instance = l;
+		}
+		
+		protected Void doInBackground(String... strings) {
+			  
+			//Stores the game (User-Opponent, game)
+			  String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+			  String moveNumber = value.substring(value.indexOf(":") + 1);
+			  
+			  moveNum = Integer.parseInt(moveNumber);
+		      
+		      return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void x) {
+			this.instance.setMove(this.moveNum);
+		}
 	}
 }
 
@@ -82,14 +154,3 @@ class CreateGameTask extends AsyncTask<String, Void, Void> {
 	      return null;
 	}
 }
-
-class SendScoreTask extends AsyncTask<String, Void, Void> {
-	protected Void doInBackground(String... strings) {
-		  
-		  //Stores the score by time. (User-Opponent, Score-UserWhoSentScore:Move#)
-		  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], strings[2] + "-" + strings[0] + ":" + strings[3]); //2 is score and 3 is move number
-	      
-	      return null;
-	}
-}
- 
