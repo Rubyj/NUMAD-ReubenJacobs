@@ -68,5 +68,6 @@ row, each column, and each of the 3x3 boxes
     <string name="dabbleMusic">Music loop taken from http://www.uniquetracks.com/Free-Music-Loops.html</string>
     <string name="title_activity_dabble_comm">DabbleComm</string>
     <string name="title_activity_welcome_comm">WelcomeComm</string>
+    <string name="title_activity_comm_playerlist">CommPlayerlist</string>
 
 </resources>

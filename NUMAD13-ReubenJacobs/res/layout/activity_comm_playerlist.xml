@@ -6,28 +6,21 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".WelcomeComm" >
+    tools:context=".CommPlayerlist" >
 
-    <Button
-        android:id="@+id/button1"
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Player List" />
+
+    <TextView
+        android:id="@+id/playerList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:onClick="startComm"
-        android:text="New Game" />
-
-    <EditText
-        android:id="@+id/enterUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:hint="Enter Username"
-        android:inputType="textPersonName" >
-
-        <requestFocus />
-    </EditText>
+        android:layout_below="@+id/textView1"  />
 
 </RelativeLayout>

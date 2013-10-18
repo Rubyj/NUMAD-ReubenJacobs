@@ -2,21 +2,25 @@ package edu.neu.madcourse.reubenjacobs;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
+import edu.neu.mhealth.api.KeyValueAPI;
 
-public class WelcomeComm extends Activity {
+public class CommPlayerlist extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_welcome_comm);
+		setContentView(R.layout.activity_comm_playerlist);
+		
+		new GetPlayerListTask(this).execute();
+		
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
@@ -34,7 +38,7 @@ public class WelcomeComm extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.welcome_dabble, menu);
+		getMenuInflater().inflate(R.menu.comm_playerlist, menu);
 		return true;
 	}
 
@@ -55,15 +59,39 @@ public class WelcomeComm extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void startComm(View view) {
-		TextView tv = (TextView)findViewById(R.id.enterUser);
-		String userName = tv.getText().toString();
+	class GetPlayerListTask extends AsyncTask<String, Void, Void> {
+
+		SparseArray<String> playerList = new SparseArray<String>();
+		TextView tv;
+		String users;
+		String[] userList;
+		CommPlayerlist instance;
 		
-		Intent intent = new Intent(this, DabbleComm.class);
-		intent.putExtra("USER", userName);
+		public GetPlayerListTask(CommPlayerlist l) {
+			instance = l;
+		}
 		
-		finish();
-		startActivity(intent);
+		protected Void doInBackground(String... params) {
+			users = KeyValueAPI.get("sloth_nation", "fromunda", "users");
+			
+			userList = users.split("\\s+");
+			
+			System.out.println(users);
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void x) {
+			tv = (TextView)instance.findViewById(R.id.playerList);
+			
+			for (int i = 0; i < userList.length; i++) {
+				tv.setText(tv.getText() + "\n" + userList[i]);
+			}
+		}
 		
 	}
+
 }
+
+

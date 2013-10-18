@@ -126,6 +126,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.reubenjacobs.main.MainActivity" />
         </activity>
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.CommPlayerlist"
+            android:label="@string/title_activity_comm_playerlist"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.DabbleComm" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.DabbleComm" />
+        </activity>
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import edu.neu.madcourse.reubenjacobs.DabbleComm;
 import edu.neu.madcourse.reubenjacobs.DictionaryActivity;
 import edu.neu.madcourse.reubenjacobs.R;
+import edu.neu.madcourse.reubenjacobs.WelcomeComm;
 import edu.neu.madcourse.reubenjacobs.WelcomeDabble;
 import edu.neu.madcourse.reubenjacobs.sudoku.Sudoku;
 import edu.neu.mobileClass.PhoneCheckAPI;
@@ -113,7 +114,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void startComm(View view) {
-		Intent intent = new Intent(this, DabbleComm.class);
+		Intent intent = new Intent(this, WelcomeComm.class);
 		startActivity(intent);
 	}
 
