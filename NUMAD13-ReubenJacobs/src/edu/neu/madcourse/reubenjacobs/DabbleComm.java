@@ -2,6 +2,7 @@
 package edu.neu.madcourse.reubenjacobs;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,10 +26,7 @@ public class DabbleComm extends Activity {
       this.userName = extras.getString("USER");
      
       setContentView(R.layout.activity_dabble_comm);
-      
-      new CreateTask().execute(this.getUser());
-      new ConnectTask().execute(this.getUser());
-      
+            
       Display display = getWindowManager().getDefaultDisplay();
       DisplayMetrics outMetrics = new DisplayMetrics();
       display.getMetrics(outMetrics);
@@ -76,29 +74,47 @@ public class DabbleComm extends Activity {
 		
 		startActivity(intent);
    }
-}
-
-class CreateTask extends AsyncTask<String, Void, Void> {
-	protected Void doInBackground(String... strings) {
-		  String users = KeyValueAPI.get("sloth_nation", "fromunda", "users");
-	      Boolean isUserCreated = users.contains(strings[0]);
-	      
-	      //If the username is not found on the server store it
-	      if (!isUserCreated && !users.contains("Error")) {
-	    	  KeyValueAPI.put("sloth_nation", "fromunda", "users", KeyValueAPI.get("sloth_nation", "fromunda", "users") + " " + strings[0]);
-	      } else if (users.contains("Error")) {
-	    	  KeyValueAPI.put("sloth_nation", "fromunda", "users", strings[0]);
-	      }
-	      
-	      return null;
+   
+   public void onJoinGame(View view) {
+		TextView tv = (TextView)findViewById(R.id.oppponentName);
+		String opponentName = tv.getText().toString();
+		
+		Intent intent = new Intent(this, CommGame.class);
+		intent.putExtra("USER", this.userName);
+		intent.putExtra("OPPONENT", opponentName);
+		this.user2Name = opponentName;
+		
+		new JoinGameTask().execute(this.userName, opponentName);
+   }
+   
+   class CreateGameTask extends AsyncTask<String, Void, Void> {
+		protected Void doInBackground(String... strings) {
+			  
+			  //Stores the game (User-Opponent, game)
+			  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "game:0");
+		      
+		      return null;
+		      
+		      //Do something to store the dabble board so opponent can receive
+		}
 	}
-}
-
-class ConnectTask extends AsyncTask<String, Void, Void> {
-	protected Void doInBackground(String... strings) {
-		  KeyValueAPI.put("sloth_nation", "fromunda", strings[0], "active");
-
-	      return null;
+   
+   class JoinGameTask extends AsyncTask<String, Void, Void> {
+		protected Void doInBackground(String... strings) {
+			  String users = KeyValueAPI.get("sloth_nation", "fromunda", "users");
+		      Boolean isUserCreated = users.contains(strings[0]);
+		      
+		      //If the username is not found on the server store it
+		      if (!isUserCreated && !users.contains("Error")) {
+		    	  KeyValueAPI.put("sloth_nation", "fromunda", "users", KeyValueAPI.get("sloth_nation", "fromunda", "users") + " " + strings[0]);
+		      } else if (users.contains("Error")) {
+		    	  KeyValueAPI.put("sloth_nation", "fromunda", "users", strings[0]);
+		      }
+		      
+		      //Do something to ensure that the dabble board loaded is the same as the users who started the game
+		      
+		      return null;
+		}
 	}
 }
 

@@ -1,8 +1,10 @@
 package edu.neu.madcourse.reubenjacobs;
 
+import edu.neu.mhealth.api.KeyValueAPI;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -59,11 +61,38 @@ public class WelcomeComm extends Activity {
 		TextView tv = (TextView)findViewById(R.id.enterUser);
 		String userName = tv.getText().toString();
 		
+		new CreateTask().execute(userName);
+		new ConnectTask().execute(userName);
+		
 		Intent intent = new Intent(this, DabbleComm.class);
 		intent.putExtra("USER", userName);
 		
 		finish();
 		startActivity(intent);
 		
+	}
+	
+	class CreateTask extends AsyncTask<String, Void, Void> {
+		protected Void doInBackground(String... strings) {
+			  String users = KeyValueAPI.get("sloth_nation", "fromunda", "users");
+		      Boolean isUserCreated = users.contains(strings[0]);
+		      
+		      //If the username is not found on the server store it
+		      if (!isUserCreated && !users.contains("Error")) {
+		    	  KeyValueAPI.put("sloth_nation", "fromunda", "users", KeyValueAPI.get("sloth_nation", "fromunda", "users") + " " + strings[0]);
+		      } else if (users.contains("Error")) {
+		    	  KeyValueAPI.put("sloth_nation", "fromunda", "users", strings[0]);
+		      }
+		      
+		      return null;
+		}
+	}
+	
+	class ConnectTask extends AsyncTask<String, Void, Void> {
+		protected Void doInBackground(String... strings) {
+			  KeyValueAPI.put("sloth_nation", "fromunda", strings[0], "active");
+
+		      return null;
+		}
 	}
 }

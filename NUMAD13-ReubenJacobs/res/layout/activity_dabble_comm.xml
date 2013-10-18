@@ -37,5 +37,14 @@
         android:layout_toRightOf="@+id/oppponentName"
         android:onClick="onNewGame"
         android:text="New Game" />
+    
+    <Button
+        android:id="@+id/joinCommGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/playerList"
+        android:layout_toLeftOf="@+id/oppponentName"
+        android:onClick="onJoinGame"
+        android:text="Join Game" />
 
 </RelativeLayout>

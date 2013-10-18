@@ -3,11 +3,17 @@ package edu.neu.madcourse.reubenjacobs;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +35,10 @@ public class CommGame extends Activity {
 		this.userName = extras.getString("USER");
 		this.opponentName = extras.getString("OPPONENT");
 		
-		new SyncNotificationTask(this).execute(this.userName, this.opponentName);
+		if (this.userName != null && this.opponentName != null) {
+			new SyncNotificationTask(this).execute(this.userName, this.opponentName);
+			new AsyncNotificationTask(this).execute(this.userName, this.opponentName);
+		}
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -214,16 +223,6 @@ public class CommGame extends Activity {
 	}
 }
 
-class CreateGameTask extends AsyncTask<String, Void, Void> {
-	protected Void doInBackground(String... strings) {
-		  
-		  //Stores the game (User-Opponent, game)
-		  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "game:0");
-	      
-	      return null;
-	}
-}
-
 class SyncNotificationTask extends AsyncTask<String, Void, Void> {
 	CommGame instance;
 	Integer moveNum;
@@ -276,6 +275,74 @@ class SyncNotificationTask extends AsyncTask<String, Void, Void> {
 		
 		try {
 			Thread.sleep(120000);
+			this.doInBackground(this.string0, this.string1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
+
+class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
+	CommGame instance;
+	Integer moveNum;
+	Boolean moveChanged;
+	Context context;
+	String string0;
+	String string1;
+	
+	public AsyncNotificationTask(CommGame l) {
+		this.instance = l;
+		this.moveNum = this.instance.getMove();
+		this.moveChanged = false;
+		this.context = this.instance.getApplicationContext();
+	}
+	
+	protected Void doInBackground(String... strings) {
+		this.string0 = strings[0];
+		this.string1 = strings[1];
+		
+		String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+		if (value.contains("Error")) {
+			value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
+		}
+		
+		String tempNumString = value.substring(value.indexOf(":") + 1);
+		
+		int tempNum = Integer.parseInt(tempNumString);
+		
+		if (tempNum != this.moveNum) {
+			this.moveChanged = true;
+			this.instance.setMove(tempNum);
+			this.moveNum = tempNum;
+		}
+		
+		return null;
+	}
+	
+	@Override 
+	protected void onPostExecute(Void x){
+		
+		Intent launchGame = new Intent(this.context, CommGame.class);
+		launchGame.putExtra("USER", this.instance.getUser());
+		launchGame.putExtra("OPPONENT", this.instance.getOpp());
+		
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this.context)
+			.setContentTitle("CommGame").setContentText("An opponent has played a move. Launch Comm!");
+		
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this.context);
+		stackBuilder.addParentStack(CommGame.class);
+		stackBuilder.addNextIntent(launchGame);
+		PendingIntent pendingLaunch = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+		mBuilder.setContentIntent(pendingLaunch);
+		
+		if (this.moveChanged && this.moveNum > 0) {
+			NotificationManager mNot = (NotificationManager) this.context.getSystemService(Context.NOTIFICATION_SERVICE);
+			mNot.notify("Comm", 1959, mBuilder.build());
+		}
+		
+		try {
+			Thread.sleep(1200000);
 			this.doInBackground(this.string0, this.string1);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
