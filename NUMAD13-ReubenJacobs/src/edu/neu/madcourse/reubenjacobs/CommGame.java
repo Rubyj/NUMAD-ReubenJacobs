@@ -25,6 +25,7 @@ public class CommGame extends Activity {
 	private String userName;
 	private Integer secondsLeft;
 	private Integer moveNumber;
+	private String gameType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,28 @@ public class CommGame extends Activity {
 		Bundle extras = getIntent().getExtras();
 		this.userName = extras.getString("USER");
 		this.opponentName = extras.getString("OPPONENT");
+		this.gameType = extras.getString("GAME");
+		
+		if (gameType.equals("NEW")) {
+			this.moveNumber = 0;
+		}
 		
 		if (this.userName != null && this.opponentName != null) {
-			new SyncNotificationTask(this).execute(this.userName, this.opponentName);
-			new AsyncNotificationTask(this).execute(this.userName, this.opponentName);
+			if (gameType.equals("JOIN")) { new LoadMoveNumberTask(this).execute(this.userName, this.opponentName); }
 		}
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (this.userName != null && this.opponentName != null) {
+			//These are causing a lot of issues :/
+			//new SyncNotificationTask(this).execute(this.userName, this.opponentName);
+			//new AsyncNotificationTask(this).execute(this.userName, this.opponentName);
+		}
 	}
 
 	/**
@@ -275,7 +290,7 @@ class SyncNotificationTask extends AsyncTask<String, Void, Void> {
 		
 		try {
 			Thread.sleep(120000);
-			this.doInBackground(this.string0, this.string1);
+			new SyncNotificationTask(this.instance).execute(this.string0, this.string1);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -322,7 +337,6 @@ class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
 	
 	@Override 
 	protected void onPostExecute(Void x){
-		
 		Intent launchGame = new Intent(this.context, CommGame.class);
 		launchGame.putExtra("USER", this.instance.getUser());
 		launchGame.putExtra("OPPONENT", this.instance.getOpp());
@@ -343,7 +357,7 @@ class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
 		
 		try {
 			Thread.sleep(1200000);
-			this.doInBackground(this.string0, this.string1);
+			new AsyncNotificationTask(this.instance).execute(this.string0, this.string1);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

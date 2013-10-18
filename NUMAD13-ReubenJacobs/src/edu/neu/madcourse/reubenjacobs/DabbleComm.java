@@ -68,6 +68,7 @@ public class DabbleComm extends Activity {
 		Intent intent = new Intent(this, CommGame.class);
 		intent.putExtra("USER", this.userName);
 		intent.putExtra("OPPONENT", opponentName);
+		intent.putExtra("GAME", "NEW");
 		this.user2Name = opponentName;
 		
 		new CreateGameTask().execute(this.userName, opponentName);
@@ -82,9 +83,12 @@ public class DabbleComm extends Activity {
 		Intent intent = new Intent(this, CommGame.class);
 		intent.putExtra("USER", this.userName);
 		intent.putExtra("OPPONENT", opponentName);
+		intent.putExtra("GAME", "JOIN");
 		this.user2Name = opponentName;
 		
 		new JoinGameTask().execute(this.userName, opponentName);
+		
+		startActivity(intent);
    }
    
    class CreateGameTask extends AsyncTask<String, Void, Void> {
@@ -101,15 +105,7 @@ public class DabbleComm extends Activity {
    
    class JoinGameTask extends AsyncTask<String, Void, Void> {
 		protected Void doInBackground(String... strings) {
-			  String users = KeyValueAPI.get("sloth_nation", "fromunda", "users");
-		      Boolean isUserCreated = users.contains(strings[0]);
-		      
-		      //If the username is not found on the server store it
-		      if (!isUserCreated && !users.contains("Error")) {
-		    	  KeyValueAPI.put("sloth_nation", "fromunda", "users", KeyValueAPI.get("sloth_nation", "fromunda", "users") + " " + strings[0]);
-		      } else if (users.contains("Error")) {
-		    	  KeyValueAPI.put("sloth_nation", "fromunda", "users", strings[0]);
-		      }
+			  String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
 		      
 		      //Do something to ensure that the dabble board loaded is the same as the users who started the game
 		      
