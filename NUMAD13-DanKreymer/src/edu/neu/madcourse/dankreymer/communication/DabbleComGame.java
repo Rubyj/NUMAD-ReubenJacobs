@@ -93,7 +93,7 @@ public class DabbleComGame extends Activity {
 	}
 	
 	//seconds of gameplay at the start of a game
-	private final static int maxTime = 5;
+	private final static int maxTime = 180;
 
 	private final static int numTiles = 18;
 	
@@ -192,6 +192,8 @@ public class DabbleComGame extends Activity {
 		if (playMusic){
 			Music.play(this, R.raw.dabble_music);
 		}
+		
+		new UserNewMoveTask().execute();
 	}
 	   
 	@Override
@@ -214,6 +216,8 @@ public class DabbleComGame extends Activity {
 		editor.putBoolean(KEY_MUSIC, playMusic);
 		editor.putBoolean(KEY_GAME_OVER, gameOver);
 		editor.commit();
+		
+		new UserHideGameTask().execute();
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -346,6 +350,7 @@ public class DabbleComGame extends Activity {
 		char temp = tiles[i];
 		tiles[i] = tiles[j];
 		tiles[j] = temp;
+		new UserNewMoveTask().execute();
 	}
 
 	private String tilesToString() {
@@ -559,6 +564,24 @@ public class DabbleComGame extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			return Keys.put(Keys.userStatusKey(username), Keys.STATUS_IN_GAME);
+		}
+		
+	}
+	
+	private class UserNewMoveTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.put(Keys.userGameplayKey(username), tilesToString());
+		}
+		
+	}
+	
+	private class UserHideGameTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.clearKey(Keys.userGameplayKey(username));
 		}
 		
 	}

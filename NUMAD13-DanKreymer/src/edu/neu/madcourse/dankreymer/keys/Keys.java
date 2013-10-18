@@ -11,6 +11,7 @@ public class Keys {
 	public static final String STATUS_ONLINE = "online";
 	public static final String STATUS_IN_GAME = "in game";
 	private static final String USER_STATUS = "user_status";
+	private static final String USER_GAMEPLAY = "user_game_play";
 	
 	
 	public static String get(String key)
@@ -23,8 +24,18 @@ public class Keys {
 		return KeyValueAPI.put(Keys.TEAMNAME, Keys.PASSWORD, key, val);
 	}
 	
+	public static String clearKey(String key)
+	{
+		return KeyValueAPI.clearKey(Keys.TEAMNAME, Keys.PASSWORD, key);
+	}
+	
 	public static String userStatusKey(String user)
 	{
 		return USER_STATUS + "_" + user;
+	}
+	
+	public static String userGameplayKey(String user)
+	{
+		return USER_GAMEPLAY + "_" + user;
 	}
 }

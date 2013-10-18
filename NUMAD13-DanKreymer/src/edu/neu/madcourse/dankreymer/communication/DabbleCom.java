@@ -109,7 +109,9 @@ public class DabbleCom extends Activity implements OnClickListener {
 			startNewGame(RESUME_GAME);
 			break;
 		case R.id.dabble_watch_game_button:
-			startActivity(new Intent(this, DabbleComWatchGame.class));
+			Intent intent = new Intent(this, DabbleComWatchGame.class);
+			intent.putExtra(USERNAME,getUser());
+			startActivity(intent);
 			break;
 		case R.id.dabble_instructions_button:
 			startActivity(new Intent(this, DabbleComInstructions.class));
@@ -185,6 +187,7 @@ public class DabbleCom extends Activity implements OnClickListener {
 				
 				Keys.put(Keys.USERS, newList);
 				Keys.put(Keys.userStatusKey(getUser()), Keys.STATUS_ONLINE);
+				Keys.clearKey(Keys.userGameplayKey(getUser())); //in case game was shut down accidentally.
 				return "";
 			}
 		}
