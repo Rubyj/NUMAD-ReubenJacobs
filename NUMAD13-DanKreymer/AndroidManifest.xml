@@ -10,8 +10,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="edu.neu.madcourse.dankreymer"
       android:versionCode="14"
-      android:versionName="4.0">
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="14" />
+      android:versionName="4.01">
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="16" />
     
     <!-- Permissions stuff /-->
     <uses-permission android:name="android.permission.INTERNET" />
