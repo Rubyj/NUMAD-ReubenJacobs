@@ -350,6 +350,8 @@ public class DabbleComGame extends Activity {
 		char temp = tiles[i];
 		tiles[i] = tiles[j];
 		tiles[j] = temp;
+		
+		new UserInGameTask().execute(); //in case internet connection comes on midgame
 		new UserNewMoveTask().execute();
 	}
 
