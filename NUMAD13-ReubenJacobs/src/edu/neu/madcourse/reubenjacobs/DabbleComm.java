@@ -14,6 +14,7 @@ import edu.neu.mhealth.api.KeyValueAPI;
 public class DabbleComm extends Activity {
    
    private String userName;
+   private String user2Name;
    
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,9 @@ public class DabbleComm extends Activity {
 		Intent intent = new Intent(this, CommGame.class);
 		intent.putExtra("USER", this.userName);
 		intent.putExtra("OPPONENT", opponentName);
+		this.user2Name = opponentName;
+		
+		new CreateGameTask().execute(this.userName, opponentName);
 		
 		startActivity(intent);
    }
