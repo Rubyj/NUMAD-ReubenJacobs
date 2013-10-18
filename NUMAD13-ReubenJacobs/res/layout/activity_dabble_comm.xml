@@ -9,20 +9,33 @@
     tools:context=".DabbleComm" >
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button1"
-        android:text="Send Score/Time" />
-
-    <Button
-        android:id="@+id/button1"
+        android:id="@+id/playerList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="View Player List"
         android:onClick="onList" />
+
+    <EditText
+        android:id="@+id/oppponentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/playerList"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/newCommGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/playerList"
+        android:layout_toRightOf="@+id/oppponentName"
+        android:onClick="onNewGame"
+        android:text="New Game" />
 
 </RelativeLayout>

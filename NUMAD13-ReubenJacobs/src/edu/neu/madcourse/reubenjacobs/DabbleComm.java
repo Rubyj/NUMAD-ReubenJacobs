@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
+import android.widget.TextView;
 import edu.neu.mhealth.api.KeyValueAPI;
 
 public class DabbleComm extends Activity {
    
    private String userName;
-   private String opponentUserName;
    
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,17 @@ public class DabbleComm extends Activity {
 		Intent intent = new Intent(this, CommPlayerlist.class);
 		startActivity(intent);
    }
+   
+   public void onNewGame(View view) {
+		TextView tv = (TextView)findViewById(R.id.oppponentName);
+		String opponentName = tv.getText().toString();
+		
+		Intent intent = new Intent(this, CommGame.class);
+		intent.putExtra("USER", this.userName);
+		intent.putExtra("OPPONENT", opponentName);
+		
+		startActivity(intent);
+   }
 }
 
 class CreateTask extends AsyncTask<String, Void, Void> {
@@ -94,24 +105,3 @@ class DisconnectTask extends AsyncTask<String, Void, Void> {
 	      return null;
 	}
 }
-
-class SendScoreTask extends AsyncTask<String, Void, Void> {
-	protected Void doInBackground(String... strings) {
-		  
-		  //Stores the score by time. (User-Opponent:UserWhoSentScore, TimeLeft)
-		  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], strings[2]);
-	      
-	      return null;
-	}
-}
-
-class CreateGameTask extends AsyncTask<String, Void, Void> {
-	protected Void doInBackground(String... strings) {
-		  //Stores the game (User-Opponent, game)
-		  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "game");
-	      
-	      return null;
-	}
-}
-
-

@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".WelcomeComm" >
+    tools:context=".CommGame" >
 
     <Button
         android:id="@+id/button1"
@@ -14,20 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:onClick="startComm"
-        android:text="Next" />
-
-    <EditText
-        android:id="@+id/enterUser"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:hint="Enter Username(No Spaces)"
-        android:inputType="textPersonName" >
-
-        <requestFocus />
-    </EditText>
+        android:text="Send Score" />
 
 </RelativeLayout>

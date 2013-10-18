@@ -69,5 +69,6 @@ row, each column, and each of the 3x3 boxes
     <string name="title_activity_dabble_comm">DabbleComm</string>
     <string name="title_activity_welcome_comm">WelcomeComm</string>
     <string name="title_activity_comm_playerlist">CommPlayerlist</string>
+    <string name="title_activity_comm_game">CommGame</string>
 
 </resources>

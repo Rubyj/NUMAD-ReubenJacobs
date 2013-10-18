@@ -35,8 +35,8 @@
         android:id="@+id/quitButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/errorButton"
-        android:layout_below="@+id/errorButton"
+        android:layout_alignLeft="@+id/commButton"
+        android:layout_below="@+id/commButton"
         android:onClick="exit"
         android:text="@string/quit" />
     
@@ -44,8 +44,8 @@
         android:id="@+id/dictionaryButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/quitButton"
-        android:layout_below="@+id/quitButton"
+        android:layout_alignLeft="@+id/errorButton"
+        android:layout_below="@+id/errorButton"
         android:onClick="startDictionary"
         android:text="@string/dictionary" />
 
