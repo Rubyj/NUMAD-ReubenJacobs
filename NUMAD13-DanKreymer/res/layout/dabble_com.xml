@@ -24,6 +24,11 @@
        android:layout_height="wrap_content"
        android:enabled="false"
        android:text="@string/dabble_resume_game" />
+   <Button
+      android:id="@+id/dabble_watch_game_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/dabble_watch_game" />
     <Button
        android:id="@+id/dabble_high_scores_button"
        android:layout_width="fill_parent"

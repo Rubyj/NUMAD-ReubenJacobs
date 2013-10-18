@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dabble_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dip" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dip"
+        android:text="@string/dabble_watch_player"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/player_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <TextView
+        android:id="@+id/dabble_player_status"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/dabble_game_moves"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="25dip"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/dabble_back_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dabble_back" />
+
+</LinearLayout>

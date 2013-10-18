@@ -91,5 +91,7 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_username">Who are you?</string>
     <string name="dabble_enter_username">Please enter a username:</string>
     <string name="dabble_done">Done!</string>
+    <string name="dabble_watch_game">Watch Game</string>
+    <string name="dabble_watch_player">Choose a player to view their status and watch them play if they are in game!</string>
     
 </resources>

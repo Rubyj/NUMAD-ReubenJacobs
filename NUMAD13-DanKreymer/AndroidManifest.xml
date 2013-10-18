@@ -93,5 +93,8 @@
                   android:label="@string/dabble_username"
                   android:windowSoftInputMode="adjustPan"
                   android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".communication.DabbleComWatchGame" 
+                  android:label="@string/dabble_watch_game"
+                  android:screenOrientation="portrait"/>
     </application>
 </manifest>

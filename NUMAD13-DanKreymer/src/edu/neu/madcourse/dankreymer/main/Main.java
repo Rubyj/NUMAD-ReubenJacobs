@@ -61,11 +61,11 @@ public class Main extends Activity implements OnClickListener {
          int[] stupidArray = null;
          stupidArray[6]++;
          break;
-      case R.id.dabble_button:
-          startActivity(new Intent(this, Dabble.class));
-          break;
       case R.id.dabble_com_button:
           startActivity(new Intent(this, DabbleCom.class));
+          break;
+      case R.id.dabble_button:
+          startActivity(new Intent(this, Dabble.class));
           break;
       case R.id.dictionary_button:
           startActivity(new Intent(this, Dictionary.class));

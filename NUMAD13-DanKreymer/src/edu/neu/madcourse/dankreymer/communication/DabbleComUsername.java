@@ -29,7 +29,7 @@ public class DabbleComUsername extends Activity{
 			public void onClick(View view) {
 				String username = editText.getText().toString();
 				
-				if (username != ""){
+				if (!username.equals("")){
 					Intent returnIntent = new Intent();
 					returnIntent.putExtra(DabbleCom.USERNAME, username);
 					setResult(RESULT_OK, returnIntent);        

@@ -48,6 +48,8 @@ public class DabbleCom extends Activity implements OnClickListener {
 		newButton.setOnClickListener(this);
 		View resumeButton = findViewById(R.id.dabble_resume_game_button);
 		resumeButton.setOnClickListener(this);
+		View watchButton = findViewById(R.id.dabble_watch_game_button);
+		watchButton.setOnClickListener(this);
 		View acknowledgementsButton = findViewById(R.id.dabble_acknowledgements_button);
 		acknowledgementsButton.setOnClickListener(this);
 		View instructionsButon = findViewById(R.id.dabble_instructions_button);
@@ -105,6 +107,9 @@ public class DabbleCom extends Activity implements OnClickListener {
 			break;
 		case R.id.dabble_resume_game_button:
 			startNewGame(RESUME_GAME);
+			break;
+		case R.id.dabble_watch_game_button:
+			startActivity(new Intent(this, DabbleComWatchGame.class));
 			break;
 		case R.id.dabble_instructions_button:
 			startActivity(new Intent(this, DabbleComInstructions.class));
