@@ -63,7 +63,10 @@ public class DabbleCom extends Activity implements OnClickListener {
 	public void onResume()
 	{
 		super.onResume();
-		new RegisterUserTask().execute();
+		if (!getUser().equals(""))
+		{
+			new RegisterUserTask().execute();
+		}
 	}
 	
 	public void onDestroy()

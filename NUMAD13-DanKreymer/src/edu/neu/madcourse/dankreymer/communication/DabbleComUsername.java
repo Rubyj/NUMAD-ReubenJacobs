@@ -27,7 +27,7 @@ public class DabbleComUsername extends Activity{
 		doneButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View view) {
-				String username = editText.getText().toString();
+				String username = editText.getText().toString().trim();
 				
 				if (!username.equals("")){
 					Intent returnIntent = new Intent();
