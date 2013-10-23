@@ -1,5 +1,8 @@
 package edu.neu.madcourse.reubenjacobs;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,9 +17,11 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import edu.neu.mhealth.api.KeyValueAPI;
 
 public class CommGame extends Activity {
@@ -26,6 +31,7 @@ public class CommGame extends Activity {
 	private Integer secondsLeft;
 	private Integer moveNumber;
 	private String gameType;
+	private Boolean moveNumSet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +42,16 @@ public class CommGame extends Activity {
 		this.userName = extras.getString("USER");
 		this.opponentName = extras.getString("OPPONENT");
 		this.gameType = extras.getString("GAME");
+		this.moveNumSet = false;
+		this.secondsLeft = 120; //For Testing
 		
 		if (gameType.equals("NEW")) {
 			this.moveNumber = 0;
-		}
-		
-		if (this.userName != null && this.opponentName != null) {
-			if (gameType.equals("JOIN")) { new LoadMoveNumberTask(this).execute(this.userName, this.opponentName); }
+			this.moveNumSet = true;;
+			TextView tv = (TextView) findViewById(R.id.gameUsers);
+			tv.setText("New Game: " + this.userName + "-" + this.opponentName + "/Move#" + this.moveNumber );
+		} else if (gameType.equals("JOIN")) { 
+			new LoadMoveNumberTask().execute(this.userName, this.opponentName); 
 		}
 		
 		// Show the Up button in the action bar.
@@ -52,10 +61,15 @@ public class CommGame extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		if (this.userName != null && this.opponentName != null) {
-			//These are causing a lot of issues :/
-			//new SyncNotificationTask(this).execute(this.userName, this.opponentName);
-			//new AsyncNotificationTask(this).execute(this.userName, this.opponentName);
+		SimpleTimerTask aTimerTask = new SimpleTimerTask(this, this.userName, this.opponentName, true);
+		SimpleTimerTask sTimerTask = new SimpleTimerTask(this, this.userName, this.opponentName, false);
+		long delay = 0;
+		long period = 5000;
+		Timer myTimer = new Timer();
+		
+		if (this.userName != null && this.opponentName != null && moveNumSet) {
+			myTimer.schedule(aTimerTask, 0, 5000);
+			myTimer.schedule(sTimerTask, 0, 5000);
 		}
 	}
 
@@ -95,10 +109,11 @@ public class CommGame extends Activity {
 	
 	public void onSendScore(View view) {
 		//get the move number
-		new LoadMoveNumberTask(this).doInBackground(this.userName, this.opponentName);
+		new LoadMoveNumberTask().doInBackground(this.userName, this.opponentName);
 		//increment the move number in this class
 		this.moveNumber++;
 		//send the score with the new movenumber
+		Log.d("PRESEND SCORE MOVE#", moveNumber.toString());
 		new SendScoreTask(this).execute(this.userName, this.opponentName, this.secondsLeft.toString(), this.moveNumber.toString());
 	}
 	
@@ -180,41 +195,67 @@ public class CommGame extends Activity {
 		protected Void doInBackground(String... strings) {
 			  String game = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
 			  String gameRev = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
-			  
-			  int timeF = Integer.parseInt(game.substring(0, game.indexOf("-")));
-			  int timeR = Integer.parseInt(gameRev.substring(0, gameRev.indexOf("-")));
-			  
+			  Boolean forward = false;
+			  Boolean reverse = false;
 			  Boolean updateScore = false;
-			  if (game.contains("game")) {
-				  updateScore = true;
-			  } else if (instance.getSecondsLeft() > timeF) {
-				  updateScore = true;
+			  Boolean updateScoreRev = false;
+			  
+			  
+			  if (!game.contains("Error")) {
+				  forward = true;
+			  } else if (!gameRev.contains("Error")) {
+				  reverse = true;
 			  }
 			  
-			  Boolean updateScoreRev = false;
-			  if (gameRev.contains("game")) {
+			  Log.d("VALUE BEFORE SPLIT", game);
+			  
+			  int timeF;
+			  int timeR;
+			  
+			  if (forward && game.contains("game")) {
+				  updateScore = true;
+			  } else if (forward) {
+				  timeF = Integer.parseInt(game.substring(0, game.indexOf("-")));
+				  if (instance.getSecondsLeft() > timeF) {
+					  updateScore = true;
+				  }
+			  }
+			  
+			  if (reverse && gameRev.contains("game")) {
 				  updateScoreRev = true;
-			  } else if (instance.getSecondsLeft() > timeR) {
-				  updateScoreRev = true;
+			  } else if (reverse){
+				  timeR = Integer.parseInt(gameRev.substring(0, gameRev.indexOf("-")));
+				  if (instance.getSecondsLeft() > timeR) {
+					  updateScoreRev = true;
+				  }
 			  }
 			  
 			  //Stores the score by time. (User-Opponent, Score-UserWhoSentScore:Move#)
-			  if (!game.contains("Error") && updateScore) {
+			  if (updateScore) {
 				  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], strings[2] + "-" + strings[0] + ":" + strings[3]); //2 is score and 3 is move number
-			  } else if (!gameRev.contains("Error") && updateScoreRev) {
+			  } else if (updateScoreRev) {
 				  KeyValueAPI.put("sloth_nation", "fromunda", strings[1] + "-" + strings[0], strings[2] + "-" + strings[0] + ":" + strings[3]);
+			  } else if (forward) {
+				  Integer num = Integer.parseInt(game.substring(game.length() - 1));
+				  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], game.substring(0, game.length() - 1) + strings[3]);
+			  } else if (reverse) {
+				  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], gameRev.substring(0, game.length() - 1) + strings[3]);
 			  }
+			  
 		      return null;
 		}
-	}
+		
+		@Override
+		public void onPostExecute(Void x){
+			TextView tv = (TextView) findViewById(R.id.gameUsers);
+			String text  = tv.getText().toString();
+			Integer num = Integer.parseInt(text.substring(text.length() - 1));
+			tv.setText(text.substring(0, text.length() - 1) + num);
+		}
+	} 
 
 	class LoadMoveNumberTask extends AsyncTask<String, Void, Void> {
-		CommGame instance;
 		Integer moveNum;
-		
-		public LoadMoveNumberTask(CommGame l) {
-			this.instance = l;
-		}
 		
 		protected Void doInBackground(String... strings) {
 			  
@@ -223,80 +264,99 @@ public class CommGame extends Activity {
 				  value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
 			  }
 			  
+			  String moveNumberString = value.substring(value.indexOf(":") + 1);
 			  
-			  String moveNumber = value.substring(value.indexOf(":") + 1);
+			  moveNumber = Integer.parseInt(moveNumberString);
+			  moveNumSet = true;
 			  
-			  moveNum = Integer.parseInt(moveNumber);
-		      
+			  if (gameType.equals("CREATE")) {
+				  moveNumber = 0;
+			  }
+			  
 		      return null;
 		}
 		
 		@Override
 		protected void onPostExecute(Void x) {
-			this.instance.setMove(this.moveNum);
+			TextView tv = (TextView) findViewById(R.id.gameUsers);
+			tv.setText("Joined Game: " + userName + "-" + opponentName + "/Move#" + moveNumber);
+		}
+	}
+	
+	class SyncNotificationTask extends AsyncTask<String, Void, Void> {
+		CommGame instance;
+		Integer moveNum;
+		Boolean moveChanged;
+		String user;
+		String string0;
+		String string1;
+		
+		public SyncNotificationTask(CommGame l) {
+			this.instance = l;
+			this.moveNum = this.instance.getMove();
+			this.moveChanged = false;
+		}
+		
+		protected Void doInBackground(String... strings) {
+			string0 = strings[0];
+			string1 = strings[1];
+			
+			String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+			if (value.contains("Error")) {
+				value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
+			}
+			
+			this.user = value.substring(value.indexOf("-") + 1, value.indexOf(":"));
+			
+			String tempNumString = value.substring(value.indexOf(":") + 1);
+			
+			int tempNum = Integer.parseInt(tempNumString);
+			
+			if (tempNum != this.moveNum) {
+				this.moveChanged = true;
+				this.instance.setMove(tempNum);
+				this.moveNum = tempNum;
+			}
+			
+			return null;
+		}
+		
+		@Override 
+		protected void onPostExecute(Void x){
+			if (this.moveChanged && this.moveNum > 1) {
+				if (!isFinishing() && this.user.toLowerCase().equals(this.instance.getUser())) {
+					showWinAlert();
+				} else if (!isFinishing() && this.user.toLowerCase().equals(this.instance.getOpp())) {
+					showLoseAlert();
+				}
+			} else if (!isFinishing() && this.moveChanged && this.moveNum > 0) {
+				showMoveAlert();
+			}
+		}
+	}
+	
+	class SimpleTimerTask extends TimerTask {
+		CommGame instance;
+		String userName;
+		String opponent;
+		Boolean aSync;
+		
+		SimpleTimerTask(CommGame instance, String userName, String opponent, Boolean aSync) {
+			this.instance = instance;
+			this.userName = userName;
+			this.opponent = opponent;
+			this.aSync = aSync;
+		}
+		public void run() {
+			if (this.aSync) {
+				new AsyncNotificationTask(this.instance).execute(this.userName, this.opponent);
+			} else {
+				new SyncNotificationTask(this.instance).execute(this.userName, this.opponent);
+			}
 		}
 	}
 }
 
-class SyncNotificationTask extends AsyncTask<String, Void, Void> {
-	CommGame instance;
-	Integer moveNum;
-	Boolean moveChanged;
-	String user;
-	String string0;
-	String string1;
-	
-	public SyncNotificationTask(CommGame l) {
-		this.instance = l;
-		this.moveNum = this.instance.getMove();
-		this.moveChanged = false;
-	}
-	
-	protected Void doInBackground(String... strings) {
-		string0 = strings[0];
-		string1 = strings[1];
-		
-		String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
-		if (value.contains("Error")) {
-			value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
-		}
-		
-		this.user = value.substring(value.indexOf("-") + 1, value.indexOf(":"));
-		
-		String tempNumString = value.substring(value.indexOf(":") + 1);
-		
-		int tempNum = Integer.parseInt(tempNumString);
-		
-		if (tempNum != this.moveNum) {
-			this.moveChanged = true;
-			this.instance.setMove(tempNum);
-			this.moveNum = tempNum;
-		}
-		
-		return null;
-	}
-	
-	@Override 
-	protected void onPostExecute(Void x){
-		if (this.moveChanged && this.moveNum > 1) {
-			if (this.user.toLowerCase().equals(this.instance.getUser())) {
-				this.instance.showWinAlert();
-			} else if (this.user.toLowerCase().equals(this.instance.getOpp())) {
-				this.instance.showLoseAlert();
-			}
-		} else if (this.moveChanged && this.moveNum > 0) {
-			this.instance.showMoveAlert();
-		}
-		
-		try {
-			Thread.sleep(120000);
-			new SyncNotificationTask(this.instance).execute(this.string0, this.string1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-}
 
 class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
 	CommGame instance;
@@ -353,14 +413,6 @@ class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
 		if (this.moveChanged && this.moveNum > 0) {
 			NotificationManager mNot = (NotificationManager) this.context.getSystemService(Context.NOTIFICATION_SERVICE);
 			mNot.notify("Comm", 1959, mBuilder.build());
-		}
-		
-		try {
-			Thread.sleep(1200000);
-			new AsyncNotificationTask(this.instance).execute(this.string0, this.string1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }

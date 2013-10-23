@@ -9,11 +9,19 @@
     tools:context=".CommGame" >
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/sendScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:onClick="onSendScore"
         android:text="Send Score" />
+
+    <TextView
+        android:id="@+id/gameUsers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sendScore"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
