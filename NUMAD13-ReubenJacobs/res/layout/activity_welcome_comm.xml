@@ -30,4 +30,21 @@
         <requestFocus />
     </EditText>
 
+    <Button
+        android:id="@+id/commAcknow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true"
+        android:onClick="showAcknow"
+        android:text="Acknowledgments" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/commAcknow"
+        android:layout_centerHorizontal="true"
+        android:text="Create a game and send a score. Join the same game and you will see the move# has been incremented." />
+
 </RelativeLayout>

@@ -2,8 +2,12 @@
 package edu.neu.madcourse.reubenjacobs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -71,9 +75,23 @@ public class DabbleComm extends Activity {
 		intent.putExtra("GAME", "NEW");
 		this.user2Name = opponentName;
 		
-		new CreateGameTask().execute(this.userName, opponentName);
-		
-		startActivity(intent);
+		if (isNetworkOnline()) {
+			new CreateGameTask().execute(this.userName, opponentName);
+			startActivity(intent);
+		} else {
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+	        builder1.setMessage("No internet available");
+	        builder1.setCancelable(true);
+	        builder1.setNegativeButton("Back",
+	                new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int id) {
+	                dialog.cancel();
+	            }
+	        });
+
+	        AlertDialog alert11 = builder1.create();
+	        alert11.show();
+		}
    }
    
    public void onJoinGame(View view) {
@@ -86,10 +104,43 @@ public class DabbleComm extends Activity {
 		intent.putExtra("GAME", "JOIN");
 		this.user2Name = opponentName;
 		
-		new JoinGameTask().execute(this.userName, opponentName);
-		
-		startActivity(intent);
+		if (isNetworkOnline()) {
+			new JoinGameTask().execute(this.userName, opponentName);
+			startActivity(intent);
+		} else {
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+	        builder1.setMessage("No internet available");
+	        builder1.setCancelable(true);
+	        builder1.setNegativeButton("Back",
+	                new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int id) {
+	                dialog.cancel();
+	            }
+	        });
+
+	        AlertDialog alert11 = builder1.create();
+	        alert11.show();
+		}			
    }
+   
+	public boolean isNetworkOnline() {
+		 boolean status=false;
+		    try{
+		        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		        NetworkInfo netInfo = cm.getNetworkInfo(0);
+		        if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
+		            status= true;
+		        }else {
+		            netInfo = cm.getNetworkInfo(1);
+		            if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
+		                status= true;
+		        }
+		    }catch(Exception e){
+		        e.printStackTrace();  
+		        return false;
+		    }
+		    return status;
+	}  
    
    class CreateGameTask extends AsyncTask<String, Void, Void> {
 		protected Void doInBackground(String... strings) {

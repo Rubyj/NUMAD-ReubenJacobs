@@ -11,6 +11,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -185,6 +187,25 @@ public class CommGame extends Activity {
 	       alert11.show();
 	}
 	
+	public boolean isNetworkOnline() {
+		 boolean status=false;
+		    try{
+		        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		        NetworkInfo netInfo = cm.getNetworkInfo(0);
+		        if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
+		            status= true;
+		        }else {
+		            netInfo = cm.getNetworkInfo(1);
+		            if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
+		                status= true;
+		        }
+		    }catch(Exception e){
+		        e.printStackTrace();  
+		        return false;
+		    }
+		    return status;
+	} 
+	
 	class SendScoreTask extends AsyncTask<String, Void, Void> {
 		CommGame instance;
 		
@@ -193,6 +214,7 @@ public class CommGame extends Activity {
 		}
 		
 		protected Void doInBackground(String... strings) {
+			if (instance.isNetworkOnline()) {
 			  String game = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
 			  String gameRev = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
 			  Boolean forward = false;
@@ -241,16 +263,19 @@ public class CommGame extends Activity {
 			  } else if (reverse) {
 				  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], gameRev.substring(0, game.length() - 1) + strings[3]);
 			  }
+			}
 			  
 		      return null;
 		}
 		
 		@Override
 		public void onPostExecute(Void x){
-			TextView tv = (TextView) findViewById(R.id.gameUsers);
-			String text  = tv.getText().toString();
-			Integer num = Integer.parseInt(text.substring(text.length() - 1));
-			tv.setText(text.substring(0, text.length() - 1) + num);
+			if (instance.isNetworkOnline()) {
+				TextView tv = (TextView) findViewById(R.id.gameUsers);
+				String text  = tv.getText().toString();
+				Integer num = Integer.parseInt(text.substring(text.length() - 1));
+				tv.setText(text.substring(0, text.length() - 1) + num);
+			}
 		}
 	} 
 
@@ -258,7 +283,7 @@ public class CommGame extends Activity {
 		Integer moveNum;
 		
 		protected Void doInBackground(String... strings) {
-			  
+			if (isNetworkOnline()) {
 			  String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
 			  if (value.contains("Error")) {
 				  value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
@@ -272,14 +297,16 @@ public class CommGame extends Activity {
 			  if (gameType.equals("CREATE")) {
 				  moveNumber = 0;
 			  }
-			  
+			}
 		      return null;
 		}
 		
 		@Override
 		protected void onPostExecute(Void x) {
-			TextView tv = (TextView) findViewById(R.id.gameUsers);
-			tv.setText("Joined Game: " + userName + "-" + opponentName + "/Move#" + moveNumber);
+			if (isNetworkOnline()) {
+				TextView tv = (TextView) findViewById(R.id.gameUsers);
+				tv.setText("Joined Game: " + userName + "-" + opponentName + "/Move#" + moveNumber);
+			}
 		}
 	}
 	
@@ -298,40 +325,40 @@ public class CommGame extends Activity {
 		}
 		
 		protected Void doInBackground(String... strings) {
-			string0 = strings[0];
-			string1 = strings[1];
+				string0 = strings[0];
+				string1 = strings[1];
+				
+				String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+				if (value.contains("Error")) {
+					value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
+				}
 			
-			String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
-			if (value.contains("Error")) {
-				value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
-			}
+				this.user = value.substring(value.indexOf("-") + 1, value.indexOf(":"));
 			
-			this.user = value.substring(value.indexOf("-") + 1, value.indexOf(":"));
+				String tempNumString = value.substring(value.indexOf(":") + 1);
 			
-			String tempNumString = value.substring(value.indexOf(":") + 1);
+				int tempNum = Integer.parseInt(tempNumString);
 			
-			int tempNum = Integer.parseInt(tempNumString);
+				if (tempNum != this.moveNum) {
+					this.moveChanged = true;
+					this.instance.setMove(tempNum);
+					this.moveNum = tempNum;
+				}
 			
-			if (tempNum != this.moveNum) {
-				this.moveChanged = true;
-				this.instance.setMove(tempNum);
-				this.moveNum = tempNum;
-			}
-			
-			return null;
+				return null;
 		}
 		
 		@Override 
 		protected void onPostExecute(Void x){
-			if (this.moveChanged && this.moveNum > 1) {
-				if (!isFinishing() && this.user.toLowerCase().equals(this.instance.getUser())) {
-					showWinAlert();
-				} else if (!isFinishing() && this.user.toLowerCase().equals(this.instance.getOpp())) {
-					showLoseAlert();
+				if (this.moveChanged && this.moveNum > 1) {
+					if (!isFinishing() && this.user.toLowerCase().equals(this.instance.getUser())) {
+						showWinAlert();
+					} else if (!isFinishing() && this.user.toLowerCase().equals(this.instance.getOpp())) {
+						showLoseAlert();
+					}
+				} else if (!isFinishing() && this.moveChanged && this.moveNum > 0) {
+					showMoveAlert();
 				}
-			} else if (!isFinishing() && this.moveChanged && this.moveNum > 0) {
-				showMoveAlert();
-			}
 		}
 	}
 	
@@ -348,9 +375,9 @@ public class CommGame extends Activity {
 			this.aSync = aSync;
 		}
 		public void run() {
-			if (this.aSync) {
+			if (this.aSync && isNetworkOnline()) {
 				new AsyncNotificationTask(this.instance).execute(this.userName, this.opponent);
-			} else {
+			} else if (!this.aSync && isNetworkOnline()) {
 				new SyncNotificationTask(this.instance).execute(this.userName, this.opponent);
 			}
 		}
@@ -374,25 +401,24 @@ class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
 	}
 	
 	protected Void doInBackground(String... strings) {
-		this.string0 = strings[0];
-		this.string1 = strings[1];
+			this.string0 = strings[0];
+			this.string1 = strings[1];
 		
-		String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
-		if (value.contains("Error")) {
-			value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
-		}
+			String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+			if (value.contains("Error")) {
+				value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
+			}
 		
-		String tempNumString = value.substring(value.indexOf(":") + 1);
+			String tempNumString = value.substring(value.indexOf(":") + 1);
 		
-		int tempNum = Integer.parseInt(tempNumString);
+			int tempNum = Integer.parseInt(tempNumString);
 		
-		if (tempNum != this.moveNum) {
-			this.moveChanged = true;
-			this.instance.setMove(tempNum);
-			this.moveNum = tempNum;
-		}
-		
-		return null;
+			if (tempNum != this.moveNum) {
+				this.moveChanged = true;
+				this.instance.setMove(tempNum);
+				this.moveNum = tempNum;
+			}
+			return null;
 	}
 	
 	@Override 

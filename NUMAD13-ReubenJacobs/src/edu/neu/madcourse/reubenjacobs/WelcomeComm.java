@@ -93,6 +93,11 @@ public class WelcomeComm extends Activity {
 		
 	}
 	
+	public void showAcknow(View view) {
+		Intent intent = new Intent(this, CommAcknow.class);
+		startActivity(intent);
+	}
+	
 	public boolean isNetworkOnline() {
 		 boolean status=false;
 		    try{
@@ -110,7 +115,6 @@ public class WelcomeComm extends Activity {
 		        return false;
 		    }
 		    return status;
-
 	}  
 	
 	class CreateTask extends AsyncTask<String, Void, Void> {
