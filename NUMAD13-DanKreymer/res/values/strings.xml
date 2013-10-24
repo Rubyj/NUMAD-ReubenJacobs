@@ -99,5 +99,6 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_multiplayer">Multiplayer</string>
     <string name="dabble_realtime">Real Time</string>
     <string name="dabble_turnbased">Turn Based</string>
-    <string name="dabble_choose_player">Choose a player to challenege!</string>
+    <string name="dabble_choose_player">Choose an (online) player to challenge!</string>
+    <string name="dabble_challenge">Challenge!</string>
 </resources>

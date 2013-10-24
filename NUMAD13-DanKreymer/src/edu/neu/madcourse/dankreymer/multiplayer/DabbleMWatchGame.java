@@ -29,8 +29,6 @@ public class DabbleMWatchGame extends Activity implements OnClickListener{
 	private String user;
 	private Context context;
 	private Timer timer;
-	private Handler handler;
-	private Runnable runnable;
 	private volatile boolean usersLoaded;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +45,8 @@ public class DabbleMWatchGame extends Activity implements OnClickListener{
 		userStatus = (TextView) findViewById(R.id.dabble_player_status);
 		userGameplay = (TextView) findViewById(R.id.dabble_game_moves);
 		
-		View instructionsButon = findViewById(R.id.dabble_back_button);
-		instructionsButon.setOnClickListener(this);
+		View backButton = findViewById(R.id.dabble_back_button);
+		backButton.setOnClickListener(this);
 		
 		timer = new Timer();
 		
