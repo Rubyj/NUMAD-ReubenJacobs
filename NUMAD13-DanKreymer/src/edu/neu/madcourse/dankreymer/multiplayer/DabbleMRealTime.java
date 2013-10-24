@@ -11,6 +11,7 @@ import edu.neu.madcourse.dankreymer.R;
 import edu.neu.madcourse.dankreymer.keys.Keys;
 import edu.neu.madcourse.dankreymer.keys.ServerError;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +34,8 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 	private Timer timer;
 	private Button challengeButton;
 	private volatile boolean usersLoaded;
+	
+	protected static final String USERNAME = "USER";
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +73,10 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 		case R.id.dabble_back_button:
 			this.getActivity().finish();
 			break;
+		case R.id.dabble_challenge_button:
+			Intent intent = new Intent(this.getActivity(), DabbleMRealTimeGame.class);
+			intent.putExtra(USERNAME,user);
+			startActivity(intent);
 		}
 	}
 	
@@ -136,14 +143,14 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 			setTextColor(status);
 			userStatus.invalidate();
 			
-			if (status.equals(Keys.STATUS_ONLINE))
-			{
+//			if (status.equals(Keys.STATUS_ONLINE))
+//			{
 				challengeButton.setEnabled(true);
-			}
-			else
-			{
-				challengeButton.setEnabled(false);
-			}
+//			}
+//			else
+//			{
+//				challengeButton.setEnabled(false);
+//			}
 		}
 		
 		@Override
