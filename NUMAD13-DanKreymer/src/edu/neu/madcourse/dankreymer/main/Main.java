@@ -10,6 +10,7 @@ import edu.neu.madcourse.dankreymer.R.menu;
 import edu.neu.madcourse.dankreymer.communication.DabbleCom;
 import edu.neu.madcourse.dankreymer.dabble.Dabble;
 import edu.neu.madcourse.dankreymer.dictionary.Dictionary;
+import edu.neu.madcourse.dankreymer.multiplayer.DabbleM;
 import edu.neu.madcourse.dankreymer.sudoku.Prefs;
 import edu.neu.madcourse.dankreymer.sudoku.Sudoku;
 
@@ -50,6 +51,8 @@ public class Main extends Activity implements OnClickListener {
       dabbleButton.setOnClickListener(this);
       View dabbleComButton = findViewById(R.id.dabble_com_button);
       dabbleComButton.setOnClickListener(this);
+      View dabbleMButton = findViewById(R.id.dabble_m_button);
+      dabbleMButton.setOnClickListener(this);
       View exitButton = findViewById(R.id.quit_button);
       exitButton.setOnClickListener(this);
    }
@@ -61,6 +64,9 @@ public class Main extends Activity implements OnClickListener {
          int[] stupidArray = null;
          stupidArray[6]++;
          break;
+      case R.id.dabble_m_button:
+          startActivity(new Intent(this, DabbleM.class));
+          break;
       case R.id.dabble_com_button:
           startActivity(new Intent(this, DabbleCom.class));
           break;
