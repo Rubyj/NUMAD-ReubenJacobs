@@ -4,11 +4,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         tools:context=".DeviceFragment" >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dabble_realtime" />
+        android:layout_marginBottom="25dip"
+        android:layout_marginTop="25dip"
+        android:text="@string/dabble_choose_player"
+        android:textSize="18sp" />
+    
+     <Spinner
+        android:id="@+id/dabble_multiplayer_select"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:layout_height="wrap_content" />
+     
+     <TextView
+        android:id="@+id/dabble_multiplayer_status"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:textColor="@color/dabble_background_text"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:textSize="18sp" />
+
 
 </LinearLayout>
