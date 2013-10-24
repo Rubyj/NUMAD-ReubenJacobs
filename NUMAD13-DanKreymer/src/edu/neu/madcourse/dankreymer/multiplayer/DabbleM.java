@@ -33,7 +33,7 @@ public class DabbleM extends Activity implements OnClickListener {
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dabble_com);
+		setContentView(R.layout.dabble_m);
 		
 		SharedPreferences pref = getPreferences(MODE_PRIVATE);
 		
@@ -50,6 +50,8 @@ public class DabbleM extends Activity implements OnClickListener {
 		resumeButton.setOnClickListener(this);
 		View watchButton = findViewById(R.id.dabble_watch_game_button);
 		watchButton.setOnClickListener(this);
+		View multiButton = findViewById(R.id.dabble_multiplayer_button);
+		multiButton.setOnClickListener(this);
 		View acknowledgementsButton = findViewById(R.id.dabble_acknowledgements_button);
 		acknowledgementsButton.setOnClickListener(this);
 		View instructionsButon = findViewById(R.id.dabble_instructions_button);
@@ -111,10 +113,15 @@ public class DabbleM extends Activity implements OnClickListener {
 		case R.id.dabble_resume_game_button:
 			startNewGame(RESUME_GAME);
 			break;
-		case R.id.dabble_watch_game_button:
-			Intent intent = new Intent(this, DabbleMWatchGame.class);
+		case R.id.dabble_multiplayer_button:
+			Intent intent = new Intent(this, DabbleMMulti.class);
 			intent.putExtra(USERNAME,getUser());
 			startActivity(intent);
+			break;
+		case R.id.dabble_watch_game_button:
+			Intent intent2 = new Intent(this, DabbleMWatchGame.class);
+			intent2.putExtra(USERNAME,getUser());
+			startActivity(intent2);
 			break;
 		case R.id.dabble_instructions_button:
 			startActivity(new Intent(this, DabbleMInstructions.class));

@@ -96,4 +96,7 @@ row, each column, and each of the 3x3 boxes
     
     <!-- Dabble Multiplayer stuff -->
     <string name="dabble_m_label">Two Player Dabble</string>
+    <string name="dabble_multiplayer">Multiplayer</string>
+    <string name="dabble_realtime">Real Time</string>
+    <string name="dabble_turnbased">Turn Based</string>
 </resources>
