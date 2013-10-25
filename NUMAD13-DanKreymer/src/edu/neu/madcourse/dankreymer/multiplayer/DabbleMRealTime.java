@@ -214,7 +214,7 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 		
 		@Override
 		protected String doInBackground(String... parameter) { 
-			if (usersLoaded){
+			if (usersLoaded && spinner != null && spinner.getSelectedItem() != null){
 				String user = spinner.getSelectedItem().toString();
 				if (user != null)
 				{
