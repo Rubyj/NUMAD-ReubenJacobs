@@ -9,10 +9,13 @@ public class Keys {
 	public static final String USERS = "users";
 	public static final String STATUS_OFFLINE = "offline";
 	public static final String STATUS_ONLINE = "online";
+	public static final String STATUS_LOOKING = "looking";
 	public static final String STATUS_IN_GAME = "in game";
+	public static final String STATUS_REALTIME_INGAME= "real_time_ingame";
 	private static final String USER_STATUS = "user_status";
 	private static final String USER_GAMEPLAY = "user_game_play";
-	
+	private static final String USER_REAL_TIME_INVITE = "user_real_time_invites";
+	private static final String REAL_TIME_GAME = "real_time_game";
 	
 	public static String get(String key)
 	{
@@ -37,5 +40,22 @@ public class Keys {
 	public static String userGameplayKey(String user)
 	{
 		return USER_GAMEPLAY + "_" + user;
+	}
+	
+	public static String realTimeInviteKey(String player)
+	{
+		return USER_REAL_TIME_INVITE + "_" + player;
+	}
+	
+	public static String realTimeGameKey(String player1, String player2)
+	{
+		if (player1.compareTo(player2) < 0)
+		{
+			return REAL_TIME_GAME + "_" + player1 + "_" + player2;
+		}
+		else
+		{
+			return REAL_TIME_GAME + "_" + player2 + "_" + player1;
+		}
 	}
 }

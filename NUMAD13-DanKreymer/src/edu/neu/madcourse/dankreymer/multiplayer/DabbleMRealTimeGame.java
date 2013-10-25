@@ -127,6 +127,7 @@ public class DabbleMRealTimeGame extends Activity {
 	private Random rand;
 	
 	private String username;
+	private String otherUsername;
 	
 	private boolean surrender;
 	
@@ -153,6 +154,7 @@ public class DabbleMRealTimeGame extends Activity {
 		Bundle bundle = getIntent().getExtras();
 		
 		username = bundle.getString(DabbleMRealTime.USERNAME);
+		otherUsername = bundle.getString(DabbleMRealTime.OTHER_USERNAME);
 
 		selected = -1;
 		score = 0;
@@ -502,6 +504,7 @@ public class DabbleMRealTimeGame extends Activity {
 	protected void gameOver()
 	{
 		wakeLock.release();
+		new GameOverTask().execute();
 		pauseTimer();
 		if (playMusic){
 			Music.stop(this);
@@ -529,6 +532,13 @@ public class DabbleMRealTimeGame extends Activity {
 		protected String doInBackground(String... params) {
 			return Keys.put(Keys.userStatusKey(username), Keys.STATUS_IN_GAME);
 		}
-		
+	}
+	
+	private class GameOverTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.clearKey(Keys.realTimeGameKey(username, otherUsername));
+		}
 	}
 }

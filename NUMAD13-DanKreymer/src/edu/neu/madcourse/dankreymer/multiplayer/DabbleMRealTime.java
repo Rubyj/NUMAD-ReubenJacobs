@@ -33,9 +33,14 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 	private Context context;
 	private Timer timer;
 	private Button challengeButton;
+	private Button playButton;
 	private volatile boolean usersLoaded;
+	private boolean inviteSent;
+	private boolean inviteReceived;
+	private String otherPlayer;
 	
 	protected static final String USERNAME = "USER";
+	protected static final String OTHER_USERNAME = "OTHER_USER";
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +52,8 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 		
 		context = this.getActivity();
 		usersLoaded = false;
+		inviteSent = false;
+		inviteReceived = false;
 		
 		spinner = (Spinner) view.findViewById(R.id.dabble_multiplayer_select);
 		userStatus = (TextView) view.findViewById(R.id.dabble_multiplayer_status);
@@ -57,11 +64,8 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 		challengeButton = (Button) view.findViewById(R.id.dabble_challenge_button);
 		challengeButton.setOnClickListener(this);
 		
-		timer = new Timer();
-		
-		new updatePlayersTask().execute();
-		
-		timer.scheduleAtFixedRate(toTimerTask(), new Date(), 1000);
+		playButton = (Button) view.findViewById(R.id.dabble_accept_challenge_button);
+		playButton.setOnClickListener(this);
 		
         return view;
     }
@@ -71,16 +75,24 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.dabble_back_button:
+			onDestroyView();
 			this.getActivity().finish();
 			break;
 		case R.id.dabble_challenge_button:
+			new sendInviteTask().execute();
+			break;
+		case R.id.dabble_accept_challenge_button:
+			new challengeAcceptedTask().execute();
+			new removeInviteTask().execute();
 			Intent intent = new Intent(this.getActivity(), DabbleMRealTimeGame.class);
 			intent.putExtra(USERNAME,user);
+			intent.putExtra(OTHER_USERNAME,otherPlayer);
 			startActivity(intent);
+			break;
 		}
 	}
 	
-	private TimerTask toTimerTask()
+	private TimerTask statusTimerTask()
 	{
 		return new TimerTask(){
 
@@ -90,9 +102,56 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 			}};
 	}
 	
+	private TimerTask checkInvitesTimerTask()
+	{
+		return new TimerTask(){
+
+			@Override
+			public void run() {
+				new checkInviteTask().execute();
+			}};
+	}
+	
+	private TimerTask checkGameStartTimerTask()
+	{
+		return new TimerTask(){
+
+			@Override
+			public void run() {
+				new gameStartListenerTask().execute();
+			}};
+	}
+	
+	public void onPause()
+	{
+		super.onPause();
+		new removeInviteTask().execute();
+		timer.cancel();
+		timer.purge();
+	}
+	
+	public void onResume()
+	{
+		super.onResume();
+		timer = new Timer();
+		
+		inviteReceived = false;
+		inviteSent = false;
+		
+		new UserLookingTask().execute();
+		new updatePlayersTask().execute();
+		
+		challengeButton.setText("Challenge!");
+		
+		timer.scheduleAtFixedRate(statusTimerTask(), new Date(), 1000);
+		timer.scheduleAtFixedRate(checkInvitesTimerTask(), new Date(), 1000);
+		timer.scheduleAtFixedRate(checkGameStartTimerTask(), new Date(), 1000);
+	}
+	
 	public void onDestroyView()
 	{
 		super.onDestroyView();
+		new removeInviteTask().execute();
 		timer.cancel();
 		timer.purge();
 	}
@@ -143,14 +202,14 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 			setTextColor(status);
 			userStatus.invalidate();
 			
-//			if (status.equals(Keys.STATUS_ONLINE))
-//			{
+			if (status.equals(Keys.STATUS_LOOKING) && !inviteSent && !inviteReceived)
+			{
 				challengeButton.setEnabled(true);
-//			}
-//			else
-//			{
-//				challengeButton.setEnabled(false);
-//			}
+			}
+			else
+			{
+				challengeButton.setEnabled(false);
+			}
 		}
 		
 		@Override
@@ -171,7 +230,7 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 			{
 				userStatus.setTextColor(getResources().getColor(R.color.dabble_red_text));
 			}
-			else if (status.equals(Keys.STATUS_ONLINE))
+			else if (status.equals(Keys.STATUS_ONLINE) || status.equals(Keys.STATUS_LOOKING))
 			{
 				userStatus.setTextColor(getResources().getColor(R.color.dabble_green_text));
 			}
@@ -183,6 +242,117 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 			{
 				userStatus.setTextColor(getResources().getColor(R.color.dabble_background_text));
 			}
+		}
+	}
+	
+	private class UserLookingTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.put(Keys.userStatusKey(user), Keys.STATUS_LOOKING);
+		}
+		
+	}
+	
+	private class sendInviteTask extends AsyncTask<String, String, String> {
+		@Override
+		protected void onPostExecute(String result) {
+			if (!result.equals(ServerError.NO_CONNECTION.getText()) && 
+					!result.equals(ServerError.NO_SUCH_KEY.getText()))
+			{
+				challengeButton.setEnabled(false);
+				challengeButton.setText("Challenge Sent!");
+				inviteSent = true;
+			}
+			else if (result.equals(ServerError.NO_CONNECTION.getText()))
+			{
+				challengeButton.setEnabled(false);
+				challengeButton.setText("Challenge!!");
+			}
+			
+			challengeButton.invalidate();
+		}
+		
+		@Override
+		protected String doInBackground(String... parameter) { 
+			otherPlayer = spinner.getSelectedItem().toString();
+			return Keys.put(Keys.realTimeInviteKey(otherPlayer), user);
+		}
+	}
+	
+	private class checkInviteTask extends AsyncTask<String, String, String> {
+		@Override
+		protected void onPostExecute(String result) {
+			if (!result.equals(ServerError.NO_CONNECTION.getText()) && 
+					!result.equals(ServerError.NO_SUCH_KEY.getText()))
+			{
+				playButton.setText("Play " + result);
+				otherPlayer = result;
+				playButton.setVisibility(View.VISIBLE);
+				
+				inviteReceived = true;
+			}
+			else
+			{
+				playButton.setVisibility(View.INVISIBLE);
+			}
+			
+			playButton.invalidate();
+		}
+		
+		@Override
+		protected String doInBackground(String... parameter) { 
+			return Keys.get(Keys.realTimeInviteKey(user));
+		}
+	}
+	
+	private class removeInviteTask extends AsyncTask<String, String, String> {
+		
+		@Override
+		protected String doInBackground(String... parameter) { 
+			if (otherPlayer != null)
+			{
+				return Keys.clearKey(Keys.realTimeInviteKey(otherPlayer));
+			}
+			else return "";
+		}
+	}
+	
+	private class challengeAcceptedTask extends AsyncTask<String, String, String> {
+		
+		@Override
+		protected String doInBackground(String... parameter) { 
+			if (otherPlayer != null)
+			{
+				return Keys.put(Keys.realTimeGameKey(user,  otherPlayer), Keys.STATUS_REALTIME_INGAME);
+			}
+			else return "";
+		}
+	}
+	
+	private class gameStartListenerTask extends AsyncTask<String, String, String> {
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if (result.equals(Keys.STATUS_REALTIME_INGAME))
+			{
+				new removeInviteTask().execute();
+				
+				Intent intent = new Intent(getActivity(), DabbleMRealTimeGame.class);
+				intent.putExtra(USERNAME,user);
+				intent.putExtra(OTHER_USERNAME,otherPlayer);
+				startActivity(intent);
+				
+			}
+		}
+		
+		@Override
+		protected String doInBackground(String... parameter) {
+			if (otherPlayer != null)
+			{
+				return Keys.get(Keys.realTimeGameKey(user, otherPlayer));
+			}
+			else return "";
 		}
 	}
 }
