@@ -61,6 +61,7 @@ public class DabbleMRealTimeView extends View {
 		drawScore(canvas);
 		drawBack(canvas);
 		drawOtherPlayer(canvas);
+		drawShakeUps(canvas);
 	}
 
 	private void drawBoard(Canvas canvas)
@@ -419,6 +420,28 @@ public class DabbleMRealTimeView extends View {
 		
 
 		canvas.drawText("Quit", left + text_x, top + text_y, foreground);
+	}
+	
+	private void drawShakeUps(Canvas canvas)
+	{
+		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
+		foreground.setColor(getResources().getColor(R.color.dabble_background_text));
+		foreground.setStyle(Style.FILL);
+		foreground.setTextSize(button_size_y* 0.5f);
+		foreground.setTextScaleX(1);
+		foreground.setTextAlign(Paint.Align.CENTER);
+		FontMetrics fm = foreground.getFontMetrics();
+		// Centering in X: use alignment (and X at midpoint)
+		float text_x = button_size_x / 2;
+		// Centering in Y: measure ascent/descent first
+		float text_y = button_size_y / 2 - (fm.ascent + fm.descent) / 2;
+
+		float left, top;
+
+		top = (getHeight() - button_size_y) / 2;
+		left = (getWidth() - button_size_x);	
+
+		canvas.drawText("SU: " + dabbleGame.getShakeupCounter(), left + text_x, top + text_y, foreground);
 	}
 	
 	@Override

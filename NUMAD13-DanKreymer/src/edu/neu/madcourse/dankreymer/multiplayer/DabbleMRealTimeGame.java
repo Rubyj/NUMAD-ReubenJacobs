@@ -25,6 +25,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
@@ -39,7 +44,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 
-public class DabbleMRealTimeGame extends Activity {
+public class DabbleMRealTimeGame extends Activity{
 	private static final String TAG = "Dabble";
 
 	//various keys
@@ -109,7 +114,7 @@ public class DabbleMRealTimeGame extends Activity {
 	
 	private final static int fullBoardBonus = 500;
 	
-	private Context context = this;
+	private DabbleMRealTimeGame context = this;
 	
 	private CountDownTimer timer;
 	private Timer checkGameOverTimer;
@@ -124,6 +129,7 @@ public class DabbleMRealTimeGame extends Activity {
 	private int soundID_word;
 	private int soundID_game_over;
 	private int soundID_game_won;
+	private int soundID_shake;
 
 	private ArrayList<String> solution;
 	private char[] tiles;
@@ -136,6 +142,8 @@ public class DabbleMRealTimeGame extends Activity {
 	private boolean paused;
 	private boolean playMusic;
 	
+	private int shakeUpCounter;
+	
 	private Random rand;
 	
 	private String username;
@@ -143,8 +151,16 @@ public class DabbleMRealTimeGame extends Activity {
 	
 	private boolean surrender;
 	private boolean[] otherPlayerRows;
+
+	private float mAccel; // acceleration apart from gravity
+	private float mAccelCurrent; // current acceleration including gravity
+	private float mAccelLast; // last acceleration including gravity
+
+	private long lastUpdate;
 	
 	private PowerManager.WakeLock wakeLock;
+	
+	private SensorManager sensorManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -153,9 +169,17 @@ public class DabbleMRealTimeGame extends Activity {
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "Wake Lock!");
 		
+		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+		mAccel = 0.00f;
+		mAccelCurrent = SensorManager.GRAVITY_EARTH;
+		mAccelLast = SensorManager.GRAVITY_EARTH;
+
 		dictionary = new HashSet<String>();
 		lettersLoaded = new ArrayList<String>();
 		surrender = false;
+		
+		shakeUpCounter = 2;
 		
 		otherPlayerRows = new boolean[4];
 		otherPlayerRows[0] = false;
@@ -169,6 +193,7 @@ public class DabbleMRealTimeGame extends Activity {
 		soundID_word = sp.load(this, R.raw.dabble_new_word, 1);
 		soundID_game_over = sp.load(this, R.raw.dabble_game_over, 1);
 		soundID_game_won = sp.load(this, R.raw.dabble_game_won, 1);
+		soundID_shake = sp.load(this, R.raw.dabble_shakeup, 1);
 		
 		Bundle bundle = getIntent().getExtras();
 		
@@ -184,6 +209,8 @@ public class DabbleMRealTimeGame extends Activity {
 		time = maxTime;
 		paused = false;
 		gameOver = false;
+		
+		lastUpdate = System.currentTimeMillis();
 		
 		new UserInGameTask().execute();
 		startTimer();
@@ -210,6 +237,7 @@ public class DabbleMRealTimeGame extends Activity {
 	}
 	
 	protected void onPause(){
+		sensorManager.unregisterListener(mSensorListener);
 		super.onPause();
 		checkGameOverTimer.cancel();
 		checkGameOverTimer.purge();
@@ -218,7 +246,9 @@ public class DabbleMRealTimeGame extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		sensorManager.registerListener(mSensorListener,
+				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+				SensorManager.SENSOR_DELAY_NORMAL);
 		if (playMusic){
 			Music.play(this, R.raw.dabble_music);
 		}
@@ -226,6 +256,17 @@ public class DabbleMRealTimeGame extends Activity {
 		checkGameOverTimer = new Timer();
 		checkGameOverTimer.scheduleAtFixedRate(CheckGameOverTimerTask(), new Date(), 500);
 		checkGameOverTimer.scheduleAtFixedRate(GetRowCompletedTimerTask(), new Date(), 250);
+		checkGameOverTimer.scheduleAtFixedRate(GetShakeTimerTask(), new Date(), 500);
+	}
+	
+	private TimerTask GetShakeTimerTask()
+	{
+		return new TimerTask(){
+
+			@Override
+			public void run() {
+				new GetShakeTask().execute();
+			}};
 	}
 	
 	private TimerTask CheckGameOverTimerTask()
@@ -327,6 +368,28 @@ public class DabbleMRealTimeGame extends Activity {
 					"");
 			count++;
 		}
+	}
+	
+	//randomize the solution and create the board.
+	private void shakeUp() {
+		String wordsCombined = solution.get(0) + solution.get(1)
+				+ solution.get(2) + solution.get(3);
+		Random rand = new Random();
+
+		char[] temp_tiles = new char[numTiles];
+		int index;
+		int count = 0;
+		while (wordsCombined != "") {
+			index = rand.nextInt(wordsCombined.length());
+			char c = wordsCombined.charAt(index);
+			temp_tiles[count] = c;
+			wordsCombined = wordsCombined.replaceFirst(Character.toString(c),
+					"");
+			count++;
+		}
+		
+		playShakeUpSound();
+		tiles = temp_tiles;
 	}
 
 	protected void startTimer() {
@@ -585,6 +648,11 @@ public class DabbleMRealTimeGame extends Activity {
 		sp.play(soundID_word, 1, 1, 1, 0, 1f);
 	}
 	
+	protected void playShakeUpSound()
+	{
+		sp.play(soundID_shake, 1, 1, 1, 0, 1f);
+	}
+	
 	private void playOutOfTimeSound()
 	{
 		sp.play(soundID_game_over, 1, 1, 1, 0, 1f);
@@ -622,6 +690,48 @@ public class DabbleMRealTimeGame extends Activity {
 		i.putExtra(DabbleMRealTime.USERNAME, username);
 		i.putExtra(DabbleMRealTime.OTHER_USERNAME, username);
 		startActivityForResult(i, REQUEST_CODE);
+	}
+	
+	protected int getShakeupCounter()
+	{
+		return shakeUpCounter;
+	}
+	
+	private void useShakeUp()
+	{
+		if (shakeUpCounter > 0)
+		{
+			shakeUpCounter =- 1;
+			new ShakeUpTask().execute();
+		}
+	}
+	
+	private class ShakeUpTask extends AsyncTask<String, String, String>{
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.put(Keys.realTimeGameShakeKey(username, otherUsername, otherUsername), Keys.STATUS_IN_GAME);
+		}
+	}
+	
+	private class GetShakeTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (!result.equals(ServerError.NO_CONNECTION.getText()) && !result.equals(ServerError.NO_SUCH_KEY.getText()))
+			{
+				context.shakeUp();
+			}
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {		
+			String key = Keys.get(Keys.realTimeGameShakeKey(username, otherUsername, username));
+			if (!key.equals(ServerError.NO_CONNECTION.getText()) && !key.equals(ServerError.NO_SUCH_KEY.getText()))
+			{
+				Keys.clearKey(Keys.realTimeGameShakeKey(username, otherUsername, username));
+			}
+			return key;
+		}
 	}
 	
 	private class UserInGameTask extends AsyncTask<String, String, String>{
@@ -697,4 +807,24 @@ public class DabbleMRealTimeGame extends Activity {
 			return Keys.get(Keys.realTimeGameKey(username, otherUsername));
 		}
 	}
+	
+	private final SensorEventListener mSensorListener = new SensorEventListener() {
+
+		public void onSensorChanged(SensorEvent se) {
+			float x = se.values[0];
+			float y = se.values[1];
+			float z = se.values[2];
+			mAccelLast = mAccelCurrent;
+			mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+			float delta = mAccelCurrent - mAccelLast;
+			mAccel = mAccel * 0.9f + delta;
+			if (mAccel > 8)
+			{
+				context.useShakeUp();
+			}
+		}
+
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		}
+	};
 }
