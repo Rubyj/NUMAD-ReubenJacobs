@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.TimerTask;
 import edu.neu.madcourse.dankreymer.R;
 import edu.neu.madcourse.dankreymer.R.raw;
 import edu.neu.madcourse.dankreymer.keys.Keys;
+import edu.neu.madcourse.dankreymer.keys.ServerError;
 import edu.neu.madcourse.dankreymer.misc.Music;
 
 import android.app.Activity;
@@ -140,6 +142,7 @@ public class DabbleMRealTimeGame extends Activity {
 	private String otherUsername;
 	
 	private boolean surrender;
+	private boolean[] otherPlayerRows;
 	
 	private PowerManager.WakeLock wakeLock;
 
@@ -153,6 +156,12 @@ public class DabbleMRealTimeGame extends Activity {
 		dictionary = new HashSet<String>();
 		lettersLoaded = new ArrayList<String>();
 		surrender = false;
+		
+		otherPlayerRows = new boolean[4];
+		otherPlayerRows[0] = false;
+		otherPlayerRows[1] = false;
+		otherPlayerRows[2] = false;
+		otherPlayerRows[3] = false;
 		
 		//set up sound pool.
 		sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
@@ -193,8 +202,11 @@ public class DabbleMRealTimeGame extends Activity {
 		if (playMusic){
 			Music.stop(this);
 		}
-		checkGameOverTimer.cancel();
-		checkGameOverTimer.purge();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		goBack();
 	}
 	
 	protected void onPause(){
@@ -213,6 +225,7 @@ public class DabbleMRealTimeGame extends Activity {
 		
 		checkGameOverTimer = new Timer();
 		checkGameOverTimer.scheduleAtFixedRate(CheckGameOverTimerTask(), new Date(), 500);
+		checkGameOverTimer.scheduleAtFixedRate(GetRowCompletedTimerTask(), new Date(), 250);
 	}
 	
 	private TimerTask CheckGameOverTimerTask()
@@ -225,6 +238,20 @@ public class DabbleMRealTimeGame extends Activity {
 			}};
 	}
 
+	private TimerTask GetRowCompletedTimerTask()
+	{
+		return new TimerTask(){
+
+			@Override
+			public void run() {
+				new GetRowCompletedTask().execute();
+			}};
+	}
+	
+	protected boolean getOtherPlayerRow(int row)
+	{
+		return otherPlayerRows[row - 1];
+	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		  if (requestCode == REQUEST_CODE) {
@@ -359,6 +386,37 @@ public class DabbleMRealTimeGame extends Activity {
 		
 		new UserInGameTask().execute(); //in case internet connection comes on midgame
 	}
+	
+	protected void updateRows(boolean[] rows)
+	{
+		String ret = "";
+		if (rows[0])
+		{
+			ret += ";" + "0";
+		}
+		
+		if (rows[1])
+		{
+			ret += ";" + "1";
+		}
+		
+		if (rows[2])
+		{
+			ret += ";" + "2";
+		}
+		
+		if (rows[3])
+		{
+			ret += ";" + "3";
+		}
+		
+		if (!ret.equals(""))
+		{
+			ret.replaceFirst(";", "");
+		}
+		
+		new NewRowCompletedTask().execute(ret);
+	}
 
 	private String tilesToString() {
 		return new String(tiles);
@@ -435,6 +493,11 @@ public class DabbleMRealTimeGame extends Activity {
 		}
 		
 		return Integer.toString(score);
+	}
+	
+	protected boolean checkOtherPlayerRow(int row)
+	{
+		return otherPlayerRows[row-1];
 	}
 	
 	//check if a row (1,2,3,4) has a valid word.
@@ -582,6 +645,35 @@ public class DabbleMRealTimeGame extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			return Keys.put(Keys.realTimeGameKey(username, otherUsername), params[0]);
+		}
+	}
+	
+	private class NewRowCompletedTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {			
+			return Keys.put(Keys.realTimeGameRowKey(username, otherUsername, username), params[0]);
+		}
+	}
+	
+	private class GetRowCompletedTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (!result.equals(ServerError.NO_CONNECTION.getText()) && !result.equals(ServerError.NO_SUCH_KEY.getText()))
+			{
+				List<String> list = Arrays.asList(result.split(";"));
+				
+				otherPlayerRows[0] = list.contains("0");
+				otherPlayerRows[1] = list.contains("1");
+				otherPlayerRows[2] = list.contains("2");
+				otherPlayerRows[3] = list.contains("3");
+			}
+		}
+		
+		@Override
+		protected String doInBackground(String... params) {			
+			return Keys.get(Keys.realTimeGameRowKey(username, otherUsername, otherUsername));
 		}
 	}
 	

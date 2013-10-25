@@ -16,6 +16,7 @@ public class Keys {
 	private static final String USER_GAMEPLAY = "user_game_play";
 	private static final String USER_REAL_TIME_INVITE = "user_real_time_invites";
 	private static final String REAL_TIME_GAME = "real_time_game";
+	private static final String ROW_KEY = "row";
 	
 	public static String get(String key)
 	{
@@ -57,5 +58,10 @@ public class Keys {
 		{
 			return REAL_TIME_GAME + "_" + player2 + "_" + player1;
 		}
+	}
+	
+	public static String realTimeGameRowKey(String player1, String player2, String player)
+	{
+		return realTimeGameKey(player1, player2) + "_" + player + "_" + ROW_KEY;
 	}
 }

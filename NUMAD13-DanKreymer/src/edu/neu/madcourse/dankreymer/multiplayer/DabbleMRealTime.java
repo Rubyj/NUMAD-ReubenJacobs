@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 public class DabbleMRealTime extends Fragment implements OnClickListener{
 
-	private Spinner spinner;
+	private volatile Spinner spinner;
 	private TextView userStatus; 
 	private String user;
 	private Context context;
@@ -216,7 +216,14 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 		protected String doInBackground(String... parameter) { 
 			if (usersLoaded){
 				String user = spinner.getSelectedItem().toString();
-				return Keys.get(Keys.userStatusKey(user)) + ";" + Keys.get(Keys.userGameplayKey(user));
+				if (user != null)
+				{
+					return Keys.get(Keys.userStatusKey(user)) + ";" + Keys.get(Keys.userGameplayKey(user));
+				}
+				else
+				{
+					return ServerError.NO_SUCH_KEY.getText() + ";" + ServerError.NO_SUCH_KEY.getText();
+				}
 			}
 			else
 			{

@@ -60,6 +60,7 @@ public class DabbleMRealTimeView extends View {
 		drawTimer(canvas);
 		drawScore(canvas);
 		drawBack(canvas);
+		drawOtherPlayer(canvas);
 	}
 
 	private void drawBoard(Canvas canvas)
@@ -202,6 +203,8 @@ public class DabbleMRealTimeView extends View {
 			wordsAlreadyPlayed[3] = false;
 		}
 		
+		dabbleGame.updateRows(wordsAlreadyPlayed);
+		
 		for (int i = 0; i < 6; i++) {
 			canvas.drawRect(left, top, left + size, top + size, dark);
 			canvas.drawText(dabbleGame.getTileLetter(letterCount), left
@@ -216,6 +219,7 @@ public class DabbleMRealTimeView extends View {
 		}
 		
 	}
+	
 	private void drawButtons(Canvas canvas)
 	{
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -250,6 +254,102 @@ public class DabbleMRealTimeView extends View {
 		}
 			
 		canvas.drawText("Music", left + text_x, top + text_y, foreground);
+	}
+	
+	private void drawOtherPlayer(Canvas canvas)
+	{
+		Paint paintBox = new Paint();
+		paintBox.setStyle(Style.STROKE);
+		paintBox.setColor(getResources().getColor(R.color.dabble_tile_background));
+		
+		Paint paintSquares = new Paint();
+		paintSquares.setStyle(Style.FILL);
+		paintSquares.setColor(getResources().getColor(R.color.dabble_tile_background));
+		
+		float left, top;
+		
+		float box_size = button_size_x*1.4f;
+
+		top = 0;
+		left = getWidth() - box_size - 2;
+
+		canvas.drawRect(left, top, left + box_size, top + box_size*.8f, paintBox);
+		
+		int gap = 10;
+		int size = 15;
+		
+		top += 20;
+		left = (getWidth() - size * 3 - gap * 2 + getWidth() - box_size - 2) / 2;
+		
+		if (dabbleGame.getOtherPlayerRow(1))
+		{
+			paintSquares.setColor(getResources().getColor(R.color.dabble_valid_word));
+		}
+		else
+		{
+			paintSquares.setColor(getResources().getColor(R.color.dabble_tile_background));
+		}
+		
+		for (int i = 0; i < 3; i++) {
+			canvas.drawRect(left, top, left + size, top + size, paintSquares);
+			
+			left += size + GAP;
+		}
+		
+		top += size + gap;
+		left = (getWidth() - size * 4 - gap * 3 + getWidth() - box_size - 2) / 2;
+		
+		if (dabbleGame.getOtherPlayerRow(2))
+		{
+			paintSquares.setColor(getResources().getColor(R.color.dabble_valid_word));
+		}
+		else
+		{
+			paintSquares.setColor(getResources().getColor(R.color.dabble_tile_background));
+		}
+		
+		for (int i = 0; i < 4; i++) {
+			canvas.drawRect(left, top, left + size, top + size, paintSquares);
+			
+			left += size + GAP;
+		}
+		
+		top += size + gap;
+		left = (getWidth() - size * 5 - gap * 4 + getWidth() - box_size - 2) / 2;
+		
+		if (dabbleGame.getOtherPlayerRow(3))
+		{
+			paintSquares.setColor(getResources().getColor(R.color.dabble_valid_word));
+		}
+		else
+		{
+			paintSquares.setColor(getResources().getColor(R.color.dabble_tile_background));
+		}
+		
+		for (int i = 0; i < 5; i++) {
+			canvas.drawRect(left, top, left + size, top + size, paintSquares);
+			
+			left += size + GAP;
+		}
+		
+		top += size + gap;
+		left = (getWidth() - size * 6 - gap * 5 + getWidth() - box_size - 2) / 2;
+		
+		if (dabbleGame.getOtherPlayerRow(4))
+		{
+			paintSquares.setColor(getResources().getColor(R.color.dabble_valid_word));
+		}
+		else
+		{
+			paintSquares.setColor(getResources().getColor(R.color.dabble_tile_background));
+		}
+		
+		for (int i = 0; i < 6; i++) {
+			canvas.drawRect(left, top, left + size, top + size, paintSquares);
+			
+			left += size + GAP;
+		}
+		
 	}
 	
 	private void drawTimer(Canvas canvas)
@@ -292,8 +392,8 @@ public class DabbleMRealTimeView extends View {
 
 		float left, top;
 
-		top = 0;
-		left = getWidth() - button_size_x;
+		top = (float) (button_size_y - 20);
+		left = 0;
 
 		canvas.drawText(dabbleGame.getScore(), left + text_x, top + text_y, foreground);
 	}
@@ -303,7 +403,7 @@ public class DabbleMRealTimeView extends View {
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
 		foreground.setColor(getResources().getColor(R.color.dabble_background_text));
 		foreground.setStyle(Style.FILL);
-		foreground.setTextSize(button_size_y*1.2f);
+		foreground.setTextSize(button_size_y* 0.5f);
 		foreground.setTextScaleX(1);
 		foreground.setTextAlign(Paint.Align.CENTER);
 		FontMetrics fm = foreground.getFontMetrics();
@@ -318,7 +418,7 @@ public class DabbleMRealTimeView extends View {
 		left = 0;
 		
 
-		canvas.drawText("↺", left + text_x, top + text_y, foreground);
+		canvas.drawText("Quit", left + text_x, top + text_y, foreground);
 	}
 	
 	@Override
