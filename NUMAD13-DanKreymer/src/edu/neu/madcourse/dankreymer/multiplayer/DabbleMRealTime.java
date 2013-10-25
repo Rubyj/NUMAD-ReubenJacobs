@@ -145,7 +145,7 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 		
 		timer.scheduleAtFixedRate(statusTimerTask(), new Date(), 1000);
 		timer.scheduleAtFixedRate(checkInvitesTimerTask(), new Date(), 1000);
-		timer.scheduleAtFixedRate(checkGameStartTimerTask(), new Date(), 1000);
+		timer.scheduleAtFixedRate(checkGameStartTimerTask(), new Date(), 500);
 	}
 	
 	public void onDestroyView()

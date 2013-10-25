@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import edu.neu.madcourse.dankreymer.R;
 import edu.neu.madcourse.dankreymer.R.raw;
@@ -49,6 +52,10 @@ public class DabbleMRealTimeGame extends Activity {
 	protected static final String KEY_SOLUTION_4 = "solution4";
 	protected static final String KEY_CLOSE_HINT = "finish";
 	protected static final String KEY_GAME_OVER = "over";
+	
+	protected static final String KEY_WIN = "win";
+	protected static final String KEY_LOSE = "lose";
+	protected static final String KEY_GAME_RESULT = "result";
 
 	private static final int REQUEST_CODE = 1;
 	
@@ -100,7 +107,10 @@ public class DabbleMRealTimeGame extends Activity {
 	
 	private final static int fullBoardBonus = 500;
 	
+	private Context context = this;
+	
 	private CountDownTimer timer;
+	private Timer checkGameOverTimer;
 	
 	private Set<String> dictionary;
 	private List<String> lettersLoaded;
@@ -183,6 +193,14 @@ public class DabbleMRealTimeGame extends Activity {
 		if (playMusic){
 			Music.stop(this);
 		}
+		checkGameOverTimer.cancel();
+		checkGameOverTimer.purge();
+	}
+	
+	protected void onPause(){
+		super.onPause();
+		checkGameOverTimer.cancel();
+		checkGameOverTimer.purge();
 	}
 	
 	@Override
@@ -192,6 +210,19 @@ public class DabbleMRealTimeGame extends Activity {
 		if (playMusic){
 			Music.play(this, R.raw.dabble_music);
 		}
+		
+		checkGameOverTimer = new Timer();
+		checkGameOverTimer.scheduleAtFixedRate(CheckGameOverTimerTask(), new Date(), 500);
+	}
+	
+	private TimerTask CheckGameOverTimerTask()
+	{
+		return new TimerTask(){
+
+			@Override
+			public void run() {
+				new CheckGameOverTask().execute();
+			}};
 	}
 
 	
@@ -287,7 +318,7 @@ public class DabbleMRealTimeGame extends Activity {
 				}
 				selected = -1;
 				dabbleView.invalidate();
-				gameOver();
+				gameOver(KEY_LOSE);
 			}
 		}.start();
 	}
@@ -478,7 +509,7 @@ public class DabbleMRealTimeGame extends Activity {
 	protected void goBack()
 	{
 		surrender = true;
-		gameOver();
+		gameOver(KEY_LOSE);
 	}
 	
 	protected void playLetterSound()
@@ -501,28 +532,32 @@ public class DabbleMRealTimeGame extends Activity {
 		sp.play(soundID_game_won, 1, 1, 1, 0, 1f);
 	}
 	
-	protected void gameOver()
+	protected void gameOver(String status)
 	{
 		wakeLock.release();
-		new GameOverTask().execute();
+		Intent i = new Intent(this, DabbleMRealTimeGameOver.class);
 		pauseTimer();
 		if (playMusic){
 			Music.stop(this);
 		}
 		
-		if (surrender || time <= 0)
+		if (status.equals(KEY_LOSE))
 		{
 			playOutOfTimeSound();
+			i.putExtra(KEY_GAME_RESULT, KEY_LOSE);
+			new GameOutcomeTask().execute(KEY_LOSE);
 		}
 		else
 		{
 			score += fullBoardBonus;
 			playYouWinSound();
+			i.putExtra(KEY_GAME_RESULT, KEY_WIN);
+			new GameOutcomeTask().execute(KEY_WIN);
 		}
 		
-		Intent i = new Intent(this, DabbleMRealTimeGameOver.class);
 		i.putExtra(KEY_GET_SCORE, Integer.toString(score));
-		i.putExtra(DabbleM.USERNAME, username);
+		i.putExtra(DabbleMRealTime.USERNAME, username);
+		i.putExtra(DabbleMRealTime.OTHER_USERNAME, username);
 		startActivityForResult(i, REQUEST_CODE);
 	}
 	
@@ -539,6 +574,35 @@ public class DabbleMRealTimeGame extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			return Keys.clearKey(Keys.realTimeGameKey(username, otherUsername));
+		}
+	}
+	
+	private class GameOutcomeTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.put(Keys.realTimeGameKey(username, otherUsername), params[0]);
+		}
+	}
+	
+	private class CheckGameOverTask extends AsyncTask<String, String, String>{
+		
+		@Override
+		protected void onPostExecute(String result) {
+			if (result.equals(KEY_WIN))
+			{
+				new GameOverTask().execute();
+				gameOver(KEY_LOSE);
+			}
+			else if (result.equals(KEY_LOSE))
+			{
+				new GameOverTask().execute();
+				gameOver(KEY_WIN);
+			}
+		}
+		@Override
+		protected String doInBackground(String... params) {
+			return Keys.get(Keys.realTimeGameKey(username, otherUsername));
 		}
 	}
 }

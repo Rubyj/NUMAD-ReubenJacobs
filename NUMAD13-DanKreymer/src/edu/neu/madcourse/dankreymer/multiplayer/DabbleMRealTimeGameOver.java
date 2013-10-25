@@ -28,15 +28,28 @@ import android.widget.TextView;
 public class DabbleMRealTimeGameOver extends Activity {
 	private String score;
 	private String username;
+	private String result;
+	private String otherUsername;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dabble_game_over);
 		TextView textBox = (TextView) findViewById(R.id.dabble_score_text);
 		Bundle bundle = getIntent().getExtras();
-		score = bundle.getString(DabbleMGame.KEY_GET_SCORE);
-		username = bundle.getString(DabbleM.USERNAME);
-		textBox.setText(score);
+		score = bundle.getString(DabbleMRealTimeGame.KEY_GET_SCORE);
+		result = bundle.getString(DabbleMRealTimeGame.KEY_GAME_RESULT);
+		username = bundle.getString(DabbleMRealTime.USERNAME);
+		otherUsername = bundle.getString(DabbleMRealTime.OTHER_USERNAME);
+		
+		if (result.equals(DabbleMRealTimeGame.KEY_LOSE))
+		{
+			textBox.setText(score + "\n\nYou lost to: " + otherUsername);
+		}
+		else
+		{
+			textBox.setText(score + "\n\nYou beat: " + otherUsername);
+		}
+		
 		//new SaveScoreTask().execute();
 	}
 	

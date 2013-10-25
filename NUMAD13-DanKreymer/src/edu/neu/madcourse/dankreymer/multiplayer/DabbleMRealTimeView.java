@@ -48,7 +48,7 @@ public class DabbleMRealTimeView extends View {
 	protected void onDraw(Canvas canvas) {
 		if (wordsAlreadyPlayed[0] && wordsAlreadyPlayed[1] && wordsAlreadyPlayed[2] && wordsAlreadyPlayed[3])
 		{
-			dabbleGame.gameOver();
+			dabbleGame.gameOver(dabbleGame.KEY_WIN);
 		}
 		
 		Paint background = new Paint();
