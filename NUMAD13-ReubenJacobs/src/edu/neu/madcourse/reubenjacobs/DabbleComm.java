@@ -65,6 +65,19 @@ public class DabbleComm extends Activity {
 		startActivity(intent);
    }
    
+   public void onSingle(View view) {
+	   Intent intent = new Intent(this, Dabble.class);
+	   intent.putExtra("USER", this.userName);
+	   if (!this.user2Name.isEmpty()) {
+		   intent.putExtra("OPPONENT", this.user2Name);
+	   } else {
+		   TextView tv = (TextView)findViewById(R.id.oppponentName);
+		   String opponentName = tv.getText().toString();
+		   intent.putExtra("OPPONENT", opponentName);
+	   }
+	   startActivity(intent);
+   }
+   
    public void onNewGame(View view) {
 		TextView tv = (TextView)findViewById(R.id.oppponentName);
 		String opponentName = tv.getText().toString();

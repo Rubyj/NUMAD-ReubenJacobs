@@ -7,15 +7,22 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import edu.neu.mhealth.api.KeyValueAPI;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -85,10 +92,18 @@ public class Dabble extends Activity {
    
    ArrayList<String> letters = new ArrayList<String>();
    
+   private int moveNum;
+   private String userName;
+   private String opponentName;
+   
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_dabble);
+      
+      Bundle extras = getIntent().getExtras();
+      this.userName = extras.getString("USER");
+      this.opponentName = extras.getString("OPPONENT");
       
       Display display = getWindowManager().getDefaultDisplay();
       DisplayMetrics outMetrics = new DisplayMetrics();
@@ -211,6 +226,20 @@ public class Dabble extends Activity {
               }
           }
        };
+   }
+   
+   @Override
+   protected void onStart() {
+	   	super.onStart();
+		SimpleTimerTask sTimerTask = new SimpleTimerTask();
+		long delay = 0;
+		long period = 5000;
+		Timer myTimer = new Timer();
+		
+		if (this.userName != null && this.opponentName != null) {
+			new LoadMoveNumberTask().execute(this.userName, this.opponentName);
+			myTimer.schedule(sTimerTask, 0, 5000);
+		}
    }
 
    @Override
@@ -781,6 +810,25 @@ public class Dabble extends Activity {
 	   finish();
    }
    
+	public boolean isNetworkOnline() {
+		 boolean status=false;
+		    try{
+		        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		        NetworkInfo netInfo = cm.getNetworkInfo(0);
+		        if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
+		            status= true;
+		        }else {
+		            netInfo = cm.getNetworkInfo(1);
+		            if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
+		                status= true;
+		        }
+		    }catch(Exception e){
+		        e.printStackTrace();  
+		        return false;
+		    }
+		    return status;
+	}  
+   
    public void onWin(){
 	   	gameWon = true;
 	   	
@@ -800,6 +848,130 @@ public class Dabble extends Activity {
         TextView tv = (TextView)findViewById(R.id.timerView);
         tv.setText("You won!");
    }
+   
+	class SimpleTimerTask extends TimerTask {
+		
+		SimpleTimerTask() {}
+		public void run() {
+			if (isNetworkOnline()) {
+				new SyncNotificationTask().execute(Dabble.this.userName, Dabble.this.opponentName);
+
+			}
+		}
+	}
+   
+   class SyncNotificationTask extends AsyncTask<String, Void, Void> {
+		Dabble instance;
+		Integer moveNum;
+		Boolean moveChanged;
+		String user;
+		String string0;
+		String string1;
+		
+		public SyncNotificationTask() {
+			this.instance = Dabble.this;
+			this.moveNum = Dabble.this.moveNum;
+			this.moveChanged = false;
+		}
+		
+		protected Void doInBackground(String... strings) {
+				string0 = strings[0];
+				string1 = strings[1];
+				
+				String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+				if (value.contains("Error")) {
+					value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
+				}
+			
+				this.user = value.substring(value.indexOf("-") + 1, value.indexOf(":"));
+			
+				String tempNumString = value.substring(value.indexOf(":") + 1);
+			
+				int tempNum = Integer.parseInt(tempNumString);
+			
+				if (tempNum != this.moveNum) {
+					this.moveChanged = true;
+					this.moveNum = tempNum;
+				}
+				
+				Dabble.this.runOnUiThread(new Runnable() { 
+					
+					@Override
+					public void run() {
+						if (SyncNotificationTask.this.moveChanged && SyncNotificationTask.this.moveNum > 1) {
+							if (SyncNotificationTask.this.user.toLowerCase().equals(SyncNotificationTask.this.instance.userName)) {
+								   AlertDialog.Builder builder1 = new AlertDialog.Builder(Dabble.this);
+							       builder1.setMessage("You're opponent has made a move! You have won");
+							       builder1.setCancelable(true);
+							       builder1.setNegativeButton("Back",
+							    	    new DialogInterface.OnClickListener() {
+							            	public void onClick(DialogInterface dialog, int id) {
+							            		dialog.cancel();
+							            	}
+							        	}
+							       );
+
+							       AlertDialog alert11 = builder1.create();
+							       alert11.show();
+							} else if (SyncNotificationTask.this.user.toLowerCase().equals(SyncNotificationTask.this.instance.opponentName)) {
+								   AlertDialog.Builder builder1 = new AlertDialog.Builder(Dabble.this);
+							       builder1.setMessage("You're opponent has made a move! You have lost");
+							       builder1.setCancelable(true);
+							       builder1.setNegativeButton("Back",
+							    	    new DialogInterface.OnClickListener() {
+							            	public void onClick(DialogInterface dialog, int id) {
+							            		dialog.cancel();
+							            	}
+							        	}
+							       );
+
+							       AlertDialog alert11 = builder1.create();
+							       alert11.show();
+							}
+						} else if (SyncNotificationTask.this.moveChanged && SyncNotificationTask.this.moveNum > 0) {
+							   AlertDialog.Builder builder1 = new AlertDialog.Builder(Dabble.this);
+						       builder1.setMessage("You're opponent has made a move! You have either lost or won or it is your turn");
+						       builder1.setCancelable(true);
+						       builder1.setNegativeButton("Back",
+						    	    new DialogInterface.OnClickListener() {
+						            	public void onClick(DialogInterface dialog, int id) {
+						            		dialog.cancel();
+						            	}
+						        	}
+						       );
+
+						       AlertDialog alert11 = builder1.create();
+						       alert11.show();
+						}
+					}
+					
+				});
+			
+				return null;
+		}
+		
+		@Override 
+		protected void onPostExecute(Void x){
+			
+		}
+	}
+   
+   class LoadMoveNumberTask extends AsyncTask<String, Void, Void> {
+		
+		protected Void doInBackground(String... strings) {
+			if (isNetworkOnline()) {
+			  String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+			  if (value.contains("Error")) {
+				  value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
+			  }
+			  
+			  String moveNumberString = value.substring(value.indexOf(":") + 1);
+			  
+			  moveNum = Integer.parseInt(moveNumberString);
+			}
+		      return null;
+		}
+	}
 }
 
 class CustomAdapter<T> extends ArrayAdapter<T> {
