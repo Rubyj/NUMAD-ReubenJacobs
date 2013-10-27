@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Display;
 import android.view.View;
@@ -867,6 +868,7 @@ public class Dabble extends Activity {
 		String user;
 		String string0;
 		String string1;
+		Integer tempNum;
 		
 		public SyncNotificationTask() {
 			this.instance = Dabble.this;
@@ -886,10 +888,15 @@ public class Dabble extends Activity {
 				this.user = value.substring(value.indexOf("-") + 1, value.indexOf(":"));
 			
 				String tempNumString = value.substring(value.indexOf(":") + 1);
-			
-				int tempNum = Integer.parseInt(tempNumString);
-			
-				if (tempNum != this.moveNum) {
+				
+				try {
+					this.tempNum = Integer.parseInt(tempNumString);
+				} catch (java.lang.NumberFormatException e) {
+					Log.d("FAILED TO PARSE INT:", tempNumString);
+					e.printStackTrace();
+				}
+				
+				if (this.tempNum != null && this.tempNum != this.moveNum) {
 					this.moveChanged = true;
 					this.moveNum = tempNum;
 				}
@@ -948,11 +955,6 @@ public class Dabble extends Activity {
 				});
 			
 				return null;
-		}
-		
-		@Override 
-		protected void onPostExecute(Void x){
-			
 		}
 	}
    

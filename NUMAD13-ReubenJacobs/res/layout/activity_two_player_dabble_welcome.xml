@@ -6,9 +6,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".WelcomeComm" >
+    tools:context=".TwoPlayerDabbleWelcome" >
 
-    <Button
+        <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,22 +29,5 @@
 
         <requestFocus />
     </EditText>
-
-    <Button
-        android:id="@+id/commAcknow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button1"
-        android:layout_centerHorizontal="true"
-        android:onClick="showAcknow"
-        android:text="Acknowledgments" />
-
-    <TextView
-        android:id="@+id/commRules"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/commAcknow"
-        android:layout_centerHorizontal="true"
-        android:text="Create a game and send a score. Join the same game and you will see the move# has been incremented." />
-
+    
 </RelativeLayout>

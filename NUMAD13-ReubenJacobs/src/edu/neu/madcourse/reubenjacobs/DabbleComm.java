@@ -30,13 +30,6 @@ public class DabbleComm extends Activity {
       this.userName = extras.getString("USER");
      
       setContentView(R.layout.activity_dabble_comm);
-            
-      Display display = getWindowManager().getDefaultDisplay();
-      DisplayMetrics outMetrics = new DisplayMetrics();
-      display.getMetrics(outMetrics);
-		
-      int sideMargin = (int)outMetrics.widthPixels/25;
-      int topMargin = (int)outMetrics.heightPixels/35 ;
       
    }
 

@@ -1,12 +1,13 @@
 package edu.neu.madcourse.reubenjacobs;
 
+import java.util.HashMap;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -19,7 +20,7 @@ public class CommPlayerlist extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comm_playerlist);
 		
-		new GetPlayerListTask(this).execute();
+		new GetPlayerListTask().execute();
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -61,22 +62,25 @@ public class CommPlayerlist extends Activity {
 	
 	class GetPlayerListTask extends AsyncTask<String, Void, Void> {
 
-		SparseArray<String> playerList = new SparseArray<String>();
+		HashMap<String, String> playerList = new HashMap<String, String>();
 		TextView tv;
 		String users;
 		String[] userList;
 		CommPlayerlist instance;
 		
-		public GetPlayerListTask(CommPlayerlist l) {
-			instance = l;
+		public GetPlayerListTask() {
+			this.instance = CommPlayerlist.this;
 		}
 		
 		protected Void doInBackground(String... params) {
-			users = KeyValueAPI.get("sloth_nation", "fromunda", "users");
+			this.users = KeyValueAPI.get("sloth_nation", "fromunda", "users");
 			
-			userList = users.split("\\s+");
+			this.userList = users.split("\\s+");
 			
-			System.out.println(users);
+			for (int i = 0; i < userList.length; i++) {
+				String isActive = KeyValueAPI.get("sloth_nation", "fromunda", this.userList[i]);
+				playerList.put(this.userList[i], isActive);
+			}
 			
 			return null;
 		}
@@ -85,8 +89,15 @@ public class CommPlayerlist extends Activity {
 		protected void onPostExecute(Void x) {
 			tv = (TextView)instance.findViewById(R.id.playerList);
 			
+			/*
 			for (int i = 0; i < userList.length; i++) {
-				tv.setText(tv.getText() + "\n" + userList[i]);
+				tv.setText(tv.getText() + "\n" + userList[i] +);
+			}
+			*/
+			for (HashMap.Entry<String, String> entry : this.playerList.entrySet()) {
+			    String key = entry.getKey();
+			    String value = entry.getValue();
+			    tv.setText(tv.getText() + "\n" + key + " " + value);
 			}
 		}
 		

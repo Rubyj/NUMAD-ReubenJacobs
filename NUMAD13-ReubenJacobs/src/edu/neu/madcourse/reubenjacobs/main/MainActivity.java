@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
 		display.getMetrics(outMetrics);
 		
 		int sideMargin = (int)outMetrics.widthPixels/4;
-		int topMargin = (int)outMetrics.heightPixels/50 ;
+		int topMargin = (int)outMetrics.heightPixels/65 ;
 		
 		Button aboutButton = (Button) this.findViewById(R.id.aboutButton);
 		Button sudokuButton = (Button) this.findViewById(R.id.sudokuButton);
@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
 		Button dictButton = (Button) this.findViewById(R.id.dictionaryButton);
 		Button dabButton = (Button) this.findViewById(R.id.dabButton);
 		Button comButton = (Button) this.findViewById(R.id.commButton);
+		Button twoButton = (Button) this.findViewById(R.id.twoButton);
 		
 		LayoutParams aboutParams = (RelativeLayout.LayoutParams) aboutButton.getLayoutParams();
 		aboutParams.setMargins(sideMargin, topMargin*3, sideMargin, topMargin);
@@ -72,6 +73,11 @@ public class MainActivity extends Activity {
 		LayoutParams comParams = (RelativeLayout.LayoutParams) comButton.getLayoutParams();
 		comParams.setMargins(0, topMargin, sideMargin, topMargin);
 		comButton.setLayoutParams(comParams);
+		
+		LayoutParams twoParams = (RelativeLayout.LayoutParams) twoButton.getLayoutParams();
+		twoParams.setMargins(0, topMargin, sideMargin, topMargin);
+		twoButton.setLayoutParams(twoParams);
+		
 		
 	}
 

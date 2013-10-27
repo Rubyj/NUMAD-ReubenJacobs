@@ -35,8 +35,8 @@
         android:id="@+id/quitButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/commButton"
-        android:layout_below="@+id/commButton"
+        android:layout_alignLeft="@+id/twoButton"
+        android:layout_below="@+id/twoButton"
         android:onClick="exit"
         android:text="@string/quit" />
     
@@ -66,5 +66,13 @@
         android:layout_alignLeft="@+id/dabButton"
         android:onClick="startComm"
         android:text="Communication" />
+
+    <Button
+        android:id="@+id/twoButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/commButton"
+        android:layout_alignLeft="@+id/commButton"
+        android:text="Two Player Dabble" />
 
 </RelativeLayout>

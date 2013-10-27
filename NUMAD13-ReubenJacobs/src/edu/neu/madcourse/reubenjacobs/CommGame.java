@@ -62,14 +62,14 @@ public class CommGame extends Activity {
 	}
 	
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onPause() {
+		super.onPause();
 		SimpleTimerTask aTimerTask = new SimpleTimerTask();
 		long delay = 0;
 		long period = 5000;
 		Timer myTimer = new Timer();
 		
-		if (this.userName != null && this.opponentName != null && moveNumSet) {
+		if (this.userName != null && this.opponentName != null && this.moveNumSet) {
 			myTimer.schedule(aTimerTask, 0, 5000);
 		}
 	}
@@ -263,13 +263,12 @@ public class CommGame extends Activity {
 		SimpleTimerTask() {}
 		public void run() {
 			if (isNetworkOnline()) {
-				new AsyncNotificationTask().execute(CommGame.this.userName, CommGame.this.opponentName);
+				new AsyncNotificationTask(getApplicationContext()).execute(CommGame.this.userName, CommGame.this.opponentName);
 
 			}	
 		}
 	}
 	
-
 	class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
 		CommGame instance;
 		Integer moveNum;
@@ -277,13 +276,13 @@ public class CommGame extends Activity {
 		Context context;
 		String string0;
 		String string1;
-		int tempNum;
+		Integer tempNum;
 	
-		public AsyncNotificationTask() {
+		public AsyncNotificationTask(Context context) {
 			this.instance = CommGame.this;
 			this.moveNum = this.instance.getMove();
 			this.moveChanged = false;
-			this.context = this.instance.getApplicationContext();
+			this.context = context;
 		}
 	
 		protected Void doInBackground(String... strings) {
@@ -294,19 +293,21 @@ public class CommGame extends Activity {
 				if (value.contains("Error")) {
 					value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
 				}
-			
+				
+				System.out.println("INDEX OF NUMBER:" + (value.indexOf(":") + 1));
+				System.out.println("NUMBER:" + value.substring(value.indexOf(":") + 1));
 				String tempNumString = value.substring(value.indexOf(":") + 1);
 				
 				
 				try {
-					tempNum = Integer.parseInt(tempNumString);
+					this.tempNum = Integer.parseInt(tempNumString);
 				} catch (java.lang.NumberFormatException e) {
+					Log.d("FAILED TO PARSE INT:", tempNumString);
 					e.printStackTrace();
 				}
 				
-				if (tempNum != this.moveNum) {
+				if(this.tempNum != null && tempNum != this.moveNum) {
 					this.moveChanged = true;
-					this.instance.setMove(tempNum);
 					this.moveNum = tempNum;
 				}
 				
@@ -318,6 +319,7 @@ public class CommGame extends Activity {
 			Intent launchGame = new Intent(this.context, CommGame.class);
 			launchGame.putExtra("USER", this.instance.getUser());
 			launchGame.putExtra("OPPONENT", this.instance.getOpp());
+			launchGame.putExtra("GAME", "JOIN");
 			
 			NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this.context)
 				.setContentTitle("CommGame").setContentText("An opponent has played a move. Launch Comm!");

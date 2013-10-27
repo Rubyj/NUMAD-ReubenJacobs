@@ -151,6 +151,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.reubenjacobs.WelcomeComm" />
         </activity>
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleWelcome"
+            android:label="@string/title_activity_two_player_dabble_welcome"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.main.MainActivity" />
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleHome"
+            android:label="@string/title_activity_two_player_dabble_home"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleWelcome" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleWelcome" />
+        </activity>
     </application>
 
 </manifest>
