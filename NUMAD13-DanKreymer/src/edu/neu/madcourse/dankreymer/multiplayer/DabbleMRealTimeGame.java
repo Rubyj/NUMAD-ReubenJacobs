@@ -257,9 +257,9 @@ public class DabbleMRealTimeGame extends Activity{
 		}
 		
 		checkGameOverTimer = new Timer();
-		checkGameOverTimer.scheduleAtFixedRate(CheckGameOverTimerTask(), new Date(), 500);
-		checkGameOverTimer.scheduleAtFixedRate(GetRowCompletedTimerTask(), new Date(), 250);
-		checkGameOverTimer.scheduleAtFixedRate(GetShakeTimerTask(), new Date(), 500);
+		checkGameOverTimer.scheduleAtFixedRate(CheckGameOverTimerTask(), new Date(), 1000);
+		checkGameOverTimer.scheduleAtFixedRate(GetRowCompletedTimerTask(), new Date(), 1000);
+		checkGameOverTimer.scheduleAtFixedRate(GetShakeTimerTask(), new Date(), 1500);
 	}
 	
 	private TimerTask GetShakeTimerTask()
@@ -704,7 +704,7 @@ public class DabbleMRealTimeGame extends Activity{
 	{
 		if (shakeUpCounter > 0)
 		{
-			shakeUpCounter =- 1;
+			shakeUpCounter = shakeUpCounter - 1;
 			new ShakeUpTask().execute();
 		}
 	}
