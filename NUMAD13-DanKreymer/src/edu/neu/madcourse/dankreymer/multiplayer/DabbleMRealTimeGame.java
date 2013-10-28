@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,6 +44,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 
 public class DabbleMRealTimeGame extends Activity{
 	private static final String TAG = "Dabble";
@@ -156,9 +158,9 @@ public class DabbleMRealTimeGame extends Activity{
 	private float mAccelCurrent; // current acceleration including gravity
 	private float mAccelLast; // last acceleration including gravity
 
-	private long lastUpdate;
+	private long last, current;
 	
-	private PowerManager.WakeLock wakeLock;
+	private static long SHAKE_INTERVAL = 5000;
 	
 	private SensorManager sensorManager;
 
@@ -166,8 +168,11 @@ public class DabbleMRealTimeGame extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "Wake Lock!");
+		
+		last = System.currentTimeMillis();
 		
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -178,6 +183,7 @@ public class DabbleMRealTimeGame extends Activity{
 		dictionary = new HashSet<String>();
 		lettersLoaded = new ArrayList<String>();
 		surrender = false;
+		gameOver = false;
 		
 		shakeUpCounter = 2;
 		
@@ -210,13 +216,10 @@ public class DabbleMRealTimeGame extends Activity{
 		paused = false;
 		gameOver = false;
 		
-		lastUpdate = System.currentTimeMillis();
-		
 		new UserInGameTask().execute();
 		startTimer();
 		Music.play(this, R.raw.dabble_music);
 		
-		wakeLock.acquire();
 		dabbleView = new DabbleMRealTimeView(this);
 		setContentView(dabbleView);
 		dabbleView.requestFocus();
@@ -665,9 +668,9 @@ public class DabbleMRealTimeGame extends Activity{
 	
 	protected void gameOver(String status)
 	{
-		wakeLock.release();
 		Intent i = new Intent(this, DabbleMRealTimeGameOver.class);
 		pauseTimer();
+		gameOver = true;
 		if (playMusic){
 			Music.stop(this);
 		}
@@ -742,14 +745,6 @@ public class DabbleMRealTimeGame extends Activity{
 		}
 	}
 	
-	private class GameOverTask extends AsyncTask<String, String, String>{
-
-		@Override
-		protected String doInBackground(String... params) {
-			return Keys.clearKey(Keys.realTimeGameKey(username, otherUsername));
-		}
-	}
-	
 	private class GameOutcomeTask extends AsyncTask<String, String, String>{
 
 		@Override
@@ -791,26 +786,33 @@ public class DabbleMRealTimeGame extends Activity{
 		
 		@Override
 		protected void onPostExecute(String result) {
-			if (result.equals(KEY_WIN))
+			if (result.equals(KEY_WIN) && !gameOver)
 			{
-				new GameOverTask().execute();
+				gameOver = true;
 				gameOver(KEY_LOSE);
 			}
-			else if (result.equals(KEY_LOSE))
+			else if (result.equals(KEY_LOSE) && !gameOver)
 			{
-				new GameOverTask().execute();
+				gameOver = true;
 				gameOver(KEY_WIN);
 			}
 		}
 		@Override
 		protected String doInBackground(String... params) {
-			return Keys.get(Keys.realTimeGameKey(username, otherUsername));
+			String key = Keys.get(Keys.realTimeGameKey(username, otherUsername));
+			if (key.equals(KEY_WIN) || key.equals(KEY_LOSE))
+			{
+				Keys.clearKey(Keys.realTimeGameKey(username, otherUsername));
+			}
+			return key;
 		}
 	}
 	
 	private final SensorEventListener mSensorListener = new SensorEventListener() {
 
 		public void onSensorChanged(SensorEvent se) {
+			current = System.currentTimeMillis();
+			
 			float x = se.values[0];
 			float y = se.values[1];
 			float z = se.values[2];
@@ -818,10 +820,12 @@ public class DabbleMRealTimeGame extends Activity{
 			mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
 			float delta = mAccelCurrent - mAccelLast;
 			mAccel = mAccel * 0.9f + delta;
-			if (mAccel > 8)
+			if (mAccel > 8 && current - last > SHAKE_INTERVAL)
 			{
+				last = System.currentTimeMillis();
 				context.useShakeUp();
 			}
+			
 		}
 
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
