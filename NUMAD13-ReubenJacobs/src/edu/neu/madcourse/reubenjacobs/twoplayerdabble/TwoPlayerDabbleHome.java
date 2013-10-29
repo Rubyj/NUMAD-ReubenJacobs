@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import edu.neu.madcourse.reubenjacobs.CommGame;
 import edu.neu.madcourse.reubenjacobs.CommPlayerlist;
 import edu.neu.madcourse.reubenjacobs.Dabble;
 import edu.neu.madcourse.reubenjacobs.R;
@@ -37,6 +36,7 @@ public class TwoPlayerDabbleHome extends Activity {
 	    //Retrieve the username entered on the welcomeComm activity
 	    Bundle extras = getIntent().getExtras();
 	    this.userName = extras.getString("USER");
+	    this.user2Name = extras.getString("OPPONENT");
 	}
 	
 	public void onStop() {
@@ -86,7 +86,7 @@ public class TwoPlayerDabbleHome extends Activity {
 	public void onSingle(View view) {
 	    Intent intent = new Intent(this, Dabble.class);
 	    intent.putExtra("USER", this.userName);
-	    if (!this.user2Name.isEmpty()) {
+	    if (this.user2Name != null && !this.user2Name.isEmpty()) {
 	        intent.putExtra("OPPONENT", this.user2Name);
 	    } else {
 	        TextView tv = (TextView)findViewById(R.id.oppponentName);

@@ -239,7 +239,7 @@ public class Dabble extends Activity {
 		
 		if (this.userName != null && this.opponentName != null) {
 			new LoadMoveNumberTask().execute(this.userName, this.opponentName);
-			myTimer.schedule(sTimerTask, 0, 5000);
+			myTimer.schedule(sTimerTask, delay, period);
 		}
    }
 
