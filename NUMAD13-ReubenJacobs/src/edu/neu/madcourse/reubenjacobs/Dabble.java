@@ -920,7 +920,7 @@ public class Dabble extends Activity {
 
 							       AlertDialog alert11 = builder1.create();
 							       alert11.show();
-							} else if (SyncNotificationTask.this.user.toLowerCase().equals(SyncNotificationTask.this.instance.opponentName)) {
+							} else if (SyncNotificationTask.this.user.toLowerCase().equals(SyncNotificationTask.this.instance.opponentName.toLowerCase())) {
 								   AlertDialog.Builder builder1 = new AlertDialog.Builder(Dabble.this);
 							       builder1.setMessage("You're opponent has made a move! You have lost");
 							       builder1.setCancelable(true);

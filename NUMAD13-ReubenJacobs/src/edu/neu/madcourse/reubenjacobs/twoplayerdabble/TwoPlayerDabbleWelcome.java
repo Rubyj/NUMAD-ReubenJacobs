@@ -63,9 +63,9 @@ public class TwoPlayerDabbleWelcome extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void startComm(View view) {
+	public void onNext(View view) {
         if (this.isNetworkOnline()) {
-            TextView tv = (TextView)findViewById(R.id.enterUser);
+            TextView tv = (TextView)findViewById(R.id.enterUserName);
             String userName = tv.getText().toString();
         
             new CreateTask().execute(userName);
@@ -114,6 +114,7 @@ public class TwoPlayerDabbleWelcome extends Activity {
    
    class CreateTask extends AsyncTask<String, Void, Void> {
        protected Void doInBackground(String... strings) {
+           
              String users = KeyValueAPI.get("sloth_nation", "fromunda", "users");
              Boolean isUserCreated = users.contains(strings[0]);
              

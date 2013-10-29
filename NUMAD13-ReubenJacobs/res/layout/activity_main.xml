@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/commButton"
         android:layout_alignLeft="@+id/commButton"
+        android:onClick="startTwoPlayer"
         android:text="Two Player Dabble" />
 
 </RelativeLayout>

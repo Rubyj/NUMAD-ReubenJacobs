@@ -209,7 +209,6 @@ public class CommGame extends Activity {
 			  } else if (updateScoreRev) {
 				  KeyValueAPI.put("sloth_nation", "fromunda", strings[1] + "-" + strings[0], strings[2] + "-" + strings[0] + ":" + strings[3]);
 			  } else if (forward) {
-				  Integer num = Integer.parseInt(game.substring(game.length() - 1));
 				  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], game.substring(0, game.length() - 1) + strings[3]);
 			  } else if (reverse) {
 				  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], gameRev.substring(0, game.length() - 1) + strings[3]);

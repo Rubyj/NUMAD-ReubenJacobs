@@ -164,18 +164,19 @@ public class TwoPlayerDabbleGame extends Activity {
           setWord5();
           setWord6();
           setArray();
-          new SetDabbleBoardTask(this.letters).execute(this.userName, this.opponentName);
+          
+          this.gridView = (GridView) findViewById(R.id.gridView1);
+          
+          CustomAdapter<String> adapter = new CustomAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, this.numbers);
+        
+          this.gridView.setAdapter(adapter);
+          
+          new SetDabbleBoardTask().execute(this.userName, this.opponentName);
       } else if (this.gameType.equals(TwoPlayerDabbleGame.JOIN_GAME)) {
+          this.gridView = (GridView) findViewById(R.id.gridView1);
           new LoadDabbleBoardTask().execute(this.userName, this.opponentName);
       }
- 
-      gridView = (GridView) findViewById(R.id.gridView1);
-      
-      CustomAdapter<String> adapter = new CustomAdapter<String>(this,
-				android.R.layout.simple_list_item_1, numbers);
-	
-      gridView.setAdapter(adapter);
-		
 		
       gridView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
@@ -848,7 +849,24 @@ public class TwoPlayerDabbleGame extends Activity {
        Integer secondsLeft = Integer.parseInt(timeLeft.substring(timeLeft.indexOf(":") + 1));
        
        this.secondsLeft = (minutesLeft * 60) + secondsLeft;
-       new SendScoreTask().execute(this.userName, this.opponentName, this.secondsLeft.toString(), this.moveNum.toString());
+       if (this.isNetworkOnline()) {
+           new SendScoreTask().execute(this.userName, this.opponentName, this.secondsLeft.toString(), this.moveNum.toString());
+           AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+           builder1.setMessage("Your score has been sent to your opponent");
+           builder1.setCancelable(true);
+           builder1.setNegativeButton("Back",
+                   new DialogInterface.OnClickListener() {
+               public void onClick(DialogInterface dialog, int id) {
+                   dialog.cancel();
+               }
+           });
+
+           AlertDialog alert11 = builder1.create();
+           alert11.show();
+           
+           tv.setText(tv.getText().toString() + " Score Sent!");
+       }
+       
    }
    
    
@@ -950,10 +968,9 @@ public class TwoPlayerDabbleGame extends Activity {
              } else if (updateScoreRev) {
                  KeyValueAPI.put("sloth_nation", "fromunda", strings[1] + "-" + strings[0], strings[2] + "-" + strings[0] + ":" + strings[3]);
              } else if (forward) {
-                 Integer num = Integer.parseInt(game.substring(game.length() - 1));
                  KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], game.substring(0, game.length() - 1) + strings[3]);
              } else if (reverse) {
-                 KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], gameRev.substring(0, game.length() - 1) + strings[3]);
+                 KeyValueAPI.put("sloth_nation", "fromunda", strings[1] + "-" + strings[0], gameRev.substring(0, game.length() - 1) + strings[3]);
              }
            }
              
@@ -979,15 +996,15 @@ public class TwoPlayerDabbleGame extends Activity {
 	}
    
    class SetDabbleBoardTask extends AsyncTask<String, Void, Void> {
-       private String[] letters;
+       private String letters = "";
        
-       SetDabbleBoardTask(ArrayList<String> letters) {
-           for (int i=0; i < letters.size(); i++) {
-               this.letters[i] = letters.get(i);
-           }
-       }
+       SetDabbleBoardTask() {}
        
        protected Void doInBackground(String... strings) {
+           for (int i = 0; i < TwoPlayerDabbleGame.this.letters.size(); i++) {
+               this.letters += TwoPlayerDabbleGame.this.letters.get(i);
+           }
+           
            if (TwoPlayerDabbleGame.this.isNetworkOnline()) {
                KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1] + ":board", this.letters.toString());
            }
@@ -997,7 +1014,7 @@ public class TwoPlayerDabbleGame extends Activity {
    }
    
    class LoadDabbleBoardTask extends AsyncTask<String, Void, Void> {
-       private ArrayList<String> letters;
+       private ArrayList<String> letters = new ArrayList<String>();
        private String board;
        
        LoadDabbleBoardTask(){}
@@ -1005,15 +1022,33 @@ public class TwoPlayerDabbleGame extends Activity {
        protected Void doInBackground(String... strings) {
            if (TwoPlayerDabbleGame.this.isNetworkOnline()) {
                this.board = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1] + ":board");
-           }
            
-           if (this.board.contains("Error")) {
-               this.board = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0] + ":board");
-           }
+               if (this.board.contains("Error")) {
+                   this.board = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0] + ":board");
+               }
            
-           if (this.board.contains("Error")) {
+               if (this.board.contains("Error")) {
+                   AlertDialog.Builder builder1 = new AlertDialog.Builder(TwoPlayerDabbleGame.this);
+                   builder1.setMessage("ERROR COULD NOT FIND THE GAME TO JOIN OR BOARD TO LOAD");
+                   builder1.setCancelable(true);
+                   builder1.setNegativeButton("Back",
+                           new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
+                           dialog.cancel();
+                       }
+                   });
+
+                   AlertDialog alert11 = builder1.create();
+                   alert11.show();
+               } else {
+                   for (int i = 0; i < this.board.length(); i++) {
+                       Log.d("VALUE TO SPLIT UP INTO LETTERS", this.board);
+                       this.letters.add(this.board.substring(i, i + 1));
+                   }
+               }
+           } else {
                AlertDialog.Builder builder1 = new AlertDialog.Builder(TwoPlayerDabbleGame.this);
-               builder1.setMessage("ERROR COULD NOT FIND THE GAME TO JOIN OR BOARD TO LOAD");
+               builder1.setMessage("ERROR COULD NOT CONNECT");
                builder1.setCancelable(true);
                builder1.setNegativeButton("Back",
                        new DialogInterface.OnClickListener() {
@@ -1024,10 +1059,7 @@ public class TwoPlayerDabbleGame extends Activity {
 
                AlertDialog alert11 = builder1.create();
                alert11.show();
-           } else {
-               for (int i = 0; i < this.board.length(); i++) {
-                   this.letters.add(this.board.substring(i, i + 1));
-               }
+               this.cancel(true);
            }
            
            return null;
@@ -1040,6 +1072,11 @@ public class TwoPlayerDabbleGame extends Activity {
            }
            
            TwoPlayerDabbleGame.this.setArray();
+           
+           CustomAdapter<String> adapter = new CustomAdapter<String>(TwoPlayerDabbleGame.this,
+                     android.R.layout.simple_list_item_1, TwoPlayerDabbleGame.this.numbers);
+         
+           TwoPlayerDabbleGame.this.gridView.setAdapter(adapter);
        }
    }
 }
@@ -1072,6 +1109,7 @@ class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
     String userName;
     String oppName;
     Integer tempNum;
+    String userWhoScored;
 
     public AsyncNotificationTask(Integer moveNum, Context context) {
         this.moveNum = moveNum;
@@ -1088,9 +1126,8 @@ class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
                 value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
             }
             
-            System.out.println("INDEX OF NUMBER:" + (value.indexOf(":") + 1));
-            System.out.println("NUMBER:" + value.substring(value.indexOf(":") + 1));
             String tempNumString = value.substring(value.indexOf(":") + 1);
+            this.userWhoScored = value.substring(value.indexOf("-") + 1, value.indexOf(":"));
             
             
             try {
@@ -1102,7 +1139,7 @@ class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
             
             if(this.tempNum != null && tempNum != this.moveNum) {
                 this.moveChanged = true;
-                this.moveNum = tempNum;
+                this.moveNum = this.tempNum;
             }
             
             return null;
@@ -1110,13 +1147,31 @@ class AsyncNotificationTask extends AsyncTask<String, Void, Void> {
     
     @Override 
     protected void onPostExecute(Void x){
-        Intent launchGame = new Intent(this.context, TwoPlayerDabbleGame.class);
-        launchGame.putExtra("USER", this.userName);
-        launchGame.putExtra("OPPONENT", this.oppName);
-        launchGame.putExtra("GAME", "JOIN");
+        Intent launchGame;
+        if (this.moveNum < 2) {
+           launchGame = new Intent(this.context, TwoPlayerDabbleGame.class);
+           launchGame.putExtra("USER", this.userName);
+           launchGame.putExtra("OPPONENT", this.oppName);
+           launchGame.putExtra("GAME", "JOIN");
+        } else {
+           launchGame = new Intent(this.context, TwoPlayerDabbleHome.class);
+           launchGame.putExtra("USER", this.userName);
+           launchGame.putExtra("OPPONENT", this.oppName);
+        }
         
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this.context)
-            .setContentTitle("TwoPlayerDabbleGame").setContentText("An opponent has played a move. Launch TwoPlayerDabble!");
+        NotificationCompat.Builder mBuilder;
+        if (this.moveNum < 2) {
+            mBuilder = new NotificationCompat.Builder(this.context)
+                .setContentTitle("TwoPlayerDabbleGame").setContentText("An opponent has played a move. Launch TwoPlayerDabble!");
+        } else {
+            if (this.userName.toLowerCase().equals(this.userWhoScored.toLowerCase())) {
+                mBuilder = new NotificationCompat.Builder(this.context)
+                    .setContentTitle("TwoPlayerDabbleGame").setContentText("An opponent has played a move and you have won. Launch TwoPlayerDabble!");
+            } else {
+                mBuilder = new NotificationCompat.Builder(this.context)
+                    .setContentTitle("TwoPlayerDabbleGame").setContentText("An opponent has played a move and you have lost. Launch TwoPlayerDabble!");
+            }
+        }
         
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this.context);
         stackBuilder.addParentStack(TwoPlayerDabbleGame.class);

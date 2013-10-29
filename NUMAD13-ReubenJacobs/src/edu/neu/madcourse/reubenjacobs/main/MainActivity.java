@@ -16,6 +16,7 @@ import edu.neu.madcourse.reubenjacobs.R;
 import edu.neu.madcourse.reubenjacobs.WelcomeComm;
 import edu.neu.madcourse.reubenjacobs.WelcomeDabble;
 import edu.neu.madcourse.reubenjacobs.sudoku.Sudoku;
+import edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleWelcome;
 import edu.neu.mobileClass.PhoneCheckAPI;
 
 public class MainActivity extends Activity {
@@ -122,6 +123,11 @@ public class MainActivity extends Activity {
 	public void startComm(View view) {
 		Intent intent = new Intent(this, WelcomeComm.class);
 		startActivity(intent);
+	}
+	
+	public void startTwoPlayer(View view) {
+	    Intent intent = new Intent(this, TwoPlayerDabbleWelcome.class);
+	    startActivity(intent);
 	}
 
 }

@@ -38,6 +38,11 @@ public class TwoPlayerDabbleHome extends Activity {
 	    Bundle extras = getIntent().getExtras();
 	    this.userName = extras.getString("USER");
 	}
+	
+	public void onStop() {
+	    super.onStop();
+	    new DisconnectTask().execute(this.userName);
+	}
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
@@ -131,7 +136,6 @@ public class TwoPlayerDabbleHome extends Activity {
         this.user2Name = opponentName;
         
         if (isNetworkOnline()) {
-            new JoinGameTask().execute(this.userName, opponentName);
             startActivity(intent);
         } else {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -171,21 +175,13 @@ public class TwoPlayerDabbleHome extends Activity {
        protected Void doInBackground(String... strings) {
              
              //Stores the game (User-Opponent, game)
-             KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "game:0");
-             
+             if (TwoPlayerDabbleHome.this.isNetworkOnline()) {
+                 if (KeyValueAPI.isServerAvailable()) {
+                     KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "game:0");
+                 }
+             }
              return null;
              
-             //Do something to store the dabble board so opponent can receive
-       }
-   }
-  
-  class JoinGameTask extends AsyncTask<String, Void, Void> {
-       protected Void doInBackground(String... strings) {
-             String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
-             
-             //Do something to ensure that the dabble board loaded is the same as the users who started the game
-             
-             return null;
        }
    }
 }

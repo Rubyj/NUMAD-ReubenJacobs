@@ -9,19 +9,19 @@
     tools:context=".TwoPlayerDabbleWelcome" >
 
         <Button
-        android:id="@+id/button1"
+        android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:onClick="startComm"
+        android:onClick="onNext"
         android:text="Next" />
 
     <EditText
-        android:id="@+id/enterUser"
+        android:id="@+id/enterUserName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
+        android:layout_above="@+id/nextButton"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Enter Username(No Spaces)"
