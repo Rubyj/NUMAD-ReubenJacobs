@@ -135,5 +135,7 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".multiplayer.DabbleMRealTimeGame" android:label="@string/dabble_title"
                   android:screenOrientation="landscape"/>
+        
+        <service android:enabled="true" android:name=".multiplayer.DabbleMNotificationService" />
     </application>
 </manifest>

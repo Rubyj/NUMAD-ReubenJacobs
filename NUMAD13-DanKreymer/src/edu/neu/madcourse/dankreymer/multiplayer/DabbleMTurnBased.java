@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -39,7 +41,7 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 	private boolean inviteReceived;
 	private String otherPlayer;
 	
-	private ArrayList<String> activeGames;
+	private List<String> activeGames;
 	
 	protected static final String USERNAME = "USER";
 	protected static final String OTHER_USERNAME = "OTHER_USER";
@@ -47,7 +49,7 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.dabble_m_realtime, container, false);
+		View view = inflater.inflate(R.layout.dabble_m_turnbased, container, false);
 		
 		Bundle bundle = getActivity().getIntent().getExtras();
 		user = bundle.getString(DabbleM.USERNAME);
@@ -75,9 +77,9 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 			onDestroyView();
 			this.getActivity().finish();
 			break;
-//		case R.id.dabble_challenge_button:
-//			new sendInviteTask().execute();
-//			break;
+		case R.id.dabble_challenge_button:
+			new newGameTask().execute();
+			break;
 		}
 	}
 	
@@ -119,6 +121,8 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 			{
 				List<String> games = new ArrayList<String>(Arrays.asList(result.split(",")));
 				
+				activeGames = games;
+				
 				ArrayAdapter<String> adapter = 
 						new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, games);
 				
@@ -127,10 +131,19 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 			}
 			else
 			{
-				gameList.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, new ArrayList<String>()));
+				gameList.setAdapter(null);
 			}
 			
 			gameList.invalidate();
+			
+	    	if (activeGames.contains(spinner.getSelectedItem().toString()))
+			{
+	    		newGameButton.setEnabled(false);
+			}
+	    	else
+	    	{
+	    		newGameButton.setEnabled(true);
+	    	}
 		}
 		
 		@Override
@@ -168,6 +181,41 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 		@Override
 		protected String doInBackground(String... parameter) { 
 			return Keys.get(Keys.USERS);
+		}
+	}
+	
+	private class newGameTask extends AsyncTask<String, String, String> {		
+		@Override
+		protected String doInBackground(String... parameter) { 
+			otherPlayer = spinner.getSelectedItem().toString();
+			String userGames = Keys.get(Keys.turnBasedGamesForPlayerKey(user));
+			String otherGames = Keys.get(Keys.turnBasedGamesForPlayerKey(otherPlayer));
+			
+			if (!userGames.equals(ServerError.NO_CONNECTION.getText()))
+			{
+				if (userGames.equals(ServerError.NO_SUCH_KEY.getText()))
+				{
+					Keys.put(Keys.turnBasedGamesForPlayerKey(user), otherPlayer);
+				}
+				else
+				{
+					Keys.put(Keys.turnBasedGamesForPlayerKey(user), userGames + "," + otherPlayer);
+				}
+			}
+			
+			if (!otherGames.equals(ServerError.NO_CONNECTION.getText()))
+			{
+				if (otherGames.equals(ServerError.NO_SUCH_KEY.getText()))
+				{
+					Keys.put(Keys.turnBasedGamesForPlayerKey(otherPlayer), user);
+				}
+				else
+				{
+					Keys.put(Keys.turnBasedGamesForPlayerKey(otherPlayer), otherGames + "," + user);
+				}
+			}
+			
+			return Keys.put(Keys.turnBasedGameKey(user, otherPlayer), Keys.TURN_BASED_INVITED);
 		}
 	}
 	

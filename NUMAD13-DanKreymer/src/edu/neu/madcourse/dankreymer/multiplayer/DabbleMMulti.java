@@ -1,6 +1,7 @@
 package edu.neu.madcourse.dankreymer.multiplayer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -23,5 +24,12 @@ public class DabbleMMulti extends FragmentActivity{
 		TabHost.addTab(TabHost.newTabSpec(TURN_BASED).setIndicator(TURN_BASED),
 				DabbleMTurnBased.class, null);
 	    
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		startService(new Intent(this, DabbleMNotificationService.class).putExtra(DabbleM.USERNAME, 
+				getIntent().getExtras().getString(DabbleM.USERNAME))); 
 	}
 }

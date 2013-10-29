@@ -23,6 +23,11 @@ public class Keys {
 	private static final String MOVES_KEY = "turn";
 	private static final String TURN_BASED_GAME = "turn_based_game";
 	private static final String TURN_BASED_GAMES_LIST = "turn_based_games_list";
+	public static final String TURN_BASED_INVITED = "invited";
+	public static final String TURN_BASED_YOUR_TURN = "your_turn";
+	public static final String TURN_BASED_OTHER_TURN = "other_turn";
+	public static final String TURN_BASED_INVITED_SEEN = "invited_seen";
+	public static final String TURN_BASED_YOUR_TURN_SEEN = "your_turn_seen";
 	
 	public static String get(String key)
 	{
