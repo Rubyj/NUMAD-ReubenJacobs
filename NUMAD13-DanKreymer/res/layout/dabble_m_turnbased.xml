@@ -9,6 +9,45 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dabble_turnbased" />
+        android:layout_marginBottom="25dip"
+        android:layout_marginTop="25dip"
+        android:gravity="center"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:text="@string/dabble_choose_player_turnbased"
+        android:textSize="18sp" />
+    
+    <Spinner
+        android:id="@+id/dabble_multiplayer_select"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:layout_height="wrap_content" />
+    
+    <Button
+        android:id="@+id/dabble_challenge_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:text="@string/dabble_new_game_challenge" />
+
+    <ListView
+        android:id="@+id/dabble_game_list"
+        android:layout_width="match_parent"
+        android:layout_height="132dp"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip" >
+
+    </ListView>
+    
+    <Button
+        android:id="@+id/dabble_back_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:text="@string/dabble_back" />
 
 </LinearLayout>

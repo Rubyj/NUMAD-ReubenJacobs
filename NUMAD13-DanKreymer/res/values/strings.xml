@@ -100,5 +100,7 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_realtime">Real Time</string>
     <string name="dabble_turnbased">Turn Based</string>
     <string name="dabble_choose_player">Choose a (looking) player to challenge!</string>
+    <string name="dabble_choose_player_turnbased">Select a game or create a new one!</string>
     <string name="dabble_challenge">Challenge!</string>
+    <string name="dabble_new_game_challenge">New Game!</string>
 </resources>

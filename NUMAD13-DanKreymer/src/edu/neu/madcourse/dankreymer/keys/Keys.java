@@ -18,6 +18,11 @@ public class Keys {
 	private static final String REAL_TIME_GAME = "real_time_game";
 	private static final String ROW_KEY = "row";
 	private static final String SHAKE_KEY = "shake";
+	private static final String BOARD_KEY = "board";
+	private static final String TURN_KEY = "moves";
+	private static final String MOVES_KEY = "turn";
+	private static final String TURN_BASED_GAME = "turn_based_game";
+	private static final String TURN_BASED_GAMES_LIST = "turn_based_games_list";
 	
 	public static String get(String key)
 	{
@@ -61,6 +66,18 @@ public class Keys {
 		}
 	}
 	
+	public static String turnBasedGameKey(String player1, String player2)
+	{
+		if (player1.compareTo(player2) < 0)
+		{
+			return TURN_BASED_GAME + "_" + player1 + "_" + player2;
+		}
+		else
+		{
+			return TURN_BASED_GAME + "_" + player2 + "_" + player1;
+		}
+	}
+	
 	public static String realTimeGameRowKey(String player1, String player2, String player)
 	{
 		return realTimeGameKey(player1, player2) + "_" + player + "_" + ROW_KEY;
@@ -69,5 +86,25 @@ public class Keys {
 	public static String realTimeGameShakeKey(String player1, String player2, String player)
 	{
 		return realTimeGameKey(player1, player2) + "_" + player + "_" + SHAKE_KEY;
+	}
+	
+	public static String turnBasedGameBoardKey(String player1, String player2)
+	{
+		return turnBasedGameKey(player1, player2) + "_" + BOARD_KEY;
+	}
+	
+	public static String turnBasedGameTurnKey(String player1, String player2)
+	{
+		return turnBasedGameKey(player1, player2) + "_" + TURN_KEY;
+	}
+	
+	public static String turnBasedGameMovesKey(String player1, String player2, String player)
+	{
+		return turnBasedGameKey(player1, player2) + "_" + player + "_" + MOVES_KEY;
+	}
+	
+	public static String turnBasedGamesForPlayerKey(String player)
+	{
+		return TURN_BASED_GAMES_LIST + "_" + player;
 	}
 }
