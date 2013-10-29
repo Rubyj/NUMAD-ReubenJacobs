@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,6 +61,17 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 		
 		spinner = (Spinner) view.findViewById(R.id.dabble_multiplayer_select);
 		gameList = (ListView) view.findViewById(R.id.dabble_game_list);
+		gameList.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent intent = new Intent(getActivity(), DabbleMTurnBasedGame.class);
+				intent.putExtra(USERNAME,user);
+				intent.putExtra(OTHER_USERNAME, gameList.getItemAtPosition(arg2).toString());
+				startActivity(intent);
+				
+			}});
 		
 		View backButton = view.findViewById(R.id.dabble_back_button);
 		backButton.setOnClickListener(this);
@@ -187,35 +199,34 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 	private class newGameTask extends AsyncTask<String, String, String> {		
 		@Override
 		protected String doInBackground(String... parameter) { 
-			otherPlayer = spinner.getSelectedItem().toString();
-			String userGames = Keys.get(Keys.turnBasedGamesForPlayerKey(user));
-			String otherGames = Keys.get(Keys.turnBasedGamesForPlayerKey(otherPlayer));
-			
-			if (!userGames.equals(ServerError.NO_CONNECTION.getText()))
-			{
-				if (userGames.equals(ServerError.NO_SUCH_KEY.getText()))
-				{
-					Keys.put(Keys.turnBasedGamesForPlayerKey(user), otherPlayer);
+				otherPlayer = spinner.getSelectedItem().toString();
+				String userGames = Keys.get(Keys
+						.turnBasedGamesForPlayerKey(user));
+				String otherGames = Keys.get(Keys
+						.turnBasedGamesForPlayerKey(otherPlayer));
+
+				if (!userGames.equals(ServerError.NO_CONNECTION.getText())) {
+					if (userGames.equals(ServerError.NO_SUCH_KEY.getText())) {
+						Keys.put(Keys.turnBasedGamesForPlayerKey(user),
+								otherPlayer);
+					} else {
+						Keys.put(Keys.turnBasedGamesForPlayerKey(user),
+								userGames + "," + otherPlayer);
+					}
 				}
-				else
-				{
-					Keys.put(Keys.turnBasedGamesForPlayerKey(user), userGames + "," + otherPlayer);
+
+				if (!otherGames.equals(ServerError.NO_CONNECTION.getText())) {
+					if (otherGames.equals(ServerError.NO_SUCH_KEY.getText())) {
+						Keys.put(Keys.turnBasedGamesForPlayerKey(otherPlayer),
+								user);
+					} else {
+						Keys.put(Keys.turnBasedGamesForPlayerKey(otherPlayer),
+								otherGames + "," + user);
+					}
 				}
-			}
-			
-			if (!otherGames.equals(ServerError.NO_CONNECTION.getText()))
-			{
-				if (otherGames.equals(ServerError.NO_SUCH_KEY.getText()))
-				{
-					Keys.put(Keys.turnBasedGamesForPlayerKey(otherPlayer), user);
-				}
-				else
-				{
-					Keys.put(Keys.turnBasedGamesForPlayerKey(otherPlayer), otherGames + "," + user);
-				}
-			}
-			
-			return Keys.put(Keys.turnBasedGameKey(user, otherPlayer), Keys.TURN_BASED_INVITED);
+
+				return Keys.put(Keys.turnBasedGameKey(user, otherPlayer),
+						Keys.TURN_BASED_INVITED);
 		}
 	}
 	

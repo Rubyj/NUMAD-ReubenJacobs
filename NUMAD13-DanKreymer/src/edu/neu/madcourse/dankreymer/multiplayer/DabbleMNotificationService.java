@@ -106,6 +106,8 @@ public class DabbleMNotificationService extends Service{
                     .setContentTitle("Dabble!")
                     .setContentText("It's your turn in one of your current turn-based dabble games!");
 					
+					new setGameStatusYourTurnSeenTask().execute(otherUser);
+					
 					Intent targetIntent = new Intent(context, DabbleMMulti.class);
 					targetIntent.putExtra(DabbleM.USERNAME, user);
 					PendingIntent contentIntent = 
@@ -120,6 +122,14 @@ public class DabbleMNotificationService extends Service{
 		protected String doInBackground(String... parameter) { 
 			otherUser = parameter[0];
 			return Keys.get(Keys.turnBasedGameKey(user, parameter[0]));
+		}
+	}
+	
+	private class setGameStatusYourTurnSeenTask extends AsyncTask<String, String, String> {
+		
+		@Override
+		protected String doInBackground(String... parameter) { 
+			return Keys.put(Keys.turnBasedGameKey(user, parameter[0]), Keys.TURN_BASED_YOUR_TURN_SEEN);
 		}
 	}
 	

@@ -120,6 +120,7 @@ public class DabbleMTurnBasedGame extends Activity {
 	private Random rand;
 	
 	private String username;
+	private String otherUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +138,8 @@ public class DabbleMTurnBasedGame extends Activity {
 		
 		Bundle bundle = getIntent().getExtras();
 		
-		username = bundle.getString(DabbleM.USERNAME);
+		username = bundle.getString(DabbleMTurnBased.USERNAME);
+		otherUser = bundle.getString(DabbleMTurnBased.OTHER_USERNAME);
 
 		selected = -1;
 		score = 0;
