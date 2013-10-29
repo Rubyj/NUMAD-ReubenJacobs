@@ -50,7 +50,7 @@ public class CommGame extends Activity {
 		
 		if (gameType.equals("NEW")) {
 			this.moveNumber = 0;
-			this.moveNumSet = true;;
+			this.moveNumSet = true;
 			TextView tv = (TextView) findViewById(R.id.gameUsers);
 			tv.setText("New Game: " + this.userName + "-" + this.opponentName + "/Move#" + this.moveNumber );
 		} else if (gameType.equals("JOIN")) { 

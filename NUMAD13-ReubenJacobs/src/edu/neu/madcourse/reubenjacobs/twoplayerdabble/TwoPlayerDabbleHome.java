@@ -1,24 +1,42 @@
 package edu.neu.madcourse.reubenjacobs.twoplayerdabble;
 
-import edu.neu.madcourse.reubenjacobs.R;
-import edu.neu.madcourse.reubenjacobs.R.layout;
-import edu.neu.madcourse.reubenjacobs.R.menu;
-import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.view.View;
+import android.widget.TextView;
+import edu.neu.madcourse.reubenjacobs.CommGame;
+import edu.neu.madcourse.reubenjacobs.CommPlayerlist;
+import edu.neu.madcourse.reubenjacobs.Dabble;
+import edu.neu.madcourse.reubenjacobs.R;
+import edu.neu.mhealth.api.KeyValueAPI;
 
 public class TwoPlayerDabbleHome extends Activity {
-
+    
+    private String userName;
+    private String user2Name;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_two_player_dabble_home);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+	    //Retrieve the username entered on the welcomeComm activity
+	    Bundle extras = getIntent().getExtras();
+	    this.userName = extras.getString("USER");
 	}
 
 	/**
@@ -54,5 +72,128 @@ public class TwoPlayerDabbleHome extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	public void onList(View view) {
+	    Intent intent = new Intent(this, CommPlayerlist.class);
+	    startActivity(intent);
+	}
+	   
+	public void onSingle(View view) {
+	    Intent intent = new Intent(this, Dabble.class);
+	    intent.putExtra("USER", this.userName);
+	    if (!this.user2Name.isEmpty()) {
+	        intent.putExtra("OPPONENT", this.user2Name);
+	    } else {
+	        TextView tv = (TextView)findViewById(R.id.oppponentName);
+	        String opponentName = tv.getText().toString();
+	        intent.putExtra("OPPONENT", opponentName);
+	    }
+	    startActivity(intent);
+	}	
+	
+	public void onNewGame(View view) {
+	    TextView tv = (TextView)findViewById(R.id.oppponentName);
+	    String opponentName = tv.getText().toString();
+	        
+	    Intent intent = new Intent(this, TwoPlayerDabbleGame.class);
+	    intent.putExtra("USER", this.userName);
+	    intent.putExtra("OPPONENT", opponentName);
+	    intent.putExtra("GAME", "NEW");
+	    this.user2Name = opponentName;
+	        
+	    if (isNetworkOnline()) {
+	        new CreateGameTask().execute(this.userName, opponentName);
+	        startActivity(intent);
+	    } else {
+	        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+	        builder1.setMessage("No internet available");
+	        builder1.setCancelable(true);
+	        builder1.setNegativeButton("Back",
+	                new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int id) {
+	                dialog.cancel();
+	            }
+	        });
 
+	        AlertDialog alert11 = builder1.create();
+	        alert11.show();
+	    }
+	}
+	
+	public void onJoinGame(View view) {
+        TextView tv = (TextView)findViewById(R.id.oppponentName);
+        String opponentName = tv.getText().toString();
+        
+        Intent intent = new Intent(this, TwoPlayerDabbleGame.class);
+        intent.putExtra("USER", this.userName);
+        intent.putExtra("OPPONENT", opponentName);
+        intent.putExtra("GAME", "JOIN");
+        this.user2Name = opponentName;
+        
+        if (isNetworkOnline()) {
+            new JoinGameTask().execute(this.userName, opponentName);
+            startActivity(intent);
+        } else {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("No internet available");
+            builder1.setCancelable(true);
+            builder1.setNegativeButton("Back",
+                    new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }           	    
+	}
+    public boolean isNetworkOnline() {
+        boolean status=false;
+           try{
+               ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+               NetworkInfo netInfo = cm.getNetworkInfo(0);
+               if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
+                   status= true;
+               }else {
+                   netInfo = cm.getNetworkInfo(1);
+                   if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
+                       status= true;
+               }
+           }catch(Exception e){
+               e.printStackTrace();  
+               return false;
+           }
+           return status;
+   }  
+  
+  class CreateGameTask extends AsyncTask<String, Void, Void> {
+       protected Void doInBackground(String... strings) {
+             
+             //Stores the game (User-Opponent, game)
+             KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "game:0");
+             
+             return null;
+             
+             //Do something to store the dabble board so opponent can receive
+       }
+   }
+  
+  class JoinGameTask extends AsyncTask<String, Void, Void> {
+       protected Void doInBackground(String... strings) {
+             String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
+             
+             //Do something to ensure that the dabble board loaded is the same as the users who started the game
+             
+             return null;
+       }
+   }
+}
+
+class DisconnectTask extends AsyncTask<String, Void, Void> {
+   protected Void doInBackground(String... strings) {
+         KeyValueAPI.put("sloth_nation", "fromunda", strings[0], "inactive");
+         
+         return null;
+   }
 }

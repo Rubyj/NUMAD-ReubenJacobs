@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.reubenjacobs"
-    android:versionCode="21"
-    android:versionName="4.2" >
+    android:versionCode="22"
+    android:versionName="5.0" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -102,6 +102,14 @@
                 android:value="edu.neu.madcourse.reubenjacobs.Dabble" />
         </activity>
         <activity
+            android:name="edu.neu.madcourse.reubenjacobs.twoplayerdabble.PauseDabble"
+            android:label="@string/title_activity_pause_dabble"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleGame" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleGame" />
+        </activity>        
+        <activity
             android:name="edu.neu.madcourse.reubenjacobs.DabbleAcknow"
             android:label="@string/title_activity_dabble_acknow"
             android:parentActivityName="edu.neu.madcourse.reubenjacobs.WelcomeDabble" >
@@ -161,11 +169,23 @@
         </activity>
         <activity
             android:name="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleHome"
+            android:configChanges="orientation"
             android:label="@string/title_activity_two_player_dabble_home"
-            android:parentActivityName="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleWelcome" >
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleWelcome"
+            android:screenOrientation="landscape" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleWelcome" />
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleGame"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_two_player_dabble_game"
+            android:parentActivityName="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleHome"
+            android:screenOrientation="landscape" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.reubenjacobs.twoplayerdabble.TwoPlayerDabbleHome" />
         </activity>
     </application>
 

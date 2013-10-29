@@ -48,7 +48,7 @@
         android:text="Join Game" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/singleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/playerList"
