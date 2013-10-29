@@ -22,6 +22,7 @@ public class Keys {
 	private static final String TURN_KEY = "moves";
 	private static final String MOVES_KEY = "turn";
 	private static final String SCORE_KEY = "score";
+	public static final String TURN_BASED_GAME_PLAYING = "playing";
 	private static final String TURN_BASED_GAME = "turn_based_game";
 	private static final String TURN_BASED_GAMES_LIST = "turn_based_games_list";
 	public static final String TURN_BASED_INVITED = "invited";
@@ -99,9 +100,9 @@ public class Keys {
 		return turnBasedGameKey(player1, player2) + "_" + BOARD_KEY;
 	}
 	
-	public static String turnBasedGameTurnKey(String player1, String player2)
+	public static String turnBasedGameTurnKey(String player1, String player2, String player)
 	{
-		return turnBasedGameKey(player1, player2) + "_" + TURN_KEY;
+		return turnBasedGameKey(player1, player2) + "_" + player + "_" + TURN_KEY;
 	}
 	
 	public static String turnBasedGameMovesKey(String player1, String player2, String player)

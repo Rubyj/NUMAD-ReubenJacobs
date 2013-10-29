@@ -150,10 +150,10 @@ public class DabbleMRealTime extends Fragment implements OnClickListener{
 	
 	public void onDestroyView()
 	{
-		super.onDestroyView();
 		new removeInviteTask().execute();
 		timer.cancel();
 		timer.purge();
+		super.onDestroyView();
 	}
 	
 

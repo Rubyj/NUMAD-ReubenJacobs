@@ -148,14 +148,16 @@ public class DabbleMTurnBased extends Fragment implements OnClickListener{
 			
 			gameList.invalidate();
 			
-	    	if (activeGames.contains(spinner.getSelectedItem().toString()))
-			{
-	    		newGameButton.setEnabled(false);
-			}
-	    	else
-	    	{
-	    		newGameButton.setEnabled(true);
-	    	}
+			if (spinner.getSelectedItem() != null){
+		    	if (activeGames.contains(spinner.getSelectedItem().toString()))
+				{
+		    		newGameButton.setEnabled(false);
+				}
+		    	else
+		    	{
+		    		newGameButton.setEnabled(true);
+		    	}
+		}
 		}
 		
 		@Override

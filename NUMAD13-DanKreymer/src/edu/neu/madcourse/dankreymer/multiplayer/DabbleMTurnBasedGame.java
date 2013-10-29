@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Set;
 import edu.neu.madcourse.dankreymer.R;
 import edu.neu.madcourse.dankreymer.R.raw;
 import edu.neu.madcourse.dankreymer.keys.Keys;
+import edu.neu.madcourse.dankreymer.keys.ServerError;
 import edu.neu.madcourse.dankreymer.misc.Music;
 
 import android.app.Activity;
@@ -32,6 +34,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.ArrayAdapter;
 
 public class DabbleMTurnBasedGame extends Activity {
 	//various keys
@@ -110,17 +113,19 @@ public class DabbleMTurnBasedGame extends Activity {
 	private char[] tiles;
 	
 	private int selected;
-	private int time;
 	private int score;
+	private int otherScore;
 	
 	private boolean gameOver;
 	private boolean playMusic;
-	private boolean myTurn;
+	private int movesLeft;
 	
 	private Random rand;
 	
 	private String username;
 	private String otherUser;
+	
+	private Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +133,8 @@ public class DabbleMTurnBasedGame extends Activity {
 		
 		dictionary = new HashSet<String>();
 		lettersLoaded = new ArrayList<String>();
+		
+		context = this;
 		
 		//set up sound pool.
 		sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
@@ -144,27 +151,20 @@ public class DabbleMTurnBasedGame extends Activity {
 		selected = -1;
 		score = 0;
 		rand = new Random();
-		generateSolution();
-		generateTiles();
 		playMusic = true;
-		time = maxTime;
 		gameOver = false;
-		
-		dabbleView = new DabbleMTurnBasedView(this);
-		setContentView(dabbleView);
-		dabbleView.requestFocus();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		new loadGameTask().execute();
 		new UserInGameTask().execute();
 
 		if (playMusic){
 			Music.play(this, R.raw.dabble_music);
 		}
-		
-		new UserNewMoveTask().execute();
 	}
 	   
 	@Override
@@ -180,8 +180,7 @@ public class DabbleMTurnBasedGame extends Activity {
 	
 	protected boolean myTurn()
 	{
-		//TODO
-		return true;
+		return movesLeft > 0;
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -289,9 +288,10 @@ public class DabbleMTurnBasedGame extends Activity {
 		char temp = tiles[i];
 		tiles[i] = tiles[j];
 		tiles[j] = temp;
+		movesLeft = movesLeft - 1;
+		new saveDataTask().execute();
 		
 		new UserInGameTask().execute(); //in case internet connection comes on midgame
-		new UserNewMoveTask().execute();
 	}
 
 	private String tilesToString() {
@@ -308,28 +308,6 @@ public class DabbleMTurnBasedGame extends Activity {
 
 	protected String getSelected() {
 		return Integer.toString(selected);
-	}
-	
-	private int stringToSeconds(String string){
-		String[] split = string.split(":");
-		return Integer.parseInt(split[0]) * 60 + Integer.parseInt(split[1]);
-	}
-	
-	private String secondsToString(){
-		int minutes = time / 60;
-		int seconds = time - (minutes * 60);
-		
-		String secondString = seconds < 10 ? "0" + seconds : "" + seconds;
-		
-		return minutes + ":" + secondString;
-	}
-	
-	protected String getTime(){
-		return secondsToString();
-	}
-	
-	protected int getTimeInSeconds(){
-		return time;
 	}
 	
 	//Compute the score using the letterPoints assigned earlier.
@@ -370,6 +348,11 @@ public class DabbleMTurnBasedGame extends Activity {
 		
 		return Integer.toString(score);
 	}
+	
+	//Compute the score using the letterPoints assigned earlier.
+		protected String getOtherScore(){
+			return Integer.toString(otherScore);
+		}
 	
 	//check if a row (1,2,3,4) has a valid word.
 	protected boolean checkWord(int row){
@@ -418,7 +401,7 @@ public class DabbleMTurnBasedGame extends Activity {
 	protected void toggleMusic()
 	{
 		playMusic = !playMusic;
-		if (playMusic && time > 0)
+		if (playMusic)
 		{
 			Music.play(this, R.raw.dabble_music);
 		}
@@ -464,7 +447,7 @@ public class DabbleMTurnBasedGame extends Activity {
 	
 	protected void gameOver()
 	{
-		if (time > 0)
+		if (score > otherScore)
 		{
 			playYouWinSound();
 		}
@@ -488,21 +471,124 @@ public class DabbleMTurnBasedGame extends Activity {
 		
 	}
 	
-	private class UserNewMoveTask extends AsyncTask<String, String, String>{
-
-		@Override
-		protected String doInBackground(String... params) {
-			return Keys.put(Keys.userGameplayKey(username), tilesToString());
-		}
-		
-	}
-	
 	private class UserHideGameTask extends AsyncTask<String, String, String>{
 
 		@Override
 		protected String doInBackground(String... params) {
 			return Keys.clearKey(Keys.userGameplayKey(username));
+		}	
+	}
+	
+	private class loadGameTask extends AsyncTask<String, String, String> {
+		@Override
+		protected void onPostExecute(String result) {
+			if (result.equals(Keys.TURN_BASED_INVITED) || result.equals(Keys.TURN_BASED_INVITED_SEEN))
+			{
+				movesLeft = 1;
+				generateSolution();
+				generateTiles();
+				dabbleView = new DabbleMTurnBasedView(context);
+				setContentView(dabbleView);
+				dabbleView.requestFocus();
+				
+				dabbleView = new DabbleMTurnBasedView(context);
+				setContentView(dabbleView);
+				dabbleView.requestFocus();
+				
+				new saveDataTask().execute();
+			}
+			else
+			{
+				new loadBoardTask().execute();
+				new loadScoreTask().execute(username);
+				new loadScoreTask().execute(otherUser);
+				new loadMovesTask().execute();
+			}
 		}
 		
+		@Override
+		protected String doInBackground(String... parameter) {
+			return Keys.get(Keys.turnBasedGameKey(username, otherUser));
+		}
+	}
+	
+	private class loadMovesTask extends AsyncTask<String, String, String> {
+		@Override
+		protected void onPostExecute(String result) {
+			movesLeft = Integer.parseInt(result);
+		}
+		
+		@Override
+		protected String doInBackground(String... parameter) {
+			return Keys.get(Keys.turnBasedGameMovesKey(username, otherUser, username));
+		}
+	}
+	
+	private class loadScoreTask extends AsyncTask<String, String, String> {
+		String user;
+		@Override
+		protected void onPostExecute(String result) {
+			if (user.equals(username))
+				score = Integer.parseInt(result);
+			else
+				otherScore = Integer.parseInt(result);;
+		}
+		
+		@Override
+		protected String doInBackground(String... parameter) {
+			user = parameter[0];
+			return Keys.get(Keys.turnBasedGameScoreKey(username, otherUser, parameter[0]));
+		}
+	}
+	
+	private class loadBoardTask extends AsyncTask<String, String, String> {
+		@Override
+		protected void onPostExecute(String result) {
+			stringToTiles(result);
+			
+			dabbleView = new DabbleMTurnBasedView(context);
+			setContentView(dabbleView);
+			dabbleView.requestFocus();
+		}
+		
+		@Override
+		protected String doInBackground(String... parameter) {
+			return Keys.get(Keys.turnBasedGameBoardKey(username, otherUser));
+		}
+	}
+	
+	private class saveDataTask extends AsyncTask<String, String, String> {
+		@Override
+		protected String doInBackground(String... parameter) { 
+			String key = Keys.get(Keys.turnBasedGameKey(username, otherUser));
+			if (key.equals(Keys.TURN_BASED_INVITED) || key.equals(Keys.TURN_BASED_INVITED_SEEN))
+			{
+				Keys.put(Keys.turnBasedGameKey(username, otherUser), Keys.TURN_BASED_GAME_PLAYING);
+				Keys.put(Keys.turnBasedGameTurnKey(username, otherUser, username), Keys.TURN_BASED_YOUR_TURN);
+				Keys.put(Keys.turnBasedGameTurnKey(username, otherUser, otherUser), Keys.TURN_BASED_OTHER_TURN);
+				Keys.put(Keys.turnBasedGameScoreKey(username, otherUser, username), "0");
+				Keys.put(Keys.turnBasedGameScoreKey(username, otherUser, otherUser), "0");
+				Keys.put(Keys.turnBasedGameMovesKey(username, otherUser, username), "1");
+				Keys.put(Keys.turnBasedGameMovesKey(username, otherUser, otherUser), "0");
+				Keys.put(Keys.turnBasedGameBoardKey(username, otherUser), tilesToString());
+			}
+			else if (movesLeft == 0)
+			{
+				Keys.put(Keys.turnBasedGameTurnKey(username, otherUser, username), Keys.TURN_BASED_OTHER_TURN);
+				Keys.put(Keys.turnBasedGameTurnKey(username, otherUser, otherUser), Keys.TURN_BASED_YOUR_TURN);
+				Keys.put(Keys.turnBasedGameScoreKey(username, otherUser, username), Integer.toString(score));
+				Keys.put(Keys.turnBasedGameMovesKey(username, otherUser, username), Integer.toString(movesLeft));
+				Keys.put(Keys.turnBasedGameMovesKey(username, otherUser, otherUser), "1");
+				Keys.put(Keys.turnBasedGameBoardKey(username, otherUser), tilesToString());
+			}
+			else
+			{
+				Keys.put(Keys.turnBasedGameScoreKey(username, otherUser, username), Integer.toString(score));
+				Keys.put(Keys.turnBasedGameMovesKey(username, otherUser, username), Integer.toString(movesLeft));
+				Keys.put(Keys.turnBasedGameBoardKey(username, otherUser), tilesToString());
+			}
+			
+			return null;
+		}
 	}
 }

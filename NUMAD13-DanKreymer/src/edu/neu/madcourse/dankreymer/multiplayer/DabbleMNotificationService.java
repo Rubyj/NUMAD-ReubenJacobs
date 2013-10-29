@@ -99,7 +99,25 @@ public class DabbleMNotificationService extends Service{
 					builder.setContentIntent(contentIntent);
 					nManager.notify(1, builder.build());
 				}
-				else if (result.equals(Keys.TURN_BASED_YOUR_TURN))
+			}
+		}
+		
+		@Override
+		protected String doInBackground(String... parameter) { 
+			otherUser = parameter[0];
+			return Keys.get(Keys.turnBasedGameKey(user, parameter[0]));
+		}
+	}
+	
+private class checkGameTurnStatusTask extends AsyncTask<String, String, String> {
+		
+		private String otherUser;
+		@Override
+		protected void onPostExecute(String result) {
+			if (!result.equals(ServerError.NO_CONNECTION.getText()) && 
+					!result.equals(ServerError.NO_SUCH_KEY.getText()))
+			{
+				if (result.equals(Keys.TURN_BASED_YOUR_TURN))
 				{
 					NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_launcher)
@@ -121,7 +139,7 @@ public class DabbleMNotificationService extends Service{
 		@Override
 		protected String doInBackground(String... parameter) { 
 			otherUser = parameter[0];
-			return Keys.get(Keys.turnBasedGameKey(user, parameter[0]));
+			return Keys.get(Keys.turnBasedGameTurnKey(user, otherUser, user));
 		}
 	}
 	

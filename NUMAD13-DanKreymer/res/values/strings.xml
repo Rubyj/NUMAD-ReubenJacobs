@@ -81,7 +81,10 @@ row, each column, and each of the 3x3 boxes
        												\n\nThe song "Danger Zone" used is by Kenny Loggins and ripped from Youtube.
        												\n\nThe dictionary used is from:\nhttp://www.scrabblejunction.org/wordlists.htm</string>
     <string name="dabble_instructions">Instructions</string>
-    <string name="dabble_instructions_text">Tap a tile to select it, and tap another tile to swap the two. Swap any two tiles until you form a valid word on each row!</string>
+    <string name="dabble_instructions_text">Tap a tile to select it, and tap another tile to swap the two. Swap any two tiles until you form a valid word on each row!
+        									\n\n For Real-Time Multiplayer mode: Complete a full solution before the other player in the given time limit. Shake your phone hard to use 
+        									one of two shake-ups. These will allow you to randomly rearrange the opponent\'s board.
+        									\n\n For Turn-Based Multiplayer Mode: Play the same board with your opponent, taking turns indivdually. Any word completed on your turn will count towards your score.</string>
 
     <!-- Dabble Communication stuff -->
     <string name="dabble_com_label">Communication</string>

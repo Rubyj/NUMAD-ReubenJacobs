@@ -257,8 +257,7 @@ public class DabbleMTurnBasedView extends View {
 	private void drawTimer(Canvas canvas)
 	{		
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
-		foreground.setColor(getResources().getColor(dabbleGame.getTimeInSeconds() > 10 ? 
-										R.color.dabble_background_text : R.color.dabble_red_text));
+		foreground.setColor(getResources().getColor(R.color.dabble_green_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
@@ -274,14 +273,13 @@ public class DabbleMTurnBasedView extends View {
 		top = 0;
 		left = 0;
 
-		canvas.drawText(dabbleGame.getTime(), left + text_x, top + text_y, foreground);
+		canvas.drawText(dabbleGame.getScore(), left + text_x, top + text_y, foreground);
 	}
 	
 	private void drawScore(Canvas canvas)
 	{
 		Paint foreground = new Paint(Paint.ANTI_ALIAS_FLAG);
-		foreground.setColor(getResources().getColor(dabbleGame.getTimeInSeconds() != 0 ? 
-													R.color.dabble_background_text : R.color.dabble_red_text));
+		foreground.setColor(getResources().getColor(R.color.dabble_red_text));
 		foreground.setStyle(Style.FILL);
 		foreground.setTextSize(button_size_y * 0.5f);
 		foreground.setTextScaleX(1);
@@ -297,7 +295,7 @@ public class DabbleMTurnBasedView extends View {
 		top = 0;
 		left = getWidth() - button_size_x;
 
-		canvas.drawText(dabbleGame.getScore(), left + text_x, top + text_y, foreground);
+		canvas.drawText(dabbleGame.getOtherScore(), left + text_x, top + text_y, foreground);
 	}
 	
 	private void drawBack(Canvas canvas)
@@ -361,18 +359,18 @@ public class DabbleMTurnBasedView extends View {
 			return;
 		}
 		
+		top = getHeight() - button_size_y;
+		left = getWidth() - button_size_x;
 		
-		if (dabbleGame.getTimeInSeconds() != 0)
+		if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
+		{
+			dabbleGame.toggleMusic();
+			return;
+		}
+		
+		
+		if (dabbleGame.myTurn())
 		{			
-			top = getHeight() - button_size_y;
-			left = getWidth() - button_size_x;
-			
-			if ((x > left && x < left + button_size_x) && (y > top && y < top + button_size_y))
-			{
-				dabbleGame.toggleMusic();
-				return;
-			}
-	
 			markSelected(x, y);
 		}
 	}
@@ -399,7 +397,7 @@ public class DabbleMTurnBasedView extends View {
 		}
 		
 		
-		if (dabbleGame.getTimeInSeconds() != 0 && !dabbleGame.myTurn())
+		if (dabbleGame.myTurn())
 		{
 			swapSelected(selected1, x, y);
 		}
