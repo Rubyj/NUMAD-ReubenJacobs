@@ -157,12 +157,17 @@ public class TwoPlayerDabbleGame extends Activity {
 	  final TextView timerView = (TextView)findViewById(R.id.timerView);
       
       populateMap();
-
-      setWord3();
-      setWord4();
-      setWord5();
-      setWord6();
-      setArray();
+      
+      if (this.gameType.equals(TwoPlayerDabbleGame.NEW_GAME)) {
+          setWord3();
+          setWord4();
+          setWord5();
+          setWord6();
+          setArray();
+          new SetDabbleBoardTask(this.letters).execute(this.userName, this.opponentName);
+      } else if (this.gameType.equals(TwoPlayerDabbleGame.JOIN_GAME)) {
+          new LoadDabbleBoardTask().execute(this.userName, this.opponentName);
+      }
  
       gridView = (GridView) findViewById(R.id.gridView1);
       
@@ -209,7 +214,7 @@ public class TwoPlayerDabbleGame extends Activity {
 					setPoints(totalPoints);
 					
 					if (totalPoints >= 18) {
-						onWin();
+						onSendScore();
 					}
 				}
 			}
@@ -276,7 +281,7 @@ public class TwoPlayerDabbleGame extends Activity {
        long period = 5000;
        
        if (this.userName != null && this.opponentName != null) {
-           myTimer.schedule(aTimerTask, 0, 5000);
+           myTimer.schedule(aTimerTask, delay, period);
        }
    }
 
@@ -833,8 +838,8 @@ public class TwoPlayerDabbleGame extends Activity {
 	   finish();
    }
    
-   public void onSendScore(View view) {
-       new LoadMoveNumberTask().execute(this.userName, this.opponentName);
+   public void onSendScore() {
+       mHandler.removeCallbacks(mUpdateTimeTask);
        this.moveNum++;
        
        TextView tv = (TextView) findViewById(R.id.timerView);
@@ -959,7 +964,7 @@ public class TwoPlayerDabbleGame extends Activity {
    class LoadMoveNumberTask extends AsyncTask<String, Void, Void> {
 		
 		protected Void doInBackground(String... strings) {
-			if (isNetworkOnline()) {
+			if (TwoPlayerDabbleGame.this.isNetworkOnline()) {
 			  String value = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
 			  if (value.contains("Error")) {
 				  value = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0]);
@@ -972,7 +977,73 @@ public class TwoPlayerDabbleGame extends Activity {
 		      return null;
 		}
 	}
+   
+   class SetDabbleBoardTask extends AsyncTask<String, Void, Void> {
+       private String[] letters;
+       
+       SetDabbleBoardTask(ArrayList<String> letters) {
+           for (int i=0; i < letters.size(); i++) {
+               this.letters[i] = letters.get(i);
+           }
+       }
+       
+       protected Void doInBackground(String... strings) {
+           if (TwoPlayerDabbleGame.this.isNetworkOnline()) {
+               KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1] + ":board", this.letters.toString());
+           }
+           
+           return null;
+       }
+   }
+   
+   class LoadDabbleBoardTask extends AsyncTask<String, Void, Void> {
+       private ArrayList<String> letters;
+       private String board;
+       
+       LoadDabbleBoardTask(){}
+       
+       protected Void doInBackground(String... strings) {
+           if (TwoPlayerDabbleGame.this.isNetworkOnline()) {
+               this.board = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1] + ":board");
+           }
+           
+           if (this.board.contains("Error")) {
+               this.board = KeyValueAPI.get("sloth_nation", "fromunda", strings[1] + "-" + strings[0] + ":board");
+           }
+           
+           if (this.board.contains("Error")) {
+               AlertDialog.Builder builder1 = new AlertDialog.Builder(TwoPlayerDabbleGame.this);
+               builder1.setMessage("ERROR COULD NOT FIND THE GAME TO JOIN OR BOARD TO LOAD");
+               builder1.setCancelable(true);
+               builder1.setNegativeButton("Back",
+                       new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       dialog.cancel();
+                   }
+               });
+
+               AlertDialog alert11 = builder1.create();
+               alert11.show();
+           } else {
+               for (int i = 0; i < this.board.length(); i++) {
+                   this.letters.add(this.board.substring(i, i + 1));
+               }
+           }
+           
+           return null;
+       }
+           
+       @Override    
+       protected void onPostExecute(Void x) {
+           for (int i = 0; i < this.letters.size(); i++) {
+               TwoPlayerDabbleGame.this.letters.add(i, this.letters.get(i));
+           }
+           
+           TwoPlayerDabbleGame.this.setArray();
+       }
+   }
 }
+
 
 class CustomAdapter<T> extends ArrayAdapter<T> {
 	
