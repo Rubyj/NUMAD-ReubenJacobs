@@ -13,6 +13,7 @@ import edu.neu.madcourse.dankreymer.dictionary.Dictionary;
 import edu.neu.madcourse.dankreymer.multiplayer.DabbleM;
 import edu.neu.madcourse.dankreymer.sudoku.Prefs;
 import edu.neu.madcourse.dankreymer.sudoku.Sudoku;
+import edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -55,6 +56,8 @@ public class Main extends Activity implements OnClickListener {
       dabbleMButton.setOnClickListener(this);
       View exitButton = findViewById(R.id.quit_button);
       exitButton.setOnClickListener(this);
+      View trickyStressButton = findViewById(R.id.tricky_stress_button);
+      trickyStressButton.setOnClickListener(this);
    }
 
    public void onClick(View v) {
@@ -64,6 +67,9 @@ public class Main extends Activity implements OnClickListener {
          int[] stupidArray = null;
          stupidArray[6]++;
          break;
+      case R.id.tricky_stress_button:
+          startActivity(new Intent(this, TrickyStressMain.class));
+          break;
       case R.id.dabble_m_button:
           startActivity(new Intent(this, DabbleM.class));
           break;

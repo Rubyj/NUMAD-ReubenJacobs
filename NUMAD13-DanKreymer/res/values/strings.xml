@@ -8,6 +8,17 @@
  ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 -->
 <resources>
+    
+   <!-- TRICKIEST PART STRESS BLOCKER STUFF -->
+   <string name="tricky_stress_label">Trickiest Part</string>
+   <string name="tricky_phone_survey_button_label">Enable Phonecall Surveys</string>
+   <string name="tricky_phone_survey_info">Select this button to enable the app to prompt surveys both before and after a phone call.</string>
+   <string name="tricky_periodic_survey_button_label">Prompt Periodic Survey</string>
+   <string name="tricky_periodic_survey_info">Select this button to prompt a periodic survey (that will be happening every 4/8/12 hours in the final version). This will include a bluetooth scan, and may ask you to identify devices.</string>
+   <string name="tricky_quit">Quit</string>
+   
+    
+    
    <string name="app_name">NUMAD13-DanKreymer</string>
    <string name="main_title">Dan Kreymer</string>
    <string name="sudoku_title">Android Sudoku</string>

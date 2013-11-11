@@ -9,8 +9,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="edu.neu.madcourse.dankreymer"
-      android:versionCode="16"
-      android:versionName="4.02">
+      android:versionCode="17"
+      android:versionName="5.0">
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="14" />
     
     <!-- Permissions stuff /-->
@@ -137,6 +137,10 @@
                   android:screenOrientation="landscape"/>
         <activity android:name=".multiplayer.DabbleMTurnBasedGame" android:label="@string/dabble_title"
                   android:screenOrientation="landscape"/>
+        
+        
+        <activity android:name=".trickystress.TrickyStressMain" android:label="@string/tricky_stress_label"
+                  android:screenOrientation="portrait"/>
         
         <service android:enabled="true" android:name=".multiplayer.DabbleMNotificationService" />
     </application>
