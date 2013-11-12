@@ -16,6 +16,8 @@
    <string name="tricky_periodic_survey_button_label">Prompt Periodic Survey</string>
    <string name="tricky_periodic_survey_info">Select this button to prompt a periodic survey (that will be happening every 4/8/12 hours in the final version). This will include a bluetooth scan, and may ask you to identify devices.</string>
    <string name="tricky_quit">Quit</string>
+   <string name="tricky_survey_instruction">Please rate your current stress level from 1 (lowest) to 7 (highest).</string>
+   <string name="tricky_survey_title">How you doin\'?</string>
    
     
     

@@ -32,4 +32,8 @@
    <color name="dabble_background_text">#ffffffff</color>
    <color name="dabble_red_text">#ffff0000</color>
    <color name="dabble_green_text">#ff00ff00</color>
+   
+   <!-- Tricky Stuff -->
+    <color name="tricky_background">#000000</color> 
+   
 </resources>

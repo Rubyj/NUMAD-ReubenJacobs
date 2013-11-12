@@ -139,8 +139,19 @@
                   android:screenOrientation="landscape"/>
         
         
+        
+        
+        
+        
+        
+        
+        
+        
         <activity android:name=".trickystress.TrickyStressMain" android:label="@string/tricky_stress_label"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".trickystress.TrickySurvey" android:label="@string/tricky_survey_title"
+                  android:screenOrientation="portrait"
+                  android:theme="@android:style/Theme.Dialog"/>
         
         <service android:enabled="true" android:name=".multiplayer.DabbleMNotificationService" />
     </application>
