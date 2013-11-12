@@ -34,6 +34,13 @@
    <color name="dabble_green_text">#ff00ff00</color>
    
    <!-- Tricky Stuff -->
-    <color name="tricky_background">#000000</color> 
+   <color name="tricky_background">#000000</color> 
+   <color name="tricky_survey1">#99FF33</color> 
+   <color name="tricky_survey2">#CCFF33</color> 
+   <color name="tricky_survey3">#FFFF00</color> 
+   <color name="tricky_survey4">#FFCC00</color> 
+   <color name="tricky_survey5">#FF9933</color> 
+   <color name="tricky_survey6">#FF6600</color> 
+   <color name="tricky_survey7">#FF0000</color> 
    
 </resources>

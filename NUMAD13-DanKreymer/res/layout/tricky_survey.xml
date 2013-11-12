@@ -5,18 +5,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="30dip" 
-    android:minHeight="300dp">
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="23dp"
-        android:gravity="center"
-        android:text="@string/tricky_survey_instruction"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/column2"
-        android:textSize="16sp" />
+    android:minHeight="250dp">
 
     <LinearLayout
         android:id="@+id/column1"
@@ -34,7 +23,8 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="1"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:onClick="onSurveyClick" />
 
         <Button
             android:id="@+id/tricky_survey4"
@@ -43,7 +33,8 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="4"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:onClick="onSurveyClick" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,7 +53,8 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="2"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:onClick="onSurveyClick" />
 
         <Button
             android:id="@+id/tricky_survey5"
@@ -71,7 +63,8 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="5"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:onClick="onSurveyClick" />
         
         <Button
             android:id="@+id/tricky_survey7"
@@ -80,7 +73,8 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="7"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:onClick="onSurveyClick" />
     </LinearLayout>
 
     <LinearLayout
@@ -100,7 +94,8 @@
             android:layout_alignBottom="@+id/tricky_survey2"
             android:layout_weight="1"
             android:text="3"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:onClick="onSurveyClick" />
 
         <Button
             android:id="@+id/tricky_survey6"
@@ -109,7 +104,8 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="6"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:onClick="onSurveyClick" />
     </LinearLayout>
 
 
