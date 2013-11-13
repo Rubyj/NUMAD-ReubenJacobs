@@ -103,8 +103,11 @@ public class Dabble extends Activity {
       setContentView(R.layout.activity_dabble);
       
       Bundle extras = getIntent().getExtras();
-      this.userName = extras.getString("USER");
-      this.opponentName = extras.getString("OPPONENT");
+
+      if (extras != null) {
+          this.userName = extras.getString("USER");
+          this.opponentName = extras.getString("OPPONENT");
+      }
       
       Display display = getWindowManager().getDefaultDisplay();
       DisplayMetrics outMetrics = new DisplayMetrics();

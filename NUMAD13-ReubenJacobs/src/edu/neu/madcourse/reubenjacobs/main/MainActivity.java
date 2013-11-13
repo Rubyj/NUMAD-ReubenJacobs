@@ -1,6 +1,7 @@
 package edu.neu.madcourse.reubenjacobs.main;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import edu.neu.madcourse.reubenjacobs.DabbleComm;
 import edu.neu.madcourse.reubenjacobs.DictionaryActivity;
 import edu.neu.madcourse.reubenjacobs.R;
 import edu.neu.madcourse.reubenjacobs.WelcomeComm;
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 		display.getMetrics(outMetrics);
 		
 		int sideMargin = (int)outMetrics.widthPixels/4;
-		int topMargin = (int)outMetrics.heightPixels/65 ;
+		int topMargin = (int)outMetrics.heightPixels/120 ;
 		
 		Button aboutButton = (Button) this.findViewById(R.id.aboutButton);
 		Button sudokuButton = (Button) this.findViewById(R.id.sudokuButton);
@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
 		Button dabButton = (Button) this.findViewById(R.id.dabButton);
 		Button comButton = (Button) this.findViewById(R.id.commButton);
 		Button twoButton = (Button) this.findViewById(R.id.twoButton);
+		Button trickyButton = (Button) this.findViewById(R.id.trickyButton);
 		
 		LayoutParams aboutParams = (RelativeLayout.LayoutParams) aboutButton.getLayoutParams();
 		aboutParams.setMargins(sideMargin, topMargin*3, sideMargin, topMargin);
@@ -79,6 +80,9 @@ public class MainActivity extends Activity {
 		twoParams.setMargins(0, topMargin, sideMargin, topMargin);
 		twoButton.setLayoutParams(twoParams);
 		
+	    LayoutParams trickyParams = (RelativeLayout.LayoutParams) trickyButton.getLayoutParams();
+	    trickyParams.setMargins(0, topMargin, sideMargin, topMargin);
+	    trickyButton.setLayoutParams(trickyParams);
 		
 	}
 
@@ -129,5 +133,9 @@ public class MainActivity extends Activity {
 	    Intent intent = new Intent(this, TwoPlayerDabbleWelcome.class);
 	    startActivity(intent);
 	}
-
+	
+	public void startTricky(View view) {
+	    Intent intent = new Intent("TrickySurvey.intent.action.Launch");
+	    startActivity(intent);
+	}
 }
