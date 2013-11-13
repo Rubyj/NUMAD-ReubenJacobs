@@ -33,17 +33,10 @@ public class TrickyStressBT extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tricky_stress_bt);
         
-        this.mArray = new HashMap<String, Integer>();
-        
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(mReceiver, filter);
         
         colorButtons();     
-    }
-    
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(mReceiver);
     }
     
     private void colorButtons()
@@ -80,7 +73,6 @@ public class TrickyStressBT extends Activity{
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
         mBluetoothAdapter.startDiscovery();
-        
     }
     
     public boolean isNetworkOnline() {
@@ -117,6 +109,7 @@ public class TrickyStressBT extends Activity{
                 TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 String deviceId = tManager.getDeviceId();
                 new StoreDataTask().execute(deviceId, device.getName());
+                unregisterReceiver(mReceiver);
             }
        }
     };
@@ -135,14 +128,18 @@ public class TrickyStressBT extends Activity{
                         KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], numSeen.toString());
                         TrickyStressBT.this.mArray.put(strings[1], numSeen);
                         
-                        if (numSeen >= 5) {
-
+                        if (numSeen == 5) {
+                            Intent intent = new Intent(TrickyStressBT.this, TrickyStressBTResult.class);
+                            startActivity(intent);
+                            TrickyStressBT.this.finish();
                         }
                     } else {
+                        TrickyStressBT.this.finish();
                         KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "0");
-                        TrickyStressBT.this.mArray.put(strings[1], 0);
                     }
                 }
+            } else {
+                TrickyStressBT.this.finish();
             }
             return null;
         }

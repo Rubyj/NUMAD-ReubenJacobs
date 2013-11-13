@@ -5,7 +5,7 @@
  ! Copyrights apply to this code. It may not be used to create training material, 
  ! courses, books, articles, and the like. Contact us if you are in doubt.
  ! We make no guarantees that this code is fit for any purpose. 
- ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
+ ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.dankreymer"
@@ -221,12 +221,22 @@
         <activity
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT"
             android:label="@string/tricky_survey_title"
-            android:parentActivityName="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain" 
+            android:parentActivityName="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain" />
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBTResult"
+            android:label="@string/title_activity_tricky_stress_btresult"
+            android:parentActivityName="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT" />
         </activity>
     </application>
 
