@@ -15,7 +15,7 @@
         android:textSize="16sp" />
         
    <Button
-      android:id="@+id/tricky_phone_survey_button_label"
+      android:id="@+id/tricky_phone_survey_button"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:text="@string/tricky_phone_survey_button_label" />
