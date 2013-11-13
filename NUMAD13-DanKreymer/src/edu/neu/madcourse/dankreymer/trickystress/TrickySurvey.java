@@ -10,7 +10,7 @@ import edu.neu.madcourse.dankreymer.R;
 import android.graphics.PorterDuff;
 
 public class TrickySurvey extends Activity{
-
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tricky_survey);

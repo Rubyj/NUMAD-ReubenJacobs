@@ -212,6 +212,7 @@
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickySurvey"
             android:label="@string/tricky_survey_title"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Dialog" />
 
         <service
@@ -238,6 +239,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT" />
         </activity>
+        <receiver android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyPhoneCallReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
