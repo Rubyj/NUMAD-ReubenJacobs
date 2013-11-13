@@ -15,9 +15,10 @@
     <string name="tricky_phone_survey_button_disable_label">Disable Phonecall Surveys</string>
     <string name="tricky_phone_survey_info">Select this button to enable the app to prompt surveys both before and after a phone call.</string>
     <string name="tricky_periodic_survey_button_label">Prompt Periodic Survey</string>
-    <string name="tricky_periodic_survey_info">Select this button to prompt a periodic survey. This will include a bluetooth scan, and may ask you to identify devices.</string>
+    <string name="tricky_periodic_survey_info">Select this button to prompt a periodic survey. Includes a 12 sec bluetooth scan and will show devices seen 5 times when stressed.</string>
     <string name="tricky_quit">Quit</string>
     <string name="tricky_survey_title">Rate Your Current Stress Level</string>
+    <string name="tricky_bluetooth_seen">The following device has been seen 5 times while you were stressed:</string>
     
     
     <!-- Main App Stuff -->

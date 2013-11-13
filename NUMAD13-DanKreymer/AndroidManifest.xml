@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- ! Excerpted from "Hello, Android",
- ! published by The Pragmatic Bookshelf.
- ! Copyrights apply to this code. It may not be used to create training material, 
- ! courses, books, articles, and the like. Contact us if you are in doubt.
- ! We make no guarantees that this code is fit for any purpose. 
- ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
--->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.dankreymer"
-    android:versionCode="17"
-    android:versionName="5.0" >
+    android:versionCode="18"
+    android:versionName="6.0" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -239,6 +232,7 @@
             android:label="@string/title_activity_tricky_stress_btresult"
             android:parentActivityName="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Dialog" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -249,6 +243,15 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
+        
+        <service
+            android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyBluetoothStoreService"
+            android:enabled="true" />
+        
+        <service
+            android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyBluetoothService"
+            android:enabled="true" />
+        
 
     </application>
 

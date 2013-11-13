@@ -33,9 +33,6 @@ public class TrickyStressBT extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tricky_stress_bt);
         
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(mReceiver, filter);
-        
         colorButtons();     
     }
     
@@ -63,85 +60,8 @@ public class TrickyStressBT extends Activity{
     }
     
     public void onSurveyBTClick(View v) {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null) {
-            //device does not support BT
-            return;
-        }
-        if (!mBluetoothAdapter.isEnabled()) {
-            mBluetoothAdapter.enable();
-        }
-        mBluetoothAdapter.startDiscovery();
+    	Intent i = new Intent(this, TrickyBluetoothService.class);
+    	startService(i);
+    	finish();
     }
-    
-    public boolean isNetworkOnline() {
-        boolean status=false;
-           try{
-               ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-               NetworkInfo netInfo = cm.getNetworkInfo(0);
-               if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
-                   status= true;
-               }else {
-                   netInfo = cm.getNetworkInfo(1);
-                   if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
-                       status= true;
-               }
-           }catch(Exception e){
-               e.printStackTrace();  
-               return false;
-           }
-           return status;
-    }
-    
-    // Create a BroadcastReceiver for ACTION_FOUND
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-       public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            // When discovery finds a device
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-               // Get the BluetoothDevice object from the Intent
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                deviceID = device.getName();
-                
-                TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                String deviceId = tManager.getDeviceId();
-                new StoreDataTask().execute(deviceId, device.getName());
-                unregisterReceiver(mReceiver);
-            }
-       }
-    };
-       
-    private final class StoreDataTask extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            if (TrickyStressBT.this.isNetworkOnline()) {
-                if (KeyValueAPI.isServerAvailable()) {
-                    String numSeenString = KeyValueAPI.get("sloth_nation", "fromunda", strings[0] + "-" + strings[1]);
-                    Log.d("numSeenString:", numSeenString);
-                    if (!numSeenString.contains("Error") && !numSeenString.contains("ERROR")) {
-                        Integer numSeen = Integer.parseInt(numSeenString);
-                        numSeen++;
-                        KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], numSeen.toString());
-                        
-                        if (numSeen == 5) {
-                            Intent intent = new Intent(TrickyStressBT.this, TrickyStressBTResult.class);
-                            intent.putExtra("ID", TrickyStressBT.this.deviceID);
-                            startActivity(intent);
-                        }
-                        
-                    } else {
-                        KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "0");
-                    }
-                }
-            }
-            return null;
-        }
-        
-        @Override
-        protected void onPostExecute(Void x) {
-            TrickyStressBT.this.finish();
-        }
-        
-    } 
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
@@ -15,19 +16,20 @@ import android.os.Build;
 
 public class TrickyStressBTResult extends Activity {
     
-    private String deviceID;
-    
+    private String seenDeviceID;  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tricky_stress_btresult);
-        // Show the Up button in the action bar.
-        
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        deviceID = extras.getString("ID");
-        TextView tv = (TextView) findViewById(R.id.idView);
-        tv.setText(deviceID + " has been seen 5 times." );
+
+        seenDeviceID = getIntent().getExtras().getString(TrickyBluetoothStoreService.FOUND_DEVICE_ID);
+        TextView tv = (TextView) findViewById(R.id.tricky_seen_device_name);
+        tv.setText(seenDeviceID);
+    }
+    
+    public void onClickOK(View v)
+    {
+    	finish();
     }
 
 }

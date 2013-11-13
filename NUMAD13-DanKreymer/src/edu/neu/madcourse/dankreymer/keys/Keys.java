@@ -31,6 +31,14 @@ public class Keys {
 	public static final String TURN_BASED_INVITED_SEEN = "invited_seen";
 	public static final String TURN_BASED_YOUR_TURN_SEEN = "your_turn_seen";
 	
+	
+	private static final String STRESS_DEVICE_SEEN = "stress_device_seen";
+	
+	public static String TrickyDeviceSeenKey(String userDevice, String foundDevice)
+	{
+		return STRESS_DEVICE_SEEN + "_" + userDevice + "_" + foundDevice;
+	}
+	
 	public static String get(String key)
 	{
 		return KeyValueAPI.get(Keys.TEAMNAME, Keys.PASSWORD, key);
