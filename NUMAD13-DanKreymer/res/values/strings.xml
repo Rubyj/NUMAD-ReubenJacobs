@@ -5,77 +5,64 @@
  ! Copyrights apply to this code. It may not be used to create training material, 
  ! courses, books, articles, and the like. Contact us if you are in doubt.
  ! We make no guarantees that this code is fit for any purpose. 
- ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
+ ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 -->
 <resources>
-    
-   <!-- TRICKIEST PART STRESS BLOCKER STUFF -->
-   <string name="tricky_stress_label">Trickiest Part</string>
-   <string name="tricky_phone_survey_button_label">Enable Phonecall Surveys</string>
-   <string name="tricky_phone_survey_info">Select this button to enable the app to prompt surveys both before and after a phone call.</string>
-   <string name="tricky_periodic_survey_button_label">Prompt Periodic Survey</string>
-   <string name="tricky_periodic_survey_info">Select this button to prompt a periodic survey. This will include a bluetooth scan, and may ask you to identify devices.</string>
-   <string name="tricky_quit">Quit</string>
-   <string name="tricky_survey_title">Rate Your Current Stress Level</string>
-   
-    
-    
-   <string name="app_name">NUMAD13-DanKreymer</string>
-   <string name="main_title">Dan Kreymer</string>
-   <string name="sudoku_title">Android Sudoku</string>
-   <string name="dictionary_title">Test Dictionary</string>
-   <string name="error_label">Generate Error</string>
-   <string name="sudoku_label">Sudoku</string>
-   <string name="continue_label">Continue</string>
-   <string name="new_game_label">New Game</string>
-   <string name="about_label">About</string>
-   <string name="quit_label">Quit</string>
-   <string name="exit_label">Exit</string>
 
-   <string name="settings_label">Settings...</string>
-   <string name="settings_title">Sudoku settings</string>
-   <string name="settings_shortcut">s</string>
-   <string name="music_title">Music</string>
-   <string name="music_summary">Play background music</string>
-   <string name="hints_title">Hints</string>
-   <string name="hints_summary">Show hints during play</string>
-
-   <string name="new_game_title">Difficulty</string>
-   <string name="easy_label">Easy</string>
-   <string name="medium_label">Medium</string>
-   <string name="hard_label">Hard</string>
-
-   <string name="game_title">Game</string>
-   <string name="no_moves_label">No moves</string>
-   <string name="keypad_title">Keypad</string>
-   
-   <string name="about_title">About </string>
-   <string name="about_text"> Dan Kreymer\n
+    <!-- TRICKIEST PART STRESS BLOCKER STUFF -->
+    <string name="tricky_stress_label">Trickiest Part</string>
+    <string name="tricky_phone_survey_button_label">Enable Phonecall Surveys</string>
+    <string name="tricky_phone_survey_info">Select this button to enable the app to prompt surveys both before and after a phone call.</string>
+    <string name="tricky_periodic_survey_button_label">Prompt Periodic Survey</string>
+    <string name="tricky_periodic_survey_info">Select this button to prompt a periodic survey. This will include a bluetooth scan, and may ask you to identify devices.</string>
+    <string name="tricky_quit">Quit</string>
+    <string name="tricky_survey_title">Rate Your Current Stress Level</string>
+    <string name="app_name">NUMAD13-DanKreymer</string>
+    <string name="main_title">Dan Kreymer</string>
+    <string name="sudoku_title">Android Sudoku</string>
+    <string name="dictionary_title">Test Dictionary</string>
+    <string name="error_label">Generate Error</string>
+    <string name="sudoku_label">Sudoku</string>
+    <string name="continue_label">Continue</string>
+    <string name="new_game_label">New Game</string>
+    <string name="about_label">About</string>
+    <string name="quit_label">Quit</string>
+    <string name="exit_label">Exit</string>
+    <string name="settings_label">Settings...</string>
+    <string name="settings_title">Sudoku settings</string>
+    <string name="settings_shortcut">s</string>
+    <string name="music_title">Music</string>
+    <string name="music_summary">Play background music</string>
+    <string name="hints_title">Hints</string>
+    <string name="hints_summary">Show hints during play</string>
+    <string name="new_game_title">Difficulty</string>
+    <string name="easy_label">Easy</string>
+    <string name="medium_label">Medium</string>
+    <string name="hard_label">Hard</string>
+    <string name="game_title">Game</string>
+    <string name="no_moves_label">No moves</string>
+    <string name="keypad_title">Keypad</string>
+    <string name="about_title">About </string>
+    <string name="about_text"> Dan Kreymer\n
       						  Email: dkreymer@gmail.com\n
-                              IMEI: 359437042330580   
-   </string>
-   
-   <string name="about_sudoku_title">About Android Sudoku</string>
-   <string name="about_sudoku_text">\
+                              IMEI: 359437042330580   </string>
+    <string name="about_sudoku_title">About Android Sudoku</string>
+    <string name="about_sudoku_text">\
 Sudoku is a logic-based number placement puzzle.
 Starting with a partially completed 9x9 grid, the
 objective is to fill the grid so that each
 row, each column, and each of the 3x3 boxes
 (also called <i>blocks</i>) contains the digits
-1 to 9 exactly once.
-</string>
-
-   <string name="dictionary_label">Dictionary</string>
-   <string name="return_to_menu_label">Return to Menu</string>
-   <string name="clear_label">Clear</string>
-   <string name="acknowledgements_label">Acknowledgements</string>
-   <string name="word_box_text">Enter word here!</string>
-   
-   <string name="acknowledgements_dictionary_text">The "coin" sound effect used is from:\nhttp://themushroomkingdom.net/media
+1 to 9 exactly once.</string>
+    <string name="dictionary_label">Dictionary</string>
+    <string name="return_to_menu_label">Return to Menu</string>
+    <string name="clear_label">Clear</string>
+    <string name="acknowledgements_label">Acknowledgements</string>
+    <string name="word_box_text">Enter word here!</string>
+    <string name="acknowledgements_dictionary_text">The "coin" sound effect used is from:\nhttp://themushroomkingdom.net/media
        												\n\nThe dictionary used is from:\nhttp://wordlist.sourceforge.net/</string>
-   <string name="acknowledgements_title">Acknowledgements</string>
-   
-   
+    <string name="acknowledgements_title">Acknowledgements</string>
+
     <!-- Dabble stuff -->
     <string name="dabble_label">Dabble</string>
     <string name="dabble_title">Dabble!</string>
@@ -108,7 +95,7 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_done">Done!</string>
     <string name="dabble_watch_game">Watch Game</string>
     <string name="dabble_watch_player">Choose a player to view their status and watch them play if they are in game!</string>
-    
+
     <!-- Dabble Multiplayer stuff -->
     <string name="dabble_m_label">Two Player Dabble</string>
     <string name="dabble_multiplayer">Multiplayer</string>
@@ -118,4 +105,8 @@ row, each column, and each of the 3x3 boxes
     <string name="dabble_choose_player_turnbased">Select a game or create a new one!</string>
     <string name="dabble_challenge">Challenge!</string>
     <string name="dabble_new_game_challenge">New Game!</string>
+    <string name="title_activity_tricky_stress_bt">TrickyStressBT</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

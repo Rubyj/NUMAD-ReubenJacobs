@@ -5,154 +5,229 @@
  ! Copyrights apply to this code. It may not be used to create training material, 
  ! courses, books, articles, and the like. Contact us if you are in doubt.
  ! We make no guarantees that this code is fit for any purpose. 
- ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
+ ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="edu.neu.madcourse.dankreymer"
-      android:versionCode="17"
-      android:versionName="5.0">
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="14" />
-    
-    <!-- Permissions stuff /-->
+    package="edu.neu.madcourse.dankreymer"
+    android:versionCode="17"
+    android:versionName="5.0" >
+
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="14" />
+
+    <!-- Permissions stuff / -->
     <uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_PHONE_DATA" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_DATA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    
-    <application android:icon="@drawable/ic_launcher"
-          android:label="@string/app_name">
-        <activity android:name=".main.Main"
-              android:label="@string/main_title"
-              android:screenOrientation="portrait">
-            <intent-filter android:label="@string/app_name">
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.main.Main"
+            android:label="@string/main_title"
+            android:screenOrientation="portrait" >
+            <intent-filter android:label="@string/app_name" >
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>        <activity android:name=".main.About"
-              android:label="@string/about_title"
-              android:theme="@android:style/Theme.Dialog">
         </activity>
-        <activity android:name=".sudoku.AboutSudoku"
-              android:label="@string/about_title"
-              android:theme="@android:style/Theme.Dialog">
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.main.About"
+            android:label="@string/about_title"
+            android:theme="@android:style/Theme.Dialog" >
         </activity>
-        <activity android:name=".sudoku.Prefs" android:label="@string/settings_title"/>
-        <activity android:name=".sudoku.Sudoku" android:label="@string/sudoku_title"/>
-        <activity android:name=".sudoku.SudokuGame" android:label="@string/game_title"/>
-        <activity android:name=".dictionary.Dictionary" android:label="@string/dictionary_title"
-                  android:windowSoftInputMode="adjustPan"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".dictionary.AcknowledgementsDictionary" 
-                  android:label="@string/acknowledgements_title"
-                  android:theme="@android:style/Theme.Dialog"/>
-        
-        <activity android:name=".dabble.Dabble" android:label="@string/dabble_title"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".dabble.DabbleGame" android:label="@string/dabble_title"
-                  android:screenOrientation="landscape"/>
-        <activity android:name=".dabble.DabbleHint" android:label="@string/dabble_hint"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".dabble.DabblePause" android:label="@string/dabble_pause"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".dabble.DabbleGameOver" android:label="@string/dabble_game_over"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".dabble.DabbleAcknowledgements" 
-                  android:label="@string/acknowledgements_title"
-                  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".dabble.DabbleInstructions" 
-                  android:label="@string/dabble_instructions"
-                  android:theme="@android:style/Theme.Dialog"/>
-        
-        <activity android:name=".communication.DabbleCom" android:label="@string/dabble_com_title"
-           		  android:screenOrientation="portrait"/>
-        <activity android:name=".communication.DabbleComGame" android:label="@string/dabble_title"
-                  android:screenOrientation="landscape"/>
-        <activity android:name=".communication.DabbleComHint" android:label="@string/dabble_hint"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".communication.DabbleComPause" android:label="@string/dabble_pause"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".communication.DabbleComGameOver" android:label="@string/dabble_game_over"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".communication.DabbleComAcknowledgements" 
-                  android:label="@string/acknowledgements_title"
-                  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".communication.DabbleComInstructions" 
-                  android:label="@string/dabble_instructions"
-                  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".communication.DabbleComHighScores" 
-                  android:label="@string/dabble_high_scores"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".communication.DabbleComUsername" 
-                  android:label="@string/dabble_username"
-                  android:windowSoftInputMode="adjustPan"
-                  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".communication.DabbleComWatchGame" 
-                  android:label="@string/dabble_watch_game"
-                  android:screenOrientation="portrait"/>
-        
-        <activity android:name=".multiplayer.DabbleM" android:label="@string/dabble_title"
-           		  android:screenOrientation="portrait"/>
-        <activity android:name=".multiplayer.DabbleMGame" android:label="@string/dabble_title"
-                  android:screenOrientation="landscape"/>
-        <activity android:name=".multiplayer.DabbleMHint" android:label="@string/dabble_hint"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".multiplayer.DabbleMPause" android:label="@string/dabble_pause"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".multiplayer.DabbleMGameOver" android:label="@string/dabble_game_over"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".multiplayer.DabbleMRealTimeGameOver" android:label="@string/dabble_game_over"
-                  android:launchMode="singleTop"
-           		  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".multiplayer.DabbleMAcknowledgements" 
-                  android:label="@string/acknowledgements_title"
-                  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".multiplayer.DabbleMInstructions" 
-                  android:label="@string/dabble_instructions"
-                  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".multiplayer.DabbleMHighScores" 
-                  android:label="@string/dabble_high_scores"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".multiplayer.DabbleMUsername" 
-                  android:label="@string/dabble_username"
-                  android:windowSoftInputMode="adjustPan"
-                  android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".multiplayer.DabbleMWatchGame" 
-                  android:label="@string/dabble_watch_game"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".multiplayer.DabbleMMulti" 
-                  android:label="@string/dabble_multiplayer"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".multiplayer.DabbleMRealTimeGame" android:label="@string/dabble_title"
-                  android:screenOrientation="landscape"/>
-        <activity android:name=".multiplayer.DabbleMTurnBasedGame" android:label="@string/dabble_title"
-                  android:screenOrientation="landscape"/>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <activity android:name=".trickystress.TrickyStressMain" android:label="@string/tricky_stress_label"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".trickystress.TrickySurvey" android:label="@string/tricky_survey_title"
-                  android:screenOrientation="portrait"
-                  android:theme="@android:style/Theme.Dialog"/>
-        
-        <service android:enabled="true" android:name=".multiplayer.DabbleMNotificationService" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.sudoku.AboutSudoku"
+            android:label="@string/about_title"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.sudoku.Prefs"
+            android:label="@string/settings_title" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.sudoku.Sudoku"
+            android:label="@string/sudoku_title" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.sudoku.SudokuGame"
+            android:label="@string/game_title" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dictionary.Dictionary"
+            android:label="@string/dictionary_title"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dictionary.AcknowledgementsDictionary"
+            android:label="@string/acknowledgements_title"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dabble.Dabble"
+            android:label="@string/dabble_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dabble.DabbleGame"
+            android:label="@string/dabble_title"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dabble.DabbleHint"
+            android:label="@string/dabble_hint"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dabble.DabblePause"
+            android:label="@string/dabble_pause"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dabble.DabbleGameOver"
+            android:label="@string/dabble_game_over"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dabble.DabbleAcknowledgements"
+            android:label="@string/acknowledgements_title"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.dabble.DabbleInstructions"
+            android:label="@string/dabble_instructions"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleCom"
+            android:label="@string/dabble_com_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComGame"
+            android:label="@string/dabble_title"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComHint"
+            android:label="@string/dabble_hint"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComPause"
+            android:label="@string/dabble_pause"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComGameOver"
+            android:label="@string/dabble_game_over"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComAcknowledgements"
+            android:label="@string/acknowledgements_title"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComInstructions"
+            android:label="@string/dabble_instructions"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComHighScores"
+            android:label="@string/dabble_high_scores"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComUsername"
+            android:label="@string/dabble_username"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.communication.DabbleComWatchGame"
+            android:label="@string/dabble_watch_game"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleM"
+            android:label="@string/dabble_title"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMGame"
+            android:label="@string/dabble_title"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMHint"
+            android:label="@string/dabble_hint"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMPause"
+            android:label="@string/dabble_pause"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMGameOver"
+            android:label="@string/dabble_game_over"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMRealTimeGameOver"
+            android:label="@string/dabble_game_over"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMAcknowledgements"
+            android:label="@string/acknowledgements_title"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMInstructions"
+            android:label="@string/dabble_instructions"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMHighScores"
+            android:label="@string/dabble_high_scores"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMUsername"
+            android:label="@string/dabble_username"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMWatchGame"
+            android:label="@string/dabble_watch_game"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMMulti"
+            android:label="@string/dabble_multiplayer"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMRealTimeGame"
+            android:label="@string/dabble_title"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMTurnBasedGame"
+            android:label="@string/dabble_title"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain"
+            android:label="@string/tricky_stress_label"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.trickystress.TrickySurvey"
+            android:label="@string/tricky_survey_title"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <service
+            android:name="edu.neu.madcourse.dankreymer.multiplayer.DabbleMNotificationService"
+            android:enabled="true" />
+
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT"
+            android:label="@string/tricky_survey_title"
+            android:parentActivityName="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain" 
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain" />
+        </activity>
     </application>
+
 </manifest>

@@ -26,7 +26,7 @@ public class TrickyStressMain extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tricky_periodic_survey_button:
-			Intent intent = new Intent(this, TrickySurvey.class);
+			Intent intent = new Intent(this, TrickyStressBT.class);
 			startActivity(intent);
 			break;
 		case R.id.tricky_quit_button:
