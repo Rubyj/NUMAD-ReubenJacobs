@@ -27,7 +27,7 @@ import edu.neu.mhealth.api.KeyValueAPI;
 public class TrickyStressBT extends Activity{
     
     final int REQUEST_ENABLE_BT = 1;
-    private HashMap<String, Integer> mArray;
+    private String deviceID;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,9 +101,7 @@ public class TrickyStressBT extends Activity{
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                // Get the BluetoothDevice object from the Intent
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                Log.d("testReceive", device.getName() + "\n" + device.getAddress());
-                // Add the name and address to an array adapter to show in a ListView
-                TrickyStressBT.this.mArray.put(device.getName(), 0);
+                deviceID = device.getName();
                 
                 TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 String deviceId = tManager.getDeviceId();
@@ -125,22 +123,24 @@ public class TrickyStressBT extends Activity{
                         Integer numSeen = Integer.parseInt(numSeenString);
                         numSeen++;
                         KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], numSeen.toString());
-                        TrickyStressBT.this.mArray.put(strings[1], numSeen);
                         
                         if (numSeen == 5) {
                             Intent intent = new Intent(TrickyStressBT.this, TrickyStressBTResult.class);
+                            intent.putExtra("ID", TrickyStressBT.this.deviceID);
                             startActivity(intent);
-                            TrickyStressBT.this.finish();
                         }
+                        
                     } else {
-                        TrickyStressBT.this.finish();
                         KeyValueAPI.put("sloth_nation", "fromunda", strings[0] + "-" + strings[1], "0");
                     }
                 }
-            } else {
-                TrickyStressBT.this.finish();
             }
             return null;
+        }
+        
+        @Override
+        protected void onPostExecute(Void x) {
+            TrickyStressBT.this.finish();
         }
         
     } 
