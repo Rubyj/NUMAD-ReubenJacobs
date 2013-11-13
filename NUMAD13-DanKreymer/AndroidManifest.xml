@@ -207,7 +207,12 @@
         <activity
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain"
             android:label="@string/tricky_stress_label"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+           <intent-filter>
+    			<action android:name="TrickySurvey.intent.action.Launch" />
+   				<category android:name="android.intent.category.DEFAULT" />
+ 		   </intent-filter>
+ 		</activity>
         <activity
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickySurvey"
             android:label="@string/tricky_survey_title"
