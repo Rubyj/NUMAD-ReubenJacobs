@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dabble_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dip">
+
+   <Button
+      android:id="@+id/dabble_new_game_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/dabble_new_game" />
+   <Button
+       android:id="@+id/dabble_resume_game_button"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:enabled="false"
+       android:text="@string/dabble_resume_game" />
+   <Button
+       android:id="@+id/dabble_multiplayer_button"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="@string/dabble_multiplayer" />
+   <Button
+      android:id="@+id/dabble_watch_game_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/dabble_watch_game" />
+    <Button
+       android:id="@+id/dabble_high_scores_button"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="@string/dabble_high_scores" />
+   <Button
+       android:id="@+id/dabble_instructions_button"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="@string/dabble_instructions" />
+
+   <Button
+      android:id="@+id/dabble_acknowledgements_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/dabble_acknowledgements" />
+   <Button
+      android:id="@+id/dabble_quit_button"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/dabble_quit" />
+
+</LinearLayout>

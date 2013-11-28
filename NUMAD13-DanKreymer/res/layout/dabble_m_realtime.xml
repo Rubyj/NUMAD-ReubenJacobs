@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        tools:context=".DeviceFragment" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dip"
+        android:layout_marginTop="25dip"
+        android:gravity="center"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:text="@string/dabble_choose_player"
+        android:textSize="18sp" />
+    
+     <Spinner
+        android:id="@+id/dabble_multiplayer_select"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:layout_height="wrap_content" />
+     
+     <TextView
+        android:id="@+id/dabble_multiplayer_status"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:textColor="@color/dabble_background_text"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:textSize="18sp" />
+     
+     <Button
+        android:id="@+id/dabble_challenge_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:text="@string/dabble_challenge" />
+
+     <Button
+         android:id="@+id/dabble_accept_challenge_button"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="25dip"
+         android:layout_marginBottom="30dip"
+         android:visibility="invisible"
+         android:layout_marginRight="25dip" />
+         
+     <Button
+        android:id="@+id/dabble_back_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:text="@string/dabble_back" />
+
+
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dabble_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dip" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dip"
+        android:text="@string/dabble_high_scores"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/dabble_high_scores"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.57"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:lineSpacingExtra="4dp"/>
+
+    <Button
+        android:id="@+id/dabble_back_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dabble_back" />
+
+</LinearLayout>

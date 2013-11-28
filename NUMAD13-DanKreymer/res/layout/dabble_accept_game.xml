@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   android:gravity="center"
+   android:padding="10dip">
+   <RelativeLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+	
+  		<TextView
+      		android:id="@+id/about_content"
+      		android:gravity="center"
+      		android:layout_marginBottom="25dp"
+      		android:layout_width="wrap_content"
+      		android:layout_height="wrap_content" />
+
+  		<Button
+  		    android:id="@+id/dabble_yes"
+  		    style="?android:attr/buttonStyleSmall"
+  		    android:layout_width="wrap_content"
+  		    android:layout_height="wrap_content"
+  		    android:layout_below="@+id/about_content"
+  		    android:gravity="center"
+  		    android:text="Button" />
+
+  		<Button
+  		    android:id="@+id/dabble_no"
+  		    style="?android:attr/buttonStyleSmall"
+	        android:layout_below="@+id/about_content"
+  		    android:layout_width="wrap_content"
+  		    android:layout_height="wrap_content"
+  		    android:gravity="center"
+  		    android:layout_toRightOf="@+id/dabble_yes"
+  		    android:text="Button" />
+
+   </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ! Excerpted from "Hello, Android",
+ ! published by The Pragmatic Bookshelf.
+ ! Copyrights apply to this code. It may not be used to create training material, 
+ ! courses, books, articles, and the like. Contact us if you are in doubt.
+ ! We make no guarantees that this code is fit for any purpose. 
+ ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
+-->
+<resources>
+   <color name="background">#010129</color>
+   <color name="sudoku_background">#3500ffff</color>
+   <color name="puzzle_background">#ffe6f0ff</color>
+   <color name="dictionary_background">#0B4D18</color>
+   <color name="dictionary_wordbox_background">#094014</color>
+   <color name="puzzle_hilite">#ffffffff</color>
+   <color name="puzzle_light">#64c6d4ef</color>
+   <color name="puzzle_dark">#6456648f</color>
+   <color name="puzzle_foreground">#ff000000</color>
+   <color name="puzzle_hint_0">#64ff0000</color>
+   <color name="puzzle_hint_1">#6400ff80</color>
+   <color name="puzzle_hint_2">#2000ff80</color>
+   <color name="puzzle_selected">#64ff8000</color>
+   <color name="text_color">#F5F5F5</color>
+   
+   <!-- Dabble stuff -->
+   <color name="dabble_background">#000000</color> 
+   <color name="dabble_tile_background">#D1B294</color> 
+   <color name="dabble_selected_tile">#E0FA6A</color>
+   <color name="dabble_valid_word">#ff3399ff</color>
+   <color name="dabble_text">#ff000000</color>
+   <color name="dabble_background_text">#ffffffff</color>
+   <color name="dabble_red_text">#ffff0000</color>
+   <color name="dabble_green_text">#ff00ff00</color>
+   
+   <!-- Tricky Stuff -->
+   <color name="tricky_background">#000000</color> 
+   <color name="tricky_survey1">#99FF33</color> 
+   <color name="tricky_survey2">#CCFF33</color> 
+   <color name="tricky_survey3">#FFFF00</color> 
+   <color name="tricky_survey4">#FFCC00</color> 
+   <color name="tricky_survey5">#FF9933</color> 
+   <color name="tricky_survey6">#FF6600</color> 
+   <color name="tricky_survey7">#FF0000</color> 
+   
+</resources>
