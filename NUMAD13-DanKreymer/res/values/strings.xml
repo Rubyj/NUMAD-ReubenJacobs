@@ -5,7 +5,7 @@
  ! Copyrights apply to this code. It may not be used to create training material, 
  ! courses, books, articles, and the like. Contact us if you are in doubt.
  ! We make no guarantees that this code is fit for any purpose. 
- ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
+ ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 -->
 <resources>
 
@@ -19,8 +19,7 @@
     <string name="tricky_quit">Quit</string>
     <string name="tricky_survey_title">Rate Your Current Stress Level</string>
     <string name="tricky_bluetooth_seen">The following device has been seen 5 times while you were stressed:</string>
-    
-    
+
     <!-- Main App Stuff -->
     <string name="app_name">NUMAD13-DanKreymer</string>
     <string name="main_title">Dan Kreymer</string>
@@ -114,5 +113,7 @@ row, each column, and each of the 3x3 boxes
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_tricky_stress_btresult">Bluetooth Result</string>
+    <string name="title_activity_stress_blocker_main">Stress Blocker</string>
+    <string name="title_activity_stress_blocker_settings">Settings</string>
 
 </resources>

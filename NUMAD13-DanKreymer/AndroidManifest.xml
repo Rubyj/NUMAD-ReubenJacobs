@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.dankreymer"
     android:versionCode="18"
@@ -201,16 +200,17 @@
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain"
             android:label="@string/tricky_stress_label"
             android:screenOrientation="portrait" >
-           <intent-filter>
-    			<action android:name="TrickySurvey.intent.action.Launch" />
-   				<category android:name="android.intent.category.DEFAULT" />
- 		   </intent-filter>
- 		</activity>
+            <intent-filter>
+                <action android:name="TrickySurvey.intent.action.Launch" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickySurvey"
             android:label="@string/tricky_survey_title"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
 
         <service
@@ -230,29 +230,36 @@
         <activity
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBTResult"
             android:label="@string/title_activity_tricky_stress_btresult"
+            android:launchMode="singleTask"
             android:parentActivityName="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Dialog" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT" />
         </activity>
+
         <receiver android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyPhoneCallReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
-        
+
         <service
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyBluetoothStoreService"
             android:enabled="true" />
-        
         <service
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyBluetoothService"
             android:enabled="true" />
-        
 
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.StressBlockerMain"
+            android:label="@string/title_activity_stress_blocker_main" >
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.StressBlockerSettings"
+            android:label="@string/title_activity_stress_blocker_settings" >
+        </activity>
     </application>
 
 </manifest>
