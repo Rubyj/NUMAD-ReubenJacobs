@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 		display.getMetrics(outMetrics);
 		
 		int sideMargin = (int)outMetrics.widthPixels/4;
-		int topMargin = (int)outMetrics.heightPixels/120 ;
+		int topMargin = (int)outMetrics.heightPixels/315;
 		
 		Button aboutButton = (Button) this.findViewById(R.id.aboutButton);
 		Button sudokuButton = (Button) this.findViewById(R.id.sudokuButton);
