@@ -15,7 +15,7 @@ import android.widget.Toast;
 import edu.neu.madcourse.dankreymer.keys.Keys;
 import edu.neu.madcourse.dankreymer.keys.ServerError;
 
-public class TrickyBluetoothStoreService extends Service{
+public class TrickyBluetoothStoreService extends Service {
 	public static final String DEVICE_ID = "DEVICE_ID";
 	public static final String FOUND_DEVICE_ID = "FOUND_DEVICE_ID";
 	

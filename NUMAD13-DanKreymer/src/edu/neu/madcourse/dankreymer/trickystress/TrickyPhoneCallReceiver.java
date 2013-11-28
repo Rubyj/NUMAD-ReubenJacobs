@@ -8,11 +8,12 @@ import android.telephony.TelephonyManager;
 
 public class TrickyPhoneCallReceiver extends BroadcastReceiver {
 	private static final String PHONE_NUMBER = "PHONE_NUMBER";
+	private static boolean notInCall = true;
 	
 	public void onReceive(Context context, Intent intent) {
 	    String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 	    
-	    if (state.equals(TelephonyManager.EXTRA_STATE_RINGING) || state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+	    if (state.equals(TelephonyManager.EXTRA_STATE_RINGING) || (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK) && notInCall)) {
 	    	String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
 	    	
 	    	SharedPreferences.Editor editor = context.getSharedPreferences("prefs", Context.MODE_PRIVATE).edit();
@@ -24,6 +25,8 @@ public class TrickyPhoneCallReceiver extends BroadcastReceiver {
 	        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 	        context.startActivity(i);
+	        
+	        notInCall = false;
 
 	    }
 	    else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
@@ -33,6 +36,8 @@ public class TrickyPhoneCallReceiver extends BroadcastReceiver {
 	        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 	        context.startActivity(i);
+	        
+	        notInCall = true;
 
 	    }
 	}
