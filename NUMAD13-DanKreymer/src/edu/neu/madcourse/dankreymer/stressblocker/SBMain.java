@@ -64,6 +64,11 @@ public class SBMain extends Activity {
 			pm.setComponentEnabledSetting(receiver, 
 					  PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
 					  PackageManager.DONT_KILL_APP);
+			
+			//also disable filtering
+			SBSharedPreferences.setFilteringStatus(this, false);
+			SBSharedPreferences.putPeriodicInterval(this, "");
+			
 		}
 	}
 

@@ -138,6 +138,13 @@ public class SBSharedPreferences {
 		return pref.getBoolean(FILTERING, false);
 	}
 	
+	public static void setFilteringStatus(Context context, Boolean val)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putBoolean(FILTERING, val);
+		editor.commit();
+	}
+	
 	public static void toggleFilteringStatus(Context context)
 	{
 		boolean currentStatus = getFilteringStatus(context);

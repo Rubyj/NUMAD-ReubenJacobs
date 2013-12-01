@@ -36,6 +36,15 @@ public class SBSettings extends Activity {
     
     private void getCurrentSettings()
     {
+    	if (!SBSharedPreferences.getActiveStatus(this))
+    	{
+    		filteringButton.setText(getResources().getText(R.string.sb_enable_filtering));
+    		filteringButton.setEnabled(false);
+    		exclusionListButton.setEnabled(false);
+    		periodicSurveySpinner.setVisibility(View.INVISIBLE);
+    		timeChoicesText.setVisibility(View.INVISIBLE);
+    		filterEnabled = false;
+    	}
     	if (SBSharedPreferences.getFilteringStatus(this))
     	{
     		filteringButton.setText(getResources().getText(R.string.sb_disable_filtering));
