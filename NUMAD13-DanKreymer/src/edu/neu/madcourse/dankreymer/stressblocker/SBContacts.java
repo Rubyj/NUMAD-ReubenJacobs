@@ -8,9 +8,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import edu.neu.madcourse.dankreymer.R;
 
 public class SBContacts extends Activity{
@@ -45,7 +48,21 @@ public class SBContacts extends Activity{
     	}
     	
     	SimpleAdapter adapter = new SimpleAdapter(this, contacts, android.R.layout.simple_list_item_2, 
-    			new String[] {SBContact.NAME_KEY, SBContact.PHONE_KEY}, new int[] {android.R.id.text1, android.R.id.text2 });
+    			new String[] {SBContact.NAME_KEY, SBContact.PHONE_KEY}, new int[] {android.R.id.text1, android.R.id.text2 })
+    	{
+    		
+    		 public View getView(int position, View convertView, ViewGroup parent) {
+    	            View view = super.getView(position, convertView, parent);
+    	            TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+    	            SBContact contact = (SBContact) this.getItem(position);
+    	            
+    	            //SET COLOR HERE. Look at contact's stress level and modify.
+    	            //text1.setTextColor(getResources().getColor(SOMECOLOR));
+
+    	            return view;
+
+    	        };
+    	};
     	
     	contactsList.setAdapter(adapter);
     	contactsList.invalidate();
