@@ -1,6 +1,8 @@
 package edu.neu.madcourse.dankreymer.stressblocker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -82,6 +84,29 @@ public class SBSharedPreferences {
 		return pref.getString(BT_DEVICE_QUEUE, "");
 	}
 	
+	public static void removeFirstBTQueue(Context context)
+    {
+		String queue = getBTQueue(context);
+		
+		ArrayList<String> queueList = new ArrayList<String>(Arrays.asList(queue.split(",")));
+		
+		queueList.remove(0);
+		
+		String newQueue = "";
+		
+		if (!queueList.isEmpty())
+		{
+			for (String string : queueList)
+			{
+				newQueue = newQueue + string + ",";
+			}
+		}
+		
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putString(BT_DEVICE_QUEUE, newQueue);
+		editor.commit();
+	}
+	
 	public static void addToBTQueue(Context context, String contact)
 	{
 		String count = getBTDeviceCount(context, contact);
@@ -97,16 +122,13 @@ public class SBSharedPreferences {
 			}
 			else
 			{
-				queue = queue + ";" + contact;
+				queue = queue + "," + contact;
 			}
 			
 			SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
-			editor.putString(BT_DEVICE_QUEUE, queue);
+			editor.putString(BT_DEVICE_QUEUE, queue + ",");
 			editor.commit();
-			
 		}
-				
-		
 	}
 	
 	public static String getContactData(Context context, String contact)

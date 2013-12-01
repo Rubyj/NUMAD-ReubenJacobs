@@ -98,8 +98,9 @@ public class SBSurvey extends Activity {
 
 	public void onSurveyClick5(View v) {
 		if (type.equals("p")) {
-			startService(new Intent(this, SBBluetoothService.class));
 			SBSharedPreferences.putCurrentStress(this, "5");
+			startService(new Intent(this, SBBluetoothService.class));
+			askBTDevice();
 		} else {
 			SBSharedPreferences.putContactData(this, number, type,
 					Long.toString(System.currentTimeMillis()), "5");
@@ -110,7 +111,7 @@ public class SBSurvey extends Activity {
 	public void onSurveyClick6(View v) {
 		if (type.equals("p")) {
 			startService(new Intent(this, SBBluetoothService.class));
-			SBSharedPreferences.putCurrentStress(this, "6");
+			askBTDevice();
 		} else {
 			SBSharedPreferences.putContactData(this, number, type,
 					Long.toString(System.currentTimeMillis()), "6");
@@ -122,10 +123,23 @@ public class SBSurvey extends Activity {
 		if (type.equals("p")) {
 			SBSharedPreferences.putCurrentStress(this, "7");
 	    	startService(new Intent(this, SBBluetoothService.class));
+	    	askBTDevice();
 		} else {
 			SBSharedPreferences.putContactData(this, number, type,
 					Long.toString(System.currentTimeMillis()), "7");
 		}
 		finish();
+	}
+	
+	private void askBTDevice()
+	{
+		String queue = SBSharedPreferences.getBTQueue(this);
+		if (!queue.equals(""))
+		{
+			String[] split = queue.split(",");
+			//split[0]
+					
+		    SBSharedPreferences.removeFirstBTQueue(this);
+		}
 	}
 }
