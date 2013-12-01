@@ -16,6 +16,7 @@
         android:id="@+id/contactsButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:onClick="onContacts"
         android:text="@string/sb_contacts_label" />
         
     <Button

@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_DATA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -254,11 +255,15 @@
 
         <activity
             android:name="edu.neu.madcourse.dankreymer.stressblocker.SBMain"
-            android:label="@string/title_activity_stress_blocker_main" >
+            android:label="@string/sb_title_label" >
         </activity>
         <activity
             android:name="edu.neu.madcourse.dankreymer.stressblocker.SBSettings"
-            android:label="@string/title_activity_stress_blocker_settings" >
+            android:label="@string/sb_settings_label" >
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBContacts"
+            android:label="@string/sb_contacts_label" >
         </activity>
     </application>
 

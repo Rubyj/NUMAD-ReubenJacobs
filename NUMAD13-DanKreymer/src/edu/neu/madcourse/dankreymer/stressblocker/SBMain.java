@@ -23,4 +23,9 @@ public class SBMain extends Activity {
         Intent intent = new Intent(this, SBSettings.class);
         startActivity(intent);
     }
+    
+    public void onContacts(View view) {
+        Intent intent = new Intent(this, SBContacts.class);
+        startActivity(intent);
+    }
 }
