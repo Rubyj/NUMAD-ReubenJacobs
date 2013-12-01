@@ -8,7 +8,8 @@ import android.telephony.TelephonyManager;
 
 public class SBPhoneCallReceiver extends BroadcastReceiver {
 	private static boolean notInCall = true;
-	private static String PHONE_NUMBER = "PHONE_NUMBER";
+	public static String PHONE_NUMBER = "PHONE_NUMBER";
+	public static String SURVEY_TYPE = "SURVEY_TYPE";
 	
 	public void onReceive(Context context, Intent intent) {
 	    String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
@@ -20,6 +21,7 @@ public class SBPhoneCallReceiver extends BroadcastReceiver {
 	    	
 	        Intent i = new Intent(context, SBSurvey.class);
 	        i.putExtra(PHONE_NUMBER, number);
+	        i.putExtra(SURVEY_TYPE, "b");
 	        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 	        context.startActivity(i);
@@ -30,6 +32,7 @@ public class SBPhoneCallReceiver extends BroadcastReceiver {
 	    else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
 	        Intent i = new Intent(context, SBSurvey.class);
 	        i.putExtra(PHONE_NUMBER, SBSharedPreferences.getCurrentNumber(context));
+	        i.putExtra(SURVEY_TYPE, "a");
 	        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 	        context.startActivity(i);

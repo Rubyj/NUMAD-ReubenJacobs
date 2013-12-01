@@ -12,6 +12,70 @@ public class SBSharedPreferences {
 	private static String PERIODIC_INTERVAL = "SB_PERIODIC_INTERVAL";
 	private static String ACTIVE = "SB_ACTIVE";
 	private static String CURRENT_CALL_NUMBER = "SB_CURRENT_CALL_NUMBER";
+	private static String CONTACT_DATA = "SB_CONTACT_DATA";
+	
+	private static long TWELVE_HOURS = 43200000;
+	
+	private static String getContactKey(String contact)
+	{
+		return CONTACT_DATA + "_" + contact;
+	}
+	
+	public static String getContactData(Context context, String contact)
+	{
+		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
+		return pref.getString(getContactKey(contact), "");
+	}
+	
+	private static String trimOldEntries(String full, String currentTime)
+	{
+		if (full.equals(""))
+		{
+			return "";
+		}
+		
+		String[] entries = full.split(";");
+		String ret = "";
+		
+		//if we remove a before entry, we remove the after one as well since it is now useless.
+		boolean removeNext = false;
+		
+		for (String entry : entries)
+		{
+			String[] split = entry.split(",");
+			
+			if (removeNext && split[0].equals("a"))
+			{
+				removeNext = false;
+			}
+			else if (Long.parseLong(currentTime) - Long.parseLong(split[1]) >= TWELVE_HOURS)
+			{
+				if (split[0].equals("b"))
+				{
+					removeNext = true;
+				}
+			}
+			else 
+			{
+				ret += entry + ";";
+			}
+		}
+		
+		return ret;
+	}
+	
+	public static void putContactData(Context context, String contact, String type, String time, String value)
+	{
+		String entry = type + "," + time + "," + value + ";";
+		
+		String fullEntry = getContactData(context, contact);
+		fullEntry = trimOldEntries(fullEntry, time);
+		fullEntry = fullEntry + entry;
+		
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putString(getContactKey(contact), fullEntry);
+		editor.commit();
+	}
 	
 	public static void putCurrentNumber(Context context, String number)
 	{
