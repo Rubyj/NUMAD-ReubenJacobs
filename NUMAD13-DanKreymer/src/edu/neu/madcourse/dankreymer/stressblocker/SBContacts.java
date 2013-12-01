@@ -33,6 +33,8 @@ public class SBContacts extends Activity{
     
     private void fillContactsList()
     {
+    	//TODO: only make this list from scratch if we don't already have data. IF we've already done this, we 
+    	//read from our SharedPreferences instead.
     	ArrayList<SBContact> contacts = new ArrayList<SBContact>();
     	Cursor cursor = contResv.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
     	if(cursor.moveToFirst())
