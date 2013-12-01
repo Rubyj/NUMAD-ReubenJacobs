@@ -39,4 +39,9 @@ public class SBContact extends HashMap<String, String>{
 	{
 		put(STRESS_PERCENT_KEY, s);
 	}
+	
+	public String toString()
+	{
+		return get(PHONE_KEY) + "," + get(NAME_KEY) + "," + get(STRESS_PERCENT_KEY);
+	}
 }

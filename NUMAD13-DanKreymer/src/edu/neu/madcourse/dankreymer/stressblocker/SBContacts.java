@@ -33,20 +33,30 @@ public class SBContacts extends Activity{
     
     private void fillContactsList()
     {
-    	//TODO: only make this list from scratch if we don't already have data. IF we've already done this, we 
-    	//read from our SharedPreferences instead.
-    	ArrayList<SBContact> contacts = new ArrayList<SBContact>();
-    	Cursor cursor = contResv.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-    	if(cursor.moveToFirst())
+    	ArrayList<SBContact> contacts;
+    	ArrayList<SBContact> storedContacts = SBSharedPreferences.getContactsList(this);
+    	if (storedContacts != null)
     	{
-    	    do
-    	    {
-    	    	String name = cursor.getString(cursor.getColumnIndexOrThrow(Phone.DISPLAY_NAME));
-    	    	String number = cursor.getString(cursor.getColumnIndexOrThrow(Phone.NUMBER));
-    	    	
-    	    	contacts.add(new SBContact(number, name));
+    		//already have the contacts, grab them.
+    		contacts = storedContacts;
+    	}
+    	else
+    	{
+    		//dont have the contacts yet, get them and store them.
+    		contacts = new ArrayList<SBContact>();
+    		Cursor cursor = contResv.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        	if(cursor.moveToFirst())
+        	{
+        	    do
+        	    {
+        	    	String name = cursor.getString(cursor.getColumnIndexOrThrow(Phone.DISPLAY_NAME));
+        	    	String number = cursor.getString(cursor.getColumnIndexOrThrow(Phone.NUMBER));
+        	    	
+        	    	contacts.add(new SBContact(number, name));
 
-    	    } while (cursor.moveToNext()) ;
+        	    } while (cursor.moveToNext()) ;
+        	}
+        	SBSharedPreferences.putContactsList(this, contacts);
     	}
     	
     	SimpleAdapter adapter = new SimpleAdapter(this, contacts, android.R.layout.simple_list_item_2, 
