@@ -274,6 +274,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
+        <service
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBPeriodicSurveyService"
+            android:enabled="true" />
     </application>
 
 </manifest>

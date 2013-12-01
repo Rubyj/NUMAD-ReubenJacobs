@@ -13,6 +13,7 @@ public class SBSharedPreferences {
 	private static String ACTIVE = "SB_ACTIVE";
 	private static String CURRENT_CALL_NUMBER = "SB_CURRENT_CALL_NUMBER";
 	private static String CONTACT_DATA = "SB_CONTACT_DATA";
+	private static String CURRENT_STRESS = "SB_CURRENT_STRESS";
 	
 	private static long TWELVE_HOURS = 43200000;
 	
@@ -164,5 +165,24 @@ public class SBSharedPreferences {
 		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
 		editor.putString(PERIODIC_INTERVAL, interval);
 		editor.commit();
+	}
+	
+	public static String getPeriodicInterval(Context context)
+	{
+		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
+		return pref.getString(PERIODIC_INTERVAL, "");
+	}
+	
+	public static void putCurrentStress(Context context, String stress)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putString(CURRENT_STRESS, stress);
+		editor.commit();
+	}
+	
+	public static String getCurrentStress(Context context)
+	{
+		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
+		return pref.getString(CURRENT_STRESS, "");
 	}
 }
