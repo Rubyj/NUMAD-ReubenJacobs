@@ -137,7 +137,9 @@ public class SBSurvey extends Activity {
 		if (!queue.equals(""))
 		{
 			String[] split = queue.split(",");
-			//split[0]
+			Intent i = new Intent(this, SBBTIdentification.class);
+			i.putExtra(SBBluetoothStoreService.FOUND_DEVICE_ID, split[0]);
+			startActivity(i);
 					
 		    SBSharedPreferences.removeFirstBTQueue(this);
 		}

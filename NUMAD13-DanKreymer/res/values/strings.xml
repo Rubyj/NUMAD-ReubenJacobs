@@ -31,7 +31,9 @@
     <string name="sb_active">Active</string>
     <string name="sb_inactive">Inactive</string>
     <string name="sb_survey_title">Rate Your Current Stress Level</string>
-    
+    <string name="sb_dont_know">I Don\'t Know!</string>
+    <string name="sb_bt_identification_string">Can you identify this device:</string>
+    <string name="sb_bt_identification">Bluetooth Device Identification</string>
     
     <!-- TRICKIEST PART STRESS BLOCKER STUFF -->
     <string name="tricky_stress_label">Trickiest Part</string>
