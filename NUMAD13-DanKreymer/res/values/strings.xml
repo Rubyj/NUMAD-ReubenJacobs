@@ -20,7 +20,15 @@
         <item>8</item>
         <item>12</item>
     </string-array>
+    <string name="sb_time_choices_blurb">Choose a regular interval for the app to check your current stress level so that it may filter calls when appropriate.</string>
     <string name="sb_time_prompt">Periodic Survey Interval</string>
+    <string name="sb_enable_filtering">Enable Call Filtering</string>
+    <string name="sb_disable_filtering">Disable Call Filtering</string>
+    <string name="sb_periodic_surveys_blurb">Enabling this feature will filter calls from stressful contacts when you are stressed.</string>
+    <string name="sb_exclusion_list">Exclude Contacts from Filter</string> 
+    <string name="sb_back">Back</string>
+    <string name="sb_save">Save Settings</string>
+    
     
     <!-- TRICKIEST PART STRESS BLOCKER STUFF -->
     <string name="tricky_stress_label">Trickiest Part</string>

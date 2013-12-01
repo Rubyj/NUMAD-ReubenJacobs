@@ -1,36 +1,55 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SBSettings" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/sb_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dip" >
 
-    <Spinner
-        android:id="@+id/timeChoices"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dip"
+        android:gravity="center"
+        android:text="@string/sb_periodic_surveys_blurb"
+        android:textSize="16sp" />
+    <Button
+        android:id="@+id/sb_filtering_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickFiltering"
+        android:text="@string/sb_enable_filtering" />
+
+    <TextView
+        android:id="@+id/sb_time_choices_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:text="@string/sb_time_choices_blurb"
+        android:textSize="16sp" />
+    <Spinner
+        android:id="@+id/sb_time_choices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:entries="@array/sb_time_array"
         android:prompt="@string/sb_time_prompt" />
 
     <Button
-        android:id="@+id/enableSurvey"
-        android:layout_width="wrap_content"
+        android:id="@+id/sb_exclusion_list_button"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/timeChoices"
-        android:layout_centerHorizontal="true"
-        android:text="Enable Periodic Survey" />
-
+        android:enabled="false"
+        android:text="@string/sb_exclusion_list"
+        android:layout_marginBottom="10dp" />
+    
     <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+        android:id="@+id/sb_save_button"
+        android:onClick="onSave"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/timeChoices"
-        android:layout_centerHorizontal="true"
-        android:text="Exclusion List" />
+        android:text="@string/sb_save" />
 
-</RelativeLayout>
+</LinearLayout>

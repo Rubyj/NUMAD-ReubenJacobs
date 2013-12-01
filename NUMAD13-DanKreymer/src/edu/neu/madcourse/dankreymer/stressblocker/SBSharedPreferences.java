@@ -8,6 +8,10 @@ import android.content.SharedPreferences;
 public class SBSharedPreferences {
 	private static String PREF = "SB_PREF";
 	private static String CONTACTS = "SB_CONTACTS";
+	private static String FILTERING = "SB_FILTERING";
+	private static String PERIODIC_INTERVAL = "SB_PERIODIC_INTERVAL";
+	
+	
 	public static void putContactsList(Context context, ArrayList<SBContact> list)
 	{
 		String string = "";
@@ -41,5 +45,26 @@ public class SBSharedPreferences {
 			
 			return ret;
 		}
+	}
+	
+	public static boolean getFilteringStatus(Context context)
+	{
+		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
+		return pref.getBoolean(FILTERING, false);
+	}
+	
+	public static void toggleFilteringStatus(Context context)
+	{
+		boolean currentStatus = getFilteringStatus(context);
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putBoolean(FILTERING, !currentStatus);
+		editor.commit();
+	}
+	
+	public static void putPeriodicInterval(Context context, String interval)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putString(PERIODIC_INTERVAL, interval);
+		editor.commit();
 	}
 }
