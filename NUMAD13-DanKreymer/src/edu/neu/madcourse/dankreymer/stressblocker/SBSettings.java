@@ -20,6 +20,7 @@ public class SBSettings extends Activity {
 	private Spinner periodicSurveySpinner;
 	private TextView timeChoicesText;
 	private boolean filterEnabled = false;
+	private boolean settingsChanged = false;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +66,14 @@ public class SBSettings extends Activity {
     
     public void onClickFiltering(View v)
     {
+    	settingsChanged = true;
     	SBSharedPreferences.toggleFilteringStatus(this);
     	getCurrentSettings();
     }
     
     public void onSave(View v)
     {
-    	if (filterEnabled && periodicSurveySpinner.getSelectedItem() != null)
+    	if (filterEnabled && settingsChanged && periodicSurveySpinner.getSelectedItem() != null)
     	{
     		SBSharedPreferences.putPeriodicInterval(this, periodicSurveySpinner.getSelectedItem().toString());
         	Intent i = new Intent(this, SBPeriodicSurveyService.class);

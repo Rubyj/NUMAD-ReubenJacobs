@@ -14,12 +14,99 @@ public class SBSharedPreferences {
 	private static String CURRENT_CALL_NUMBER = "SB_CURRENT_CALL_NUMBER";
 	private static String CONTACT_DATA = "SB_CONTACT_DATA";
 	private static String CURRENT_STRESS = "SB_CURRENT_STRESS";
+	private static String BT_DEVICE_COUNT = "BT_DEVICE_COUNT";
+	private static String BT_DEVICE_LINK = "BT_DEVICE_LINK";
+	private static String BT_DEVICE_QUEUE = "BT_DEVICE_QUEUE";
 	
 	private static long TWELVE_HOURS = 43200000;
+	
+	private static String getBTDeviceCountKey(String contact)
+	{
+		return BT_DEVICE_COUNT + "_" + contact;
+	}
+	
+	private static String getBTDeviceLinkKey(String contact)
+	{
+		return BT_DEVICE_LINK + "_" + contact;
+	}
 	
 	private static String getContactKey(String contact)
 	{
 		return CONTACT_DATA + "_" + contact;
+	}
+	
+	
+	public static String getBTDeviceCount(Context context, String contact)
+	{
+		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
+		return pref.getString(getBTDeviceCountKey(contact), "");
+	}
+	
+	public static void incrementBTDeviceCount(Context context, String contact)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		
+		String count = getBTDeviceCount(context, contact);
+		if (count.equals(""))
+		{
+			editor.putString(getBTDeviceCountKey(contact), "1");
+			editor.commit();
+		}
+		else if (count.equals("IGNORE"))
+		{
+			return;
+		}
+		else
+		{
+			int countInt = Integer.parseInt(count);
+			if (countInt < 5)
+			{
+				editor.putString(getBTDeviceCountKey(contact), Integer.toString(countInt + 1));
+				editor.commit();
+			}
+		}
+	}
+	
+	private static void dontIncrementBTDevice(Context context, String contact)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+
+		editor.putString(getBTDeviceCountKey(contact), "IGNORE");
+		editor.commit();
+
+	}
+	
+	public static String getBTQueue(Context context)
+	{
+		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
+		return pref.getString(BT_DEVICE_QUEUE, "");
+	}
+	
+	public static void addToBTQueue(Context context, String contact)
+	{
+		String count = getBTDeviceCount(context, contact);
+		
+		if (count.equals("5"))
+		{
+			dontIncrementBTDevice(context,contact);
+			String queue = getBTQueue(context);
+			
+			if (queue.equals(""))
+			{
+				queue = contact;
+			}
+			else
+			{
+				queue = queue + ";" + contact;
+			}
+			
+			SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+			editor.putString(BT_DEVICE_QUEUE, queue);
+			editor.commit();
+			
+		}
+				
+		
 	}
 	
 	public static String getContactData(Context context, String contact)

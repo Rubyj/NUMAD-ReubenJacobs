@@ -33,7 +33,7 @@ public class SBPeriodicSurveyService extends Service{
 		String intervalString = SBSharedPreferences.getPeriodicInterval(this);
 		setInterval(intervalString);
 		
-		updateInterval = 60000; //Update interval every minute (so we know when to kill this service).
+		updateInterval = 10000; //Update interval every 10 seconds (so we know when to kill this service).
 		
 		timer = new Timer();
 		context= this;

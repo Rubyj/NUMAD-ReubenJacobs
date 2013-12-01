@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.trickystress.TrickyBluetoothService;
 import android.graphics.PorterDuff;
 
 public class SBSurvey extends Activity {
@@ -97,6 +98,7 @@ public class SBSurvey extends Activity {
 
 	public void onSurveyClick5(View v) {
 		if (type.equals("p")) {
+			startService(new Intent(this, SBBluetoothService.class));
 			SBSharedPreferences.putCurrentStress(this, "5");
 		} else {
 			SBSharedPreferences.putContactData(this, number, type,
@@ -107,6 +109,7 @@ public class SBSurvey extends Activity {
 
 	public void onSurveyClick6(View v) {
 		if (type.equals("p")) {
+			startService(new Intent(this, SBBluetoothService.class));
 			SBSharedPreferences.putCurrentStress(this, "6");
 		} else {
 			SBSharedPreferences.putContactData(this, number, type,
@@ -118,6 +121,7 @@ public class SBSurvey extends Activity {
 	public void onSurveyClick7(View v) {
 		if (type.equals("p")) {
 			SBSharedPreferences.putCurrentStress(this, "7");
+	    	startService(new Intent(this, SBBluetoothService.class));
 		} else {
 			SBSharedPreferences.putContactData(this, number, type,
 					Long.toString(System.currentTimeMillis()), "7");
