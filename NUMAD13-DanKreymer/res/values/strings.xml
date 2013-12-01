@@ -15,6 +15,12 @@
     <string name="sb_contacts_label">View Stress Data</string>
     <string name="sb_settings_label">Edit Settings</string>
     <string name="sb_quit_label">Quit</string>
+        <string-array name="sb_time_array">
+        <item>4</item>
+        <item>8</item>
+        <item>12</item>
+    </string-array>
+    <string name="sb_time_prompt">Periodic Survey Interval</string>
     
     <!-- TRICKIEST PART STRESS BLOCKER STUFF -->
     <string name="tricky_stress_label">Trickiest Part</string>

@@ -8,9 +8,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".SBSettings" >
 
-    <TextView
+    <Spinner
+        android:id="@+id/timeChoices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:entries="@array/sb_time_array"
+        android:prompt="@string/sb_time_prompt" />
+
+    <Button
+        android:id="@+id/enableSurvey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/timeChoices"
+        android:layout_centerHorizontal="true"
+        android:text="Enable Periodic Survey" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timeChoices"
+        android:layout_centerHorizontal="true"
+        android:text="Exclusion List" />
 
 </RelativeLayout>
