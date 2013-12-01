@@ -255,15 +255,18 @@
 
         <activity
             android:name="edu.neu.madcourse.dankreymer.stressblocker.SBMain"
-            android:label="@string/sb_title_label" >
+            android:label="@string/sb_title_label"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="edu.neu.madcourse.dankreymer.stressblocker.SBSettings"
-            android:label="@string/sb_settings_label" >
+            android:label="@string/sb_settings_label"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="edu.neu.madcourse.dankreymer.stressblocker.SBContacts"
-            android:label="@string/sb_contacts_label" >
+            android:label="@string/sb_contacts_label"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

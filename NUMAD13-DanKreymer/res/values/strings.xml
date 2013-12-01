@@ -28,6 +28,8 @@
     <string name="sb_exclusion_list">Exclude Contacts from Filter</string> 
     <string name="sb_back">Back</string>
     <string name="sb_save">Save Settings</string>
+    <string name="sb_active">Active</string>
+    <string name="sb_inactive">Inactive</string>
     
     
     <!-- TRICKIEST PART STRESS BLOCKER STUFF -->

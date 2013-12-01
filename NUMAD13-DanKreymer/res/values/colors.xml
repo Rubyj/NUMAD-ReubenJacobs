@@ -45,7 +45,8 @@
    
    <!-- SB Stuff -->
    <color name="sb_background">#000000</color> 
-   
+   <color name="sb_green_button">#99FF33</color> 
+   <color name="sb_red_button">#FF6600</color> 
    
    
 </resources>
