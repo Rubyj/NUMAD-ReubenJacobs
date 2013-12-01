@@ -11,6 +11,7 @@ import edu.neu.madcourse.dankreymer.communication.DabbleCom;
 import edu.neu.madcourse.dankreymer.dabble.Dabble;
 import edu.neu.madcourse.dankreymer.dictionary.Dictionary;
 import edu.neu.madcourse.dankreymer.multiplayer.DabbleM;
+import edu.neu.madcourse.dankreymer.stressblocker.SBMain;
 import edu.neu.madcourse.dankreymer.sudoku.Prefs;
 import edu.neu.madcourse.dankreymer.sudoku.Sudoku;
 import edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain;
@@ -37,7 +38,7 @@ public class Main extends Activity implements OnClickListener {
       setContentView(R.layout.main);
       
       //Check that this phone is authorized
-      //PhoneCheckAPI.doAuthorization(this);
+      PhoneCheckAPI.doAuthorization(this);
 
       // Set up click listeners for all the buttons
       View errorButton = findViewById(R.id.error_button);
@@ -58,6 +59,8 @@ public class Main extends Activity implements OnClickListener {
       exitButton.setOnClickListener(this);
       View trickyStressButton = findViewById(R.id.tricky_stress_button);
       trickyStressButton.setOnClickListener(this);
+      View finalButton = findViewById(R.id.final_button);
+      finalButton.setOnClickListener(this);
    }
 
    public void onClick(View v) {
@@ -67,6 +70,10 @@ public class Main extends Activity implements OnClickListener {
          int[] stupidArray = null;
          stupidArray[6]++;
          break;
+      case R.id.final_button:
+    	  //this will launch that intermediate page first.
+          startActivity(new Intent(this, SBMain.class));
+          break;
       case R.id.tricky_stress_button:
           startActivity(new Intent(this, TrickyStressMain.class));
           break;

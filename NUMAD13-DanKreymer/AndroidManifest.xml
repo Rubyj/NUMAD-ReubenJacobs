@@ -253,11 +253,11 @@
             android:enabled="true" />
 
         <activity
-            android:name="edu.neu.madcourse.dankreymer.stressblocker.StressBlockerMain"
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBMain"
             android:label="@string/title_activity_stress_blocker_main" >
         </activity>
         <activity
-            android:name="edu.neu.madcourse.dankreymer.stressblocker.StressBlockerSettings"
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBSettings"
             android:label="@string/title_activity_stress_blocker_settings" >
         </activity>
     </application>

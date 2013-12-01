@@ -9,6 +9,13 @@
 -->
 <resources>
 
+    <!-- FINAL STRESS BLOCKER STUFF -->
+	<string name="final_project_label">Final Project</string>
+	<string name="sb_title_label">Stress Blocker</string>
+    <string name="sb_contacts_label">View Stress Data</string>
+    <string name="sb_settings_label">Edit Settings</string>
+    <string name="sb_quit_label">Quit</string>
+    
     <!-- TRICKIEST PART STRESS BLOCKER STUFF -->
     <string name="tricky_stress_label">Trickiest Part</string>
     <string name="tricky_phone_survey_button_label">Enable Phonecall Surveys</string>

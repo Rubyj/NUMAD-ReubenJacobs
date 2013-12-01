@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 
 public class TrickyPhoneCallReceiver extends BroadcastReceiver {
-	private static final String PHONE_NUMBER = "PHONE_NUMBER";
+	public static final String PHONE_NUMBER = "PHONE_NUMBER";
 	private static boolean notInCall = true;
 	
 	public void onReceive(Context context, Intent intent) {

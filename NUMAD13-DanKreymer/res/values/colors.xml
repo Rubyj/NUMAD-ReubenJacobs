@@ -43,4 +43,9 @@
    <color name="tricky_survey6">#FF6600</color> 
    <color name="tricky_survey7">#FF0000</color> 
    
+   <!-- SB Stuff -->
+   <color name="sb_background">#000000</color> 
+   
+   
+   
 </resources>
