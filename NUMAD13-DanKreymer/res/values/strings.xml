@@ -30,6 +30,7 @@
     <string name="sb_save">Save Settings</string>
     <string name="sb_active">Active</string>
     <string name="sb_inactive">Inactive</string>
+    <string name="sb_survey_title">Rate Your Current Stress Level</string>
     
     
     <!-- TRICKIEST PART STRESS BLOCKER STUFF -->

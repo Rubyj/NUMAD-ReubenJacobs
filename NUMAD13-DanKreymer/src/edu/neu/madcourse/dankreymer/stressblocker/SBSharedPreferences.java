@@ -11,7 +11,20 @@ public class SBSharedPreferences {
 	private static String FILTERING = "SB_FILTERING";
 	private static String PERIODIC_INTERVAL = "SB_PERIODIC_INTERVAL";
 	private static String ACTIVE = "SB_ACTIVE";
+	private static String CURRENT_CALL_NUMBER = "SB_CURRENT_CALL_NUMBER";
 	
+	public static void putCurrentNumber(Context context, String number)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putString(CURRENT_CALL_NUMBER, number);
+		editor.commit();
+	}
+	
+	public static String getCurrentNumber(Context context)
+	{
+		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
+		return pref.getString(CURRENT_CALL_NUMBER, "");
+	}
 	
 	public static void clearAll(Context context)
 	{

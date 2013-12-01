@@ -1,17 +1,22 @@
 package edu.neu.madcourse.dankreymer.stressblocker;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.trickystress.TrickyPhoneCallReceiver;
 
 public class SBMain extends Activity {
 	private boolean isActive;
 	private Button isActiveButton;
+	private ComponentName receiver;
+	private PackageManager pm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +25,17 @@ public class SBMain extends Activity {
 		
 		isActiveButton = (Button) findViewById(R.id.sb_isactive_button);
 		
+		receiver = new ComponentName(this, SBPhoneCallReceiver.class);
+		pm = getPackageManager();
+		
+		isActive = SBSharedPreferences.getActiveStatus(this);
+		
+		toggleBroadcastReceiever();
 		colorButton();
 	}
 	
 	private void colorButton()
 	{
-		isActive = SBSharedPreferences.getActiveStatus(this);
-		
 		if (isActive)
 		{
 			isActiveButton.getBackground().setColorFilter(getResources().getColor(R.color.sb_green_button), PorterDuff.Mode.MULTIPLY);
@@ -39,6 +48,23 @@ public class SBMain extends Activity {
 		}
 		
 		isActiveButton.invalidate();
+	}
+	
+	private void toggleBroadcastReceiever()
+	{
+		if (isActive)
+		{
+			pm.setComponentEnabledSetting(receiver, 
+			  PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+			  PackageManager.DONT_KILL_APP);
+			
+		}
+		else
+		{
+			pm.setComponentEnabledSetting(receiver, 
+					  PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+					  PackageManager.DONT_KILL_APP);
+		}
 	}
 
 	public void onQuit(View view) {
@@ -57,6 +83,10 @@ public class SBMain extends Activity {
     
     public void onClickActive(View view){
     	SBSharedPreferences.toggleActiveStatus(this);
-    	colorButton();
+    	
+		isActive = !isActive;
+		
+		toggleBroadcastReceiever();
+		colorButton();
     }
 }
