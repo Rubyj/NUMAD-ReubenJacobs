@@ -4,34 +4,53 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import edu.neu.madcourse.dankreymer.R;
+import edu.neu.madcourse.dankreymer.multiplayer.DabbleMTurnBasedGame;
 import edu.neu.madcourse.dankreymer.stressblocker.SBBluetoothStoreService;
 
-public class SBBTIdentification extends Activity{
+public class SBBTIdentification extends Activity {
 	  private String foundDeviceID; 
 	  private ListView contactsList;
 	  private ContentResolver contResv;
+	  private Context context;
 	  
 	    @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.stress_blocker_identification);
-
+	        
+	        context = this;
 	        foundDeviceID = getIntent().getExtras().getString(SBBluetoothStoreService.FOUND_DEVICE_ID);
 	        TextView tv = (TextView) findViewById(R.id.sb_device_seen_name);
 	        tv.setText(foundDeviceID);
 	        contactsList = (ListView) findViewById(R.id.contactsList);
 	        contResv = getContentResolver();
 	        fillContactsList(); 
+	        contactsList.setOnItemClickListener(new OnItemClickListener(){
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+						long arg3) {
+					registerForContextMenu(contactsList);
+					contactsList.showContextMenu();
+					
+					TextView tv = (TextView) arg1.findViewById(android.R.id.text1);
+					String name = tv.getText().toString();
+					SBSharedPreferences.putBTDeviceLink(context, name, foundDeviceID);
+				}});
 	    }
 	    
 	    private void fillContactsList()
@@ -62,4 +81,5 @@ public class SBBTIdentification extends Activity{
 	    {
 	    	finish();
 	    }
+
 }

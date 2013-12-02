@@ -37,6 +37,19 @@ public class SBSharedPreferences {
 		return CONTACT_DATA + "_" + contact;
 	}
 	
+	public static String getBTDeviceLink(Context context, String contact)
+	{
+		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
+		return pref.getString(getBTDeviceLinkKey(contact), "");
+	}
+	
+	public static void putBTDeviceLink(Context context, String contact, String device)
+	{
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putString(getBTDeviceLinkKey(contact), device);
+		editor.commit();
+	}
+	
 	
 	public static String getBTDeviceCount(Context context, String contact)
 	{
