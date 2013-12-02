@@ -37,34 +37,34 @@ public class SBSharedPreferences {
 		return CONTACT_DATA + "_" + contact;
 	}
 	
-	public static String getBTDeviceLink(Context context, String contact)
+	public static String getBTDeviceLink(Context context, String device)
 	{
 		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
-		return pref.getString(getBTDeviceLinkKey(contact), "");
+		return pref.getString(getBTDeviceLinkKey(device), "");
 	}
 	
-	public static void putBTDeviceLink(Context context, String contact, String device)
+	public static void putBTDeviceLink(Context context, String device, String contact)
 	{
 		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
-		editor.putString(getBTDeviceLinkKey(contact), device);
+		editor.putString(getBTDeviceLinkKey(device), contact);
 		editor.commit();
 	}
 	
 	
-	public static String getBTDeviceCount(Context context, String contact)
+	public static String getBTDeviceCount(Context context, String device)
 	{
 		SharedPreferences pref = context.getSharedPreferences(PREF, 0);
-		return pref.getString(getBTDeviceCountKey(contact), "");
+		return pref.getString(getBTDeviceCountKey(device), "");
 	}
 	
-	public static void incrementBTDeviceCount(Context context, String contact)
+	public static void incrementBTDeviceCount(Context context, String device)
 	{
 		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
 		
-		String count = getBTDeviceCount(context, contact);
+		String count = getBTDeviceCount(context, device);
 		if (count.equals(""))
 		{
-			editor.putString(getBTDeviceCountKey(contact), "1");
+			editor.putString(getBTDeviceCountKey(device), "1");
 			editor.commit();
 		}
 		else if (count.equals("IGNORE"))
@@ -76,17 +76,17 @@ public class SBSharedPreferences {
 			int countInt = Integer.parseInt(count);
 			if (countInt < 5)
 			{
-				editor.putString(getBTDeviceCountKey(contact), Integer.toString(countInt + 1));
+				editor.putString(getBTDeviceCountKey(device), Integer.toString(countInt + 1));
 				editor.commit();
 			}
 		}
 	}
 	
-	private static void dontIncrementBTDevice(Context context, String contact)
+	private static void dontIncrementBTDevice(Context context, String device)
 	{
 		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
 
-		editor.putString(getBTDeviceCountKey(contact), "IGNORE");
+		editor.putString(getBTDeviceCountKey(device), "IGNORE");
 		editor.commit();
 
 	}
@@ -120,22 +120,22 @@ public class SBSharedPreferences {
 		editor.commit();
 	}
 	
-	public static void addToBTQueue(Context context, String contact)
+	public static void addToBTQueue(Context context, String device)
 	{
-		String count = getBTDeviceCount(context, contact);
+		String count = getBTDeviceCount(context, device);
 		
 		if (count.equals("5"))
 		{
-			dontIncrementBTDevice(context,contact);
+			dontIncrementBTDevice(context,device);
 			String queue = getBTQueue(context);
 			
 			if (queue.equals(""))
 			{
-				queue = contact;
+				queue = device;
 			}
 			else
 			{
-				queue = queue + "," + contact;
+				queue = queue + "," + device;
 			}
 			
 			SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
@@ -185,6 +185,19 @@ public class SBSharedPreferences {
 		}
 		
 		return ret;
+	}
+	
+	public static void putBTContactData(Context context, String contact, String time)
+	{
+		String entry = "bt" + "," + time;
+		
+		String fullEntry = getContactData(context, contact);
+		fullEntry = trimOldEntries(fullEntry, time);
+		fullEntry = fullEntry + entry;
+		
+		SharedPreferences.Editor editor = context.getSharedPreferences(PREF, 0).edit();
+		editor.putString(getContactKey(contact), fullEntry);
+		editor.commit();
 	}
 	
 	public static void putContactData(Context context, String contact, String type, String time, String value)

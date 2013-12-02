@@ -25,10 +25,18 @@ public class SBBluetoothStoreService extends Service {
 		Bundle bundle = intent.getExtras();
 		foundDeviceId = bundle.getString(FOUND_DEVICE_ID);
 		
-		SBSharedPreferences.incrementBTDeviceCount(this, foundDeviceId);
-		SBSharedPreferences.addToBTQueue(this, foundDeviceId);
-		
-		System.out.println("QUEUE: "  + SBSharedPreferences.getBTQueue(this));
+		String contact = SBSharedPreferences.getBTDeviceLink(this, foundDeviceId);
+		if (contact.equals(""))
+		{
+			SBSharedPreferences.incrementBTDeviceCount(this, foundDeviceId);
+			SBSharedPreferences.addToBTQueue(this, foundDeviceId);
+		}
+		else
+		{
+			SBSharedPreferences.putBTContactData(this, contact, Long.toString(System.currentTimeMillis()));
+		}
+		System.out.println("CONTACT: "  + contact);
+		System.out.println("CONTACT DATA: "  + SBSharedPreferences.getContactData(this, contact));
 		System.out.println("COUNT: "  + SBSharedPreferences.getBTDeviceCount(this, foundDeviceId));
 		
 		return Service.START_NOT_STICKY;

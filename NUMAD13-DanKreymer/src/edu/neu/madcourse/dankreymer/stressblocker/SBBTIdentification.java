@@ -49,7 +49,8 @@ public class SBBTIdentification extends Activity {
 					
 					TextView tv = (TextView) arg1.findViewById(android.R.id.text1);
 					String name = tv.getText().toString();
-					SBSharedPreferences.putBTDeviceLink(context, name, foundDeviceID);
+					SBSharedPreferences.putBTDeviceLink(context, foundDeviceID, name);
+					finish();
 				}});
 	    }
 	    
