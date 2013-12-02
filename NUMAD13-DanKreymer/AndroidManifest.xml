@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.dankreymer"
     android:versionCode="18"
@@ -14,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_DATA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -201,16 +201,17 @@
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressMain"
             android:label="@string/tricky_stress_label"
             android:screenOrientation="portrait" >
-           <intent-filter>
-    			<action android:name="TrickySurvey.intent.action.Launch" />
-   				<category android:name="android.intent.category.DEFAULT" />
- 		   </intent-filter>
- 		</activity>
+            <intent-filter>
+                <action android:name="TrickySurvey.intent.action.Launch" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickySurvey"
             android:label="@string/tricky_survey_title"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
 
         <service
@@ -230,29 +231,64 @@
         <activity
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBTResult"
             android:label="@string/title_activity_tricky_stress_btresult"
+            android:launchMode="singleTask"
             android:parentActivityName="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Dialog" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.neu.madcourse.dankreymer.trickystress.TrickyStressBT" />
         </activity>
-        <receiver android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyPhoneCallReceiver" >
+
+        <receiver android:name="edu.neu.madcourse.dankreymer.stressblocker.SBPhoneCallReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
-        
+
         <service
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyBluetoothStoreService"
             android:enabled="true" />
-        
         <service
             android:name="edu.neu.madcourse.dankreymer.trickystress.TrickyBluetoothService"
             android:enabled="true" />
-        
 
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBMain"
+            android:label="@string/sb_title_label"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBSettings"
+            android:label="@string/sb_settings_label"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBContacts"
+            android:label="@string/sb_contacts_label"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBSurvey"
+            android:label="@string/sb_survey_title"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBBTIdentification"
+            android:label="@string/sb_bt_identification"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <service
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBPeriodicSurveyService"
+            android:enabled="true" />
+       <service
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBBluetoothStoreService"
+            android:enabled="true" />
+        <service
+            android:name="edu.neu.madcourse.dankreymer.stressblocker.SBBluetoothService"
+            android:enabled="true" />
     </application>
 
 </manifest>

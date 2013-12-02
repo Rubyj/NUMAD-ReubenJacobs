@@ -5,10 +5,36 @@
  ! Copyrights apply to this code. It may not be used to create training material, 
  ! courses, books, articles, and the like. Contact us if you are in doubt.
  ! We make no guarantees that this code is fit for any purpose. 
- ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
+ ! Visit http://www.pragmaticprogrammer.com/titles/eband3 for more book information.
 -->
 <resources>
 
+    <!-- FINAL STRESS BLOCKER STUFF -->
+	<string name="final_project_label">Final Project</string>
+	<string name="sb_title_label">Stress Blocker</string>
+    <string name="sb_contacts_label">View Stress Data</string>
+    <string name="sb_settings_label">Edit Settings</string>
+    <string name="sb_quit_label">Quit</string>
+        <string-array name="sb_time_array">
+        <item>4</item>
+        <item>8</item>
+        <item>12</item>
+    </string-array>
+    <string name="sb_time_choices_blurb">Choose a regular interval for the app to check your current stress level so that it may filter calls when appropriate.</string>
+    <string name="sb_time_prompt">Periodic Survey Interval</string>
+    <string name="sb_enable_filtering">Enable Call Filtering</string>
+    <string name="sb_disable_filtering">Disable Call Filtering</string>
+    <string name="sb_periodic_surveys_blurb">Enabling this feature will filter calls from stressful contacts when you are stressed.</string>
+    <string name="sb_exclusion_list">Exclude Contacts from Filter</string> 
+    <string name="sb_back">Back</string>
+    <string name="sb_save">Save Settings</string>
+    <string name="sb_active">Active</string>
+    <string name="sb_inactive">Inactive</string>
+    <string name="sb_survey_title">Rate Your Current Stress Level</string>
+    <string name="sb_dont_know">I Don\'t Know!</string>
+    <string name="sb_bt_identification_string">Can you identify this device:</string>
+    <string name="sb_bt_identification">Bluetooth Device Identification</string>
+    
     <!-- TRICKIEST PART STRESS BLOCKER STUFF -->
     <string name="tricky_stress_label">Trickiest Part</string>
     <string name="tricky_phone_survey_button_label">Enable Phonecall Surveys</string>
@@ -19,8 +45,7 @@
     <string name="tricky_quit">Quit</string>
     <string name="tricky_survey_title">Rate Your Current Stress Level</string>
     <string name="tricky_bluetooth_seen">The following device has been seen 5 times while you were stressed:</string>
-    
-    
+
     <!-- Main App Stuff -->
     <string name="app_name">NUMAD13-DanKreymer</string>
     <string name="main_title">Dan Kreymer</string>
@@ -114,5 +139,7 @@ row, each column, and each of the 3x3 boxes
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_tricky_stress_btresult">Bluetooth Result</string>
+    <string name="title_activity_stress_blocker_main">Stress Blocker</string>
+    <string name="title_activity_stress_blocker_settings">Settings</string>
 
 </resources>

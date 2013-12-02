@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/sb_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dip" >
+
+    <Button
+        android:id="@+id/sb_isactive_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickActive"
+        android:text="@string/sb_active" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sbtitle" />
+
+    <Button
+        android:id="@+id/contactsButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onContacts"
+        android:text="@string/sb_contacts_label" />
+        
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onSettings"
+        android:text="@string/sb_settings_label" />
+
+    <Button
+        android:id="@+id/quitButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onQuit"
+        android:text="@string/sb_quit_label" />
+
+</LinearLayout>

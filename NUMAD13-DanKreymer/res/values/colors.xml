@@ -43,4 +43,17 @@
    <color name="tricky_survey6">#FF6600</color> 
    <color name="tricky_survey7">#FF0000</color> 
    
+   <!-- SB Stuff -->
+   <color name="sb_background">#000000</color> 
+   <color name="sb_green_button">#99FF33</color> 
+   <color name="sb_red_button">#FF6600</color> 
+   <color name="sb_survey1">#99FF33</color> 
+   <color name="sb_survey2">#CCFF33</color> 
+   <color name="sb_survey3">#FFFF00</color> 
+   <color name="sb_survey4">#FFCC00</color> 
+   <color name="sb_survey5">#FF9933</color> 
+   <color name="sb_survey6">#FF6600</color> 
+   <color name="sb_survey7">#FF0000</color> 
+   
+   
 </resources>
