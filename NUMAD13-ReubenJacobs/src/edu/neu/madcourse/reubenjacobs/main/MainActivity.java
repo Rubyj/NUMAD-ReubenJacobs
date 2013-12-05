@@ -47,6 +47,7 @@ public class MainActivity extends Activity {
 		Button comButton = (Button) this.findViewById(R.id.commButton);
 		Button twoButton = (Button) this.findViewById(R.id.twoButton);
 		Button trickyButton = (Button) this.findViewById(R.id.trickyButton);
+		Button finalButton = (Button) this.findViewById(R.id.finalButton);
 		
 		LayoutParams aboutParams = (RelativeLayout.LayoutParams) aboutButton.getLayoutParams();
 		aboutParams.setMargins(sideMargin, topMargin*3, sideMargin, topMargin);
@@ -83,6 +84,10 @@ public class MainActivity extends Activity {
 	    LayoutParams trickyParams = (RelativeLayout.LayoutParams) trickyButton.getLayoutParams();
 	    trickyParams.setMargins(0, topMargin, sideMargin, topMargin);
 	    trickyButton.setLayoutParams(trickyParams);
+	    
+	    LayoutParams finalParams = (RelativeLayout.LayoutParams) finalButton.getLayoutParams();
+	    finalParams.setMargins(0, topMargin, sideMargin, topMargin);
+	    finalButton.setLayoutParams(finalParams);
 		
 	}
 
@@ -138,4 +143,9 @@ public class MainActivity extends Activity {
 	    Intent intent = new Intent("TrickySurvey.intent.action.Launch");
 	    startActivity(intent);
 	}
+    
+	public void startFinal(View view) {
+        Intent intent = new Intent("SBWelcome.intent.action.Launch");
+        startActivity(intent);
+    }	
 }
