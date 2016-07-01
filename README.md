@@ -6,4 +6,4 @@ Final Project for Mobile Application Development can be found in NUMAD-ReubenJac
 
 Created by: Reuben Jacobs and Dan Kreymer
 
-All other projects can be found in NUMAD-ReubenJacobs / NUMAD13-Reub3nJacobs
+All other projects can be found in NUMAD-ReubenJacobs / NUMAD13-ReubenJacobs
